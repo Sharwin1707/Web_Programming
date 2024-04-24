@@ -19,6 +19,7 @@ import { useLocation } from 'react-router-dom'
 import { useState,useEffect } from 'react'
 import NavBar from '../Components/NavBar'
 import CreateEventPage from '../Pages/CreateEventPage'
+import ArtistAddProducts from '../Pages/ArtistAddProducts'
 
 function App() {
 
@@ -67,6 +68,7 @@ function App() {
           <Route path='/cart' element={<ShoppingCartPage/>} />
           <Route path='/register' element={<RegisterPage/>} />
           <Route path='/event/create' element={<CreateEventPage/>} />
+          <Route path='/adminAdd' element={<AdminAddProducts/>} />
       </Routes>
       </main>  
     </div>
