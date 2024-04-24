@@ -19,6 +19,9 @@ import { useLocation } from 'react-router-dom'
 import { useState,useEffect } from 'react'
 import NavBar from '../Components/NavBar'
 import CreateEventPage from '../Pages/CreateEventPage'
+import UserProfilePage from '../Pages/UserProfilePage'
+import PurchaseHistoryPage from '../Pages/PurchaseHistoryPage'
+import EventManagementPage from '../Pages/EventManagementPage'
 
 function App() {
 
@@ -58,7 +61,8 @@ function App() {
           <Route path='/book/' element={<BookingPage/>} />
           <Route path='/book/:id' element={<BookingDetail/>}/>
           <Route path='/shop' element={<ShopPage/>} />
-          <Route path='/event' element={<EventPage/>} />
+          <Route path='/event' element={<EventPage userType={user}/>} />
+          <Route path='/event/manage' element={<EventManagementPage/>} />
           <Route path='/shop/:id' element={<ProductDetailPage/>} />
           <Route path='/request' element={<PendingRequestPage/>} />
           <Route path='/manage' element={<ArtistManagement/>} />
@@ -67,6 +71,8 @@ function App() {
           <Route path='/cart' element={<ShoppingCartPage/>} />
           <Route path='/register' element={<RegisterPage/>} />
           <Route path='/event/create' element={<CreateEventPage/>} />
+          <Route path='/profile' element={<UserProfilePage/>} />
+          <Route path='/purchasehistory' element={<PurchaseHistoryPage/>} />
       </Routes>
       </main>  
     </div>

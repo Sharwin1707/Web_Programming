@@ -43,43 +43,43 @@ const shopSliderImage = [
 
 const shopData = [
   {
-    name: "coldplay_shirt_front", 
+    name: "Coldplay Music of The Spheres Black T-Shirt", 
     displayImage: "https://media.karousell.com/media/photos/products/2023/11/30/coldplay_music_of_the_spheres__1701361899_1a38ab91_progressive.jpg",
     allImages: ['https://media.karousell.com/media/photos/products/2023/11/30/coldplay_music_of_the_spheres__1701361899_1a38ab91_progressive.jpg']
   },
   {
-    name: "ts_shirt_1", 
+    name: "Taylor Swift Era's Tour Navy Blue T-Shirt", 
     displayImage: "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1695413842-il_1588xN.5356331517_4ivv.jpg?crop=1xw:1.00xh;center,top&resize=980:*",
     allImages:['https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1695413842-il_1588xN.5356331517_4ivv.jpg?crop=1xw:1.00xh;center,top&resize=980:*','https://images.tokopedia.net/img/cache/700/VqbcmM/2023/3/19/91613a67-fec3-455a-8037-d78170b2a34d.png','https://img.thetedellis.com/v7/thetedellis.com/wp-content/uploads/2024/01/Taylor-Swift-The-Eras-Tour-US-Dates-Black-T-Shirt.jpg?org_if_sml=0']
   },
   { 
-    name: "ts_shirt_2_front", 
+    name: "Taylor Swift Era's Tour 2024 Black T-Shirt", 
     displayImage: "https://images.tokopedia.net/img/cache/700/VqbcmM/2023/3/19/91613a67-fec3-455a-8037-d78170b2a34d.png",
     allImages: ['https://images.tokopedia.net/img/cache/700/VqbcmM/2023/3/19/91613a67-fec3-455a-8037-d78170b2a34d.png','https://img.thetedellis.com/v7/thetedellis.com/wp-content/uploads/2024/01/Taylor-Swift-The-Eras-Tour-US-Dates-Black-T-Shirt.jpg?org_if_sml=0','https://i5.walmartimages.com/seo/Taylor-2023-The-Eras-Tour-T-shirt-Crewneck-Short-Sleeve-Tee-Men-Women-s-Clothes_ecb916c7-c12a-4318-8d47-65d7c1bf9d0d.08a7cfa5c304b6b68cac9458ff68f053.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF']
   },
     
   {
-    name: "ismail_izzani_shirt", 
+    name: "Masdo Long Sleeve Black Sweatshirt", 
     displayImage: "https://wpstore.my/cdn/shop/products/ISMAIL-IZZANI-ALBUM-COVER-V2-WHITE_1024x1024.png?v=1666838779",
     allImages:['https://wpstore.my/cdn/shop/products/ISMAIL-IZZANI-ALBUM-COVER-V2-WHITE_1024x1024.png?v=1666838779']
   },
   { 
-    name: "ismail_izzani_album_cover", 
+    name: "Hikari Riders X Pesta Kita (Hujan) Tote Bag", 
     displayImage: "https://wpstore.my/cdn/shop/products/Album01_1024x1024.png?v=1643023281", 
     allImages: ['https://wpstore.my/cdn/shop/products/Album01_1024x1024.png?v=1643023281']
   },
   { 
-    name: "dolla_playaz_shirt_front", 
+    name: "Dolla X Playaz Black T-Shirt", 
     displayImage: "https://playaz.my/cdn/shop/products/20220404playaz0607_1024x1024.jpg?v=1650240496" ,
     allImages: ['https://playaz.my/cdn/shop/products/20220404playaz0607_1024x1024.jpg?v=1650240496','https://playaz.my/cdn/shop/products/20220404playaz0611_1024x1024.jpg?v=1650240496']
   },
   { 
-    name: "jb_shirt", 
+    name: "Justin Bieber Changes Black T-Shirt", 
     displayImage: "https://thehypehousemerch.com/wp-content/uploads/2022/12/5-1.jpg.webp",
     allImages: ['https://thehypehousemerch.com/wp-content/uploads/2022/12/5-1.jpg.webp']
   },
   { 
-    name: "jb_hoodie_front", 
+    name: "Justin Bieber Stadium Tour Grey Hoodie", 
     displayImage: "https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2017%2F08%2Fjustin-bieber-merch-9.jpg?cbr=1&q=90" ,
     allImages: ['https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2017%2F08%2Fjustin-bieber-merch-9.jpg?cbr=1&q=90','https://i.ebayimg.com/images/g/u2AAAOSwMBZjSINn/s-l1200.webp','https://media.karousell.com/media/photos/products/2022/6/11/bieber_stadium_tour_hoodie_1654954961_922f7ca6_progressive.jpg']
   },
@@ -87,6 +87,61 @@ const shopData = [
 ]
 
 
+const eventData=[
+  {
+    "image" : "https://www.nme.com/wp-content/uploads/2020/12/Yuna_2020_b.jpg",
+    "name"  : "Yuna",
+    "month" : "JAN",
+    "eventName":"Musical Odyssey: Journey with Yuna",
+    "location" : "Axiata Arena",
+    "time" : "2000 - 2200"
+  },
+  {
+    "image" : "https://media2.malaymail.com/uploads/articles/2019/2019-09/2009_aliff.jpg",
+    "name"  : "Alif Satar",
+    "month" : "JAN",
+    "eventName":"Melodic Magic: A night with Alif Satar",
+    "location" : "National stadium Bukit Jalil",
+    "time" : "2000 - 2200"
+
+  },
+  {
+    "image" : "https://apicms.thestar.com.my/uploads/images/2023/11/02/2368466.jpg",
+    "name"  : "Shila Amzah",
+    "month" : "JAN",
+    "eventName":"Harmony Nights: A Concert with Shila Amzah",
+    "location" : "KLCC Centre",
+    "time" : "2000 - 2200"
+
+  },
+  {
+    "image" : "https://sitisentralworld.weebly.com/uploads/4/9/4/2/49421019/117784977-10158452963446390-4222354124471753501-n_orig.jpg",
+    "name"  : "Dato Siti Nurhaliza",
+    "month" : "FEB",
+    "eventName":"A Night with Dato Siti Nurhaliza",
+    "location" : "National stadium Bukit Jalil",
+    "time" : "2000 - 2300"
+  },
+  {
+    "image" : "https://img.astroawani.com/2015-08/71439175196_FAIZALTAHIR.jpg",
+    "name"  : "Faizal Tahir",
+    "month" : "Mar",
+    "eventName":"Aku Faizal Tahir",
+    "location" : "Jiospace, PJ",
+    "time" : "2000 - 2200"
+  },
+  {
+    "image" : "https://goingplaces.malaysiaairlines.com/wp-content/uploads/2019/05/Dayang-2-683x1024.jpg",
+    "name"  : "Dayang Nurfaizah",
+    "month" : "APR",
+    "eventName":"DAYANG DUA DEKAD",
+    "location" : "Istana Budaya",
+    "time" : "2000 - 2200"
+
+  },
+]
+
+
   
-export {data, shopData, shopSliderImage};
+export {data, shopData, shopSliderImage, eventData};
   

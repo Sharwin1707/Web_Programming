@@ -307,3 +307,130 @@ input[type="submit"]:active
   }
 }
 
+
+/* profile */
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  margin-top: 70px;
+}
+
+.profile-section {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 40px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.info-row {
+  margin-bottom: 10px; /* Adjust as needed */
+}
+
+.editable {
+  background-color: #d3d0d0; /* Change this to the desired color */
+}
+
+.profile-section h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.profile-pic {
+  text-align: center;
+}
+
+.profile-pic img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.profile-name {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.profile-section label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.profile-section input[type="text"],
+.profile-section input[type="email"],
+.profile-section textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.profile-section textarea {
+  height: 100px;
+}
+
+.profile-section button {
+  background-color: #007bff; /* Blue color */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  position: absolute;
+  top: 10px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+}
+
+.profile-section button:hover {
+  background-color: #db1d27;
+}
+
+.password-input-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Adjust as needed */
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.password-strength {
+  margin-top: 5px;
+  position: relative;
+}
+
+.password-strength-indicator {
+  height: 5px;
+  background-color: #ddd;
+  border-radius: 3px;
+}
+
+.password-strength-indicator-bar {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.weak {
+  background-color: red;
+}
+
+.medium {
+  background-color: orange;
+}
+
+.strong {
+  background-color: green;
+}
+

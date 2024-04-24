@@ -1,12 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const CreateEventPage = () => {
+const EventManagementPage = () => {
   return (
     <div className='px-[12%] flex flex-col justify-center items-center py-12'>
         
         <form action="" className='max-w-[400px] poppins flex flex-col gap-6 py-4'>
             <h1 className='text-3xl py-4'>Event Management</h1>
+
+            <div className='flex flex-col'>
+                <label htmlFor="">Cancel Event :</label>
+                <div>
+                    <input className='' type="radio" name='isCancel'/>
+                    <label htmlFor="">Yes</label>
+                </div>
+                <div>
+                <input className='' type="radio" name='isCancel'/>
+                <label htmlFor="">No</label>
+                </div>
+        
+            </div>
             <hr />
             <div className='flex flex-col '>
                 <label htmlFor="">Artist Name</label>
@@ -50,7 +63,7 @@ const CreateEventPage = () => {
             </div>
 
             <div className='flex justify-center gap-6'>
-                <button className='px-4 py-2 bg-green-400 rounded-md'>Add</button>
+                <button className='px-4 py-2 bg-gray-600 rounded-md'>Update</button>
                 <Link to={'/event'}><button className='px-4 py-2 bg-red-400 rounded-md'>Cancel</button></Link>
             </div>
         </form>
@@ -58,4 +71,4 @@ const CreateEventPage = () => {
   )
 }
 
-export default CreateEventPage
+export default EventManagementPage

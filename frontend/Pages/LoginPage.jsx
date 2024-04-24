@@ -84,18 +84,18 @@ const LoginPage = () => {
       <span></span> <span></span> <span></span> <span></span> <span></span>
       <span></span> <span></span> <span></span> <span></span> <span></span>
 
-      <div class="signin">
-        <div class="content">
+      <div className="signin">
+        <div className="content">
           <h2>Sign In</h2>
 
-          <div class="form">
-            <div class="inputBox">
+          <div className="form">
+            <div className="inputBox">
               <input type="text" required value={username}
             onChange={(e) => setUsername(e.target.value)}
             /> <i>Username</i>
             </div>
 
-            <div class="inputBox">
+            <div className="inputBox">
               <input type="password" required value={password}
               onChange={(e) => setPassword(e.target.value)}
             /> <i>Password</i>
@@ -109,11 +109,11 @@ const LoginPage = () => {
               </select>
             </div>
 
-            <div class="links">
+            <div className="links">
               <a href="#">Forgot Password</a> <Link to={'/register'}>Signup</Link>
             </div>
 
-            <div class="inputBox">
+            <div className="inputBox">
               <input type="submit" value="Login" onClick={handleLogin}/>
             </div>
           </div>

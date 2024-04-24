@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useToast } from './Toast';
+import { Link } from 'react-router-dom';
 
 
-const EventCard = ({ image, name, month, eventName, location, time }) => {
+const EventCard = ({ image, name, month, eventName, location, time ,userType}) => {
     const [addReminder, setAddReminder] = useState(false);
     const {showToastMessage} = useToast()
     
@@ -22,7 +23,7 @@ const EventCard = ({ image, name, month, eventName, location, time }) => {
   
         <div className="w-full text-black flex flex-col gap-2">
           <div className="text-xl text-center">{name}</div>
-          <div className="text-3xl">{eventName}</div>
+          <div className="text-3xl h-[100px]">{eventName}</div>
           <div className="flex items-center gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -56,6 +57,7 @@ const EventCard = ({ image, name, month, eventName, location, time }) => {
           >
             {addReminder ? 'Added to Reminder 🔔' : 'Add Reminder'}
           </button>
+          {userType == 'Artist' ?<Link className='py-2 border text-center border-black rounded' to={'/event/manage'}> <button >Edit</button></Link> : ''}
         </div>
       </div>
     );

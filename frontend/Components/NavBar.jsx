@@ -43,7 +43,7 @@ const NavBar = ({userType, userName, onLogout}) => {
                  <div className='shop-dropdown absolute top-14 flex  flex-col p-2 gap-1 bg-gray-800 rounded-md z-10'>
                     <Link to={'/shop'} className=' px-2 py-1 rounded-md hover:bg-black'>Merchandise</Link>
                     <Link to={'/cart'} className=' px-2 py-1 rounded-md hover:bg-black'>Cart</Link>
-                    <Link className=' px-2 py-1 rounded-md hover:bg-black'>Purchase History</Link>
+                    <Link to={'/purchasehistory'} className=' px-2 py-1 rounded-md hover:bg-black'>Tracking Order</Link>
                   </div> 
                   
                 </div>
@@ -61,7 +61,8 @@ const NavBar = ({userType, userName, onLogout}) => {
                     {userType === 'Organization' ? <FontAwesomeIcon icon={faBuilding}/> : ''}
                     <h1 className='text-md'>{userName}</h1>
 
-                    <div className='shop-dropdown absolute top-12 gap-1 bg-gray-800 rounded-md z-10'>
+                    <div className='shop-dropdown absolute top-12 gap-1 bg-gray-800 rounded-md z-10 flex flex-col'>
+                    <Link to={'/profile'}><button className='px-4 py-2 hover:bg-blue-gray-600 rounded-md'>Profile</button></Link>
                        <button onClick={onLogout} className='px-4 py-2 hover:bg-blue-gray-600 rounded-md'>Logout</button>
                     </div>
                       
