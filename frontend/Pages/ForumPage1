@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MM Labels Forum</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+
+    <!-- CSS styles -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif; /* Specified font */
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px; /* Adjust padding as needed */
+        }
+        .search{
+
+--padding: 14px;
+width: max-content;
+display: flex;
+align-items: center;
+padding: var(--padding);
+border-radius: 28px;
+background: #f6f6f6;
+width: 600px;
+transition: box-shadow 0.25s;
+}
+
+.search:focus-within{
+box-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
+}
+
+.search-input{
+font-size: 16px;
+font-family: 'Lexend', sans-serif;
+color: #333333;
+margin-left: var(--padding);
+outline: none;
+border: none;
+background: transparent;
+flex: 1;
+}
+
+.search-input::placeholder,
+.search-icon{
+color: rgba(0, 0, 0, 0.25);
+}
+        label {
+            margin-right: 10px;
+        }
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .discussion {
+            margin: 20px;
+            margin-top: 20px; /* Adjust margin as needed */
+        }
+        .discussion-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 700px;
+            height: max-content;
+            margin-bottom: 20px;
+        }
+        .discussion-box h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .discussion-link {
+            text-decoration: none; /* Remove default underline */
+            color: inherit; /* Inherit text color from parent */
+            outline: none; /* Remove outline on focus */
+        }
+
+        .discussion-link:hover,
+.discussion-link:focus {
+    color: aquamarine;
+    transition: 0.25s;
+}
+
+        .trendingnow{
+            display:flex;
+            flex-direction: column;
+            border: none;
+            background: image();
+            background-color: #333333;
+            padding: 10px;
+            outline: none;
+            width: max-content;
+            height: auto;
+            border-radius: 20px;
+            margin: 20px;
+            cursor: pointer;
+        }
+
+        .trendingnow-link{
+            text-decoration: none; /* Remove default underline */
+            color: inherit; /* Inherit text color from parent */
+            outline: none; /* Remove outline on focus */
+        }
+
+        .trendingnow-link:hover,
+        .trendingnow-link:focus{
+            color: aquamarine;
+         transition: 0.25s;
+        }
+
+        .trendingnow-row{
+            display: flex;
+            flex-direction: row;
+            padding: auto;
+            margin-right: var(--padding);
+            margin-bottom: 10px;
+        }
+
+        .topcomsearch-column{
+            display: flex;
+            flex-direction: column;
+        }
+        .topsea{
+            background-color: grey;
+            margin: 20px;
+            border: none;
+            width: 300px;
+        }
+        .topcom{
+            background-color: grey;
+            margin: 20px;
+            border: none;
+            width: 300px;
+        }
+        .topsearches-link,
+        .topcommunities-link{
+            text-decoration: none; /* Remove default underline */
+            color: inherit; /* Inherit text color from parent */
+            outline: none; /* Remove outline on focus */
+            display: flex;
+            margin: 10px;
+
+        }
+
+        .topcommunities-link:hover,
+        .topsearches-link:hover,
+        .topcommunities-link:focus,
+        .topsearches-link:focus{
+            color: aquamarine;
+         transition: 0.25s;
+        }
+        .material-symbols-outlined{
+            color: #ccc;
+            margin-right: 10px;
+        }
+
+        .topdis-topcomsea-group{
+            display: flex;
+            flex-direction: row;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Search Bar -->
+        <div class="search">
+            <span class="search-icon material-symbols-outlined">search</span>
+            <input class="search-input" type="search" placeholder="Search">
+        </div>
+
+        <!-- Category Dropdown -->
+        <div>
+            <label for="category-names">Category</label> 
+            <select name="category-names" id="category-names"> 
+                <option value="music">Music</option> 
+                <option value="artist">Artist</option> 
+                <option value="announcement">Announcement and News</option> 
+                <option value="liveperformance">Live Performances and Tours</option>
+                <option value="legal">Legal Discussions</option> 
+                <option value="marketing">Marketing</option>
+                <option value="faneng">Fan Engagement and Community</option>
+                <option value="feedback">Feedback and Suggestions</option>
+            </select>   
+        </div>
+    </div>
+
+    <h2>Trending Now</h2>
+    
+    <!-- Trending Now Section -->
+    <div class="trendingnow-row">
+            <div class="trendingnow">
+                <a href="#" class="trendingnow-link">
+                    <img src="img/_99433207_gettyimages-692493986.jpg">
+                    <div class="trendingnow-row">
+                        <h3>Trending Discussion Title 1</h3>
+                    </div>
+                </a>
+            </div>
+            <div class="trendingnow">
+                <a href="#" class="trendingnow-link">
+                    <img src="img/_99433207_gettyimages-692493986.jpg">
+                    <div class="trendingnow-row">
+                        <h3>Trending Discussion Title 2</h3>
+                    </div>
+                </a>
+            </div>
+            <div class="trendingnow">
+                <a href="#" class="trendingnow-link">
+                    <img src="img/_99433207_gettyimages-692493986.jpg">
+                    <div class="trendingnow-row">
+                        <h3>Trending Discussion Title 3</h3>
+                    </div>
+                </a>
+            </div>
+    </div>
+
+    <!-- Grouping TD and TS -->
+    <section class="topdis-topcomsea-group">
+        <!-- Top Discussion Section -->
+    <section>
+        <h1>Top Discussions</h1>
+        <div class="discussion">
+            <a href="#" class="discussion-link">
+                <div class="discussion-box">
+                    <h3>Discussion Title 1</h3>
+                    <p>Discussion Content</p>
+                </div>
+            </a>
+        </div>
+    
+        <div class="discussion">
+            <a href="#" class="discussion-link">
+                <div class="discussion-box">
+                    <h3>Discussion Title 2</h3>
+                    <p>Discussion Content</p>
+                </div>
+            </a>
+        </div>
+        
+        <div class="discussion">
+            <a href="#" class="discussion-link">
+                <div class="discussion-box">
+                    <h3>Discussion Title 3</h3>
+                    <p>Discussion Content</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="discussion">
+            <a href="#" class="discussion-link">
+                <div class="discussion-box">
+                    <h3>Discussion Title 3</h3>
+                    <p>Discussion Content</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="discussion">
+            <a href="#" class="discussion-link">
+                <div class="discussion-box">
+                    <h3>Discussion Title 3</h3>
+                    <p>Discussion Content</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Top Searches Section -->
+    <section class="topcomsearch-column">
+        <div class="topcom">
+            <h3>Top Communities</h3>
+            <a href="#" class="topcommunities-link">
+                <span class="material-symbols-outlined">
+                    account_circle
+                    </span>
+                Community Name 1
+            </a>
+            <a href="#" class="topcommunities-link">
+                <span class="material-symbols-outlined">
+                    account_circle
+                    </span>
+                Community Name 2
+            </a>
+            <a href="#" class="topcommunities-link">
+                <span class="material-symbols-outlined">
+                    account_circle
+                    </span>
+                Community Name 3
+            </a>
+            <a href="#" class="topcommunities-link">
+                <span class="material-symbols-outlined">
+                    account_circle
+                    </span>
+                Community Name 4
+            </a>
+            <a href="#" class="topcommunities-link">
+                <span class="material-symbols-outlined">
+                    account_circle
+                    </span>
+                Community Name 5
+            </a>
+        </div>
+            
+            <div class="topsea">
+                <h3>Top Searches</h3>
+                <a href="#" class="topsearches-link">
+                    #1 Keyword
+                </a>
+                <a href="#" class="topsearches-link">
+                    #2 Keyword
+                </a>
+                <a href="#" class="topsearches-link">
+                    #3 Keyword
+                </a>
+                <a href="#" class="topsearches-link">
+                    #4 Keyword
+                </a>
+                <a href="#" class="topsearches-link">
+                    #5 Keyword
+                </a>
+            </div>
+    </section>
+    <!-- End of Grouping TD and TS -->
+    </section>
+    
+
+</body>
+</html>
