@@ -49,20 +49,29 @@ const ArtistProfilePage = ({image}) => {
 
               <div className='flex justify-center flex-wrap gap-8 my-4'>
                 <div className='w-72 h-72 border'>
-                  <img className='w-full h-full object-cover' src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRAjXJvZlf4HfgS2ymq19yLF17hnTuiWJBBKL9WP29rqJYoLPB_" alt=""/>
-                  
+                  <img className='w-full h-full object-cover' src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRAjXJvZlf4HfgS2ymq19yLF17hnTuiWJBBKL9WP29rqJYoLPB_" alt=""/>           
                 </div>
 
                 <div className='w-72 h-72 border'>
-                  <img className='w-full h-full object-cover' src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRz5XjwGbOsUFWFXiEiq_lFr1yW4FWma1OuUTPT7zZuDX6pWQyz
-" alt=""/>
-                  
+                  <img className='w-full h-full object-cover' src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRz5XjwGbOsUFWFXiEiq_lFr1yW4FWma1OuUTPT7zZuDX6pWQyz" alt=""/>        
                 </div>
 
                 <div className='w-72 h-72 border'>
-                  <img className='w-full h-full object-cover' src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcREl_W8z2M-hvL4GynE1x3ZVYvWT2iuE9sw961s8lu-kuaz5RVr
-" alt=""/>
-                  
+                  <img className='w-full h-full object-cover' src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcREl_W8z2M-hvL4GynE1x3ZVYvWT2iuE9sw961s8lu-kuaz5RVr" alt=""/>    
+                </div>
+
+                <div className='w-72 h-72 border'>
+                  <img className='w-full h-full object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEg6TYrZR9nO1uFjpcKrwsmiAxf8ja9f7Cymd7ZzVT3R0JLTS" alt=""/>    
+                </div>
+
+                <div className='w-72 h-72 border'>
+                  <img className='w-full h-full object-cover' src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSDESydYY3nitDE4INBWsUsPLQaQsXgX6LiFH-1EVFYGX-pwwsA
+" alt=""/>    
+                </div>
+
+                <div className='w-72 h-72 border'>
+                  <img className='w-full h-full object-cover' src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRG-NzNP2uvqlKPzQYyYdbGjh8hPoK_a-1Zz6fcFHY2dm_5-Pxx
+" alt=""/>    
                 </div>
                   
               
