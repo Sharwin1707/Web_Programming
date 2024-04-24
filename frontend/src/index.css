@@ -34,7 +34,41 @@ input:focus{
     border: none;
 }
 
+/*------------------------------- Add Product Design--------------------------- */
 
+.border-black {
+  border: 1px solid #000;
+}
+
+.green{
+  background-color:rgb(0, 170, 40);
+}
+
+.container-add-product {
+  width: 75%;
+  height:70vh;
+  margin: 0 auto; /* This centers the container horizontally */
+  margin-bottom: 50px;
+  
+}
+
+.head-cont {
+  margin-top: 15px;
+  font-size: 20px;
+  line-height: 1; /* Set line-height to 1 for vertical centering */
+}
+
+.pd{
+  padding: 5px;
+}
+
+
+/*------------------------------- Add Product Design--------------------------- */
+
+/* Login to the right */
+.login-right {
+  margin-left: auto;
+}
 
 .red{
     background-color: #FF0000;

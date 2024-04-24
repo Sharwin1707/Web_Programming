@@ -22,6 +22,7 @@ import CreateEventPage from '../Pages/CreateEventPage'
 import UserProfilePage from '../Pages/UserProfilePage'
 import PurchaseHistoryPage from '../Pages/PurchaseHistoryPage'
 import EventManagementPage from '../Pages/EventManagementPage'
+import ArtistAddProducts from '../Pages/ArtistAddProducts'
 
 function App() {
 
@@ -73,6 +74,7 @@ function App() {
           <Route path='/event/create' element={<CreateEventPage/>} />
           <Route path='/profile' element={<UserProfilePage/>} />
           <Route path='/purchasehistory' element={<PurchaseHistoryPage/>} />
+          <Route path='/adminAdd' element={<AdminAddProducts/>} />
       </Routes>
       </main>  
     </div>
