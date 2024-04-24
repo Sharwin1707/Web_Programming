@@ -100,7 +100,7 @@ const ProductDetailPage = () => {
             {shopData.slice(0,5).map((data,i) => (
               <div className='flex flex-col justify-center items-center p-2 border rounded-md'>
                 <ShopItem key={i} name={data.name} image={data.displayImage} ratingStar={5} price={120}/>
-                <button className='w-max py-2 px-4 rounded-full border-2 border-green-500 hover:bg-green-500 hover:text-white '>Add to Cart</button>
+                <button onClick={addToCart} className='w-max py-2 px-4 rounded-full border-2 border-green-500 hover:bg-green-500 hover:text-white '>Add to Cart</button>
               </div>
             ))}
           

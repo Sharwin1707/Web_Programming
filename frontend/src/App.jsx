@@ -18,6 +18,7 @@ import RegisterPage from '../Pages/RegisterPage'
 import { useLocation } from 'react-router-dom'
 import { useState,useEffect } from 'react'
 import NavBar from '../Components/NavBar'
+import CreateEventPage from '../Pages/CreateEventPage'
 
 function App() {
 
@@ -65,6 +66,7 @@ function App() {
           <Route path='/payment' element={<PaymentPage/>} />
           <Route path='/cart' element={<ShoppingCartPage/>} />
           <Route path='/register' element={<RegisterPage/>} />
+          <Route path='/event/create' element={<CreateEventPage/>} />
       </Routes>
       </main>  
     </div>
