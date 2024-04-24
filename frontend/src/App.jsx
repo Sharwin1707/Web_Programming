@@ -22,7 +22,7 @@ import CreateEventPage from '../Pages/CreateEventPage'
 import UserProfilePage from '../Pages/UserProfilePage'
 import PurchaseHistoryPage from '../Pages/PurchaseHistoryPage'
 import EventManagementPage from '../Pages/EventManagementPage'
-import ArtistAddProducts from '../Pages/ArtistAddProducts'
+import AdminAddProducts from '../Pages/AdminAddProducts'
 
 function App() {
 
