@@ -6,12 +6,16 @@ import { BrowserRouter } from 'react-router-dom'
 import NavBar from '../Components/NavBar.jsx'
 import { ThemeProvider } from "@material-tailwind/react";
 import Footer from '../Components/Footer.jsx'
+import { ToastProvider } from '../Components/Toast.jsx'
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <NavBar/>
+    
       <ThemeProvider>
-      <App/>
+        <ToastProvider>
+          <App/>
+        </ToastProvider>
       </ThemeProvider> 
     <Footer/>
   </BrowserRouter>,

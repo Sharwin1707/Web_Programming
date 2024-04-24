@@ -5,7 +5,7 @@ const CustomCarousel = ({image}) => {
   return (
     <Carousel transition={{ duration: 1 }} autoplay loop className="rounded-xl w-full h-[500px]">
       {image.map((image) => (
-        <div key={image.id} className="h-full w-full">
+        <div key={image.url} className="h-full w-full">
           <img
             src={image.url}
             alt={`image ${image.id}`}

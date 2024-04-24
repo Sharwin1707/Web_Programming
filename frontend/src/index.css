@@ -100,9 +100,7 @@ header{
 
 
 @media screen and (min-width: 1280px){
-    .booking-list{
-        width: 930px;
-    }
+   
 }
 
 
@@ -274,3 +272,38 @@ input[type="submit"]:active
     height: calc(20vw - 2px);
   }
 }
+
+
+.toast {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  z-index: 100;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background-color: rgb(61, 219, 61);
+  color: white;
+  border-radius: 5px;
+  animation: slideIn 0.5s forwards, fadeOut 0.5s 2.5s forwards;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+

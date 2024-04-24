@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 const PaymentPage = () => {
   return (
     <div className='px-[8%] josefin'>
-        <Link to={'/shop/shirt'}><FontAwesomeIcon icon={faArrowLeft} size='2x'/></Link>
+        <Link to={'/shop'}><FontAwesomeIcon icon={faArrowLeft} size='2x'/></Link>
         <div className='w-full flex flex-col xl:flex-row gap-8'>
 
             <div className='relative w-full xl:w-[50%]'>

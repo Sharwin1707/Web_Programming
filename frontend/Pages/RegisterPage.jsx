@@ -1,34 +1,7 @@
-import React, {useState} from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import { useToast } from '../Components/Toast';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-const LoginPage = () => {
-
-  const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('User');
-
-  const {showToastMessage} = useToast()
-
-  // Function to handle form submission (login)
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    // Simulated authentication logic (replace with actual authentication)
-    const isAuthenticated = username === 'demo' && password === 'password';
-
-    if (isAuthenticated) {
-      
-      // Redirect to homepage and pass user type as route state
-      navigate('/', { state: {username: username, userType: userType } });
-      showToastMessage('Welcome,' + username)
-    } else {
-      // Handle login error (e.g., display an error message)
-      console.log('Invalid credentials. Please try again.');
-    }
-  };
-
+const RegisterPage = () => {
   return (
     <section>
       <span></span> <span></span> <span></span> <span></span> <span></span>
@@ -86,35 +59,39 @@ const LoginPage = () => {
 
       <div class="signin">
         <div class="content">
-          <h2>Sign In</h2>
+          <h2>Sign Up</h2>
 
           <div class="form">
             <div class="inputBox">
-              <input type="text" required value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            /> <i>Username</i>
+              <input type="text" required /> <i>Email</i>
             </div>
 
             <div class="inputBox">
-              <input type="password" required value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            /> <i>Password</i>
+              <input type="text" required /> <i>Username</i>
+            </div>
+
+            <div class="inputBox">
+              <input type="password" required /> <i>Password</i>
+            </div>
+
+            <div class="inputBox">
+              <input type="password" required /> <i>Confirm Password</i>
             </div>
 
             <div>
-              <select onChange={event => setUserType(event.target.value)} name="" id="" className='w-full p-2 bg-[#333] text-white rounded-md'>
-                <option value="User">User</option>
-                <option value="Artist">Artist</option>
-                <option value="Organization">Organization</option>
+              <select name="" id="" className='w-full p-2 bg-[#333] text-white rounded-md'>
+                <option value="">User</option>
+                <option value="">Artist</option>
+                <option value="">Oragnization</option>
               </select>
             </div>
 
             <div class="links">
-              <a href="#">Forgot Password</a> <Link to={'/register'}>Signup</Link>
+              <a href="#">Forgot Password</a> <Link to={'/Login'}>Login</Link>
             </div>
 
             <div class="inputBox">
-              <input type="submit" value="Login" onClick={handleLogin}/>
+              <input type="submit" value="Sign Up" onclick="redirectToAnotherPage()"/>
             </div>
           </div>
         </div>
@@ -123,4 +100,4 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default RegisterPage

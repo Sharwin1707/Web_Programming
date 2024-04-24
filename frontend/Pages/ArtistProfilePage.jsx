@@ -3,9 +3,12 @@ import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {  faCartShopping , faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { data } from '../sampleData';
 
-const ArtistProfilePage = () => {
+const ArtistProfilePage = ({image}) => {
     const {id} = useParams()
+
+    const artistData = data.filter(artist => artist.id === id)
   return (
     <div className='px-[12%] pt-8'>
 
@@ -15,12 +18,15 @@ const ArtistProfilePage = () => {
 
       <div className='flex flex-col justify-center items-center'>
           <br /><br />
-          <h1 className='text-center text-4xl josefin'>{id}</h1>
+          <h1 className='text-center text-4xl josefin'>{artistData[0].nickname}</h1>
           <br />
           <div>Profile Music Photo Video</div>
           <br />
-          <div className='max-w-96 max-h-96 overflow-hidden rounded-md'>      
-                  <img className='w-full h-full object-cover rounded-md' src="https://assets.bharian.com.my/images/articles/18sono1.transformed.jpg" alt="" />
+          <div className='w-[600px] h-[600px] overflow-hidden rounded-md'>  
+           
+                <img className='w-full h-full object-cover rounded-md' src={artistData[0].image} alt="" />
+             
+                
           </div>
 
           <p className='text-center my-4 josefin'><strong>About</strong><br/>
@@ -42,18 +48,24 @@ const ArtistProfilePage = () => {
               <h1 className='josefin text-2xl'>GALLERY</h1>
 
               <div className='flex justify-center flex-wrap gap-8 my-4'>
-                  <img src="../shopTest.png" alt=""/>
-                  <img src="../shopTest.png" alt=""/>
-                  <img src="../shopTest.png" alt=""/>
-                  <img src="../shopTest.png" alt=""/>
-                  <img src="../shopTest.png" alt=""/>
-                  <img src="../shopTest.png" alt=""/>
-                  <img src="../shopTest.png" alt=""/>
-                  <img src="../shopTest.png" alt=""/>
-                  <img src="../shopTest.png" alt=""/>
-                  <img src="../shopTest.png" alt=""/>
-                  <img src="../shopTest.png" alt=""/>
-                  <img src="../shopTest.png" alt=""/>
+                <div className='w-72 h-72 border'>
+                  <img className='w-full h-full object-cover' src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRAjXJvZlf4HfgS2ymq19yLF17hnTuiWJBBKL9WP29rqJYoLPB_" alt=""/>
+                  
+                </div>
+
+                <div className='w-72 h-72 border'>
+                  <img className='w-full h-full object-cover' src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRz5XjwGbOsUFWFXiEiq_lFr1yW4FWma1OuUTPT7zZuDX6pWQyz
+" alt=""/>
+                  
+                </div>
+
+                <div className='w-72 h-72 border'>
+                  <img className='w-full h-full object-cover' src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcREl_W8z2M-hvL4GynE1x3ZVYvWT2iuE9sw961s8lu-kuaz5RVr
+" alt=""/>
+                  
+                </div>
+                  
+              
               </div>
           
       </div>

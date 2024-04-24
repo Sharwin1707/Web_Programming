@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ArtistProfile from '../Components/ArtistProfile'
-import data from '../sampleData'
+import {data} from '../sampleData'
 
 const ArtistPage = () => {
     const [searchBar, setSearchBar] = useState('')
@@ -28,7 +28,7 @@ const ArtistPage = () => {
 
         <div className='flex flex-col gap-12 mt-8'>
             {artistData.map(artist => (
-                <ArtistProfile image={artist.image} name={artist.name}/>
+                <ArtistProfile key={artist.id} id={artist.id} image={artist.image} name={artist.nickname} career={artist.career} genre={artist.genre} birthday={artist.birthday}/>
             ))}
             
         </div>

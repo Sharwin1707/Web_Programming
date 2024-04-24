@@ -3,7 +3,7 @@ import BookingProfile from '../Components/BookingProfile';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {  faHourglass } from '@fortawesome/free-solid-svg-icons'
 
-import data from '../sampleData'; // Import sample data for testing
+import {data} from '../sampleData'; // Import sample data for testing
 import { Link } from 'react-router-dom';
 
 const BookingPage = () => {
@@ -73,14 +73,13 @@ const BookingPage = () => {
 
                 {/* <h1 className=' text-white text-xl my-10'>Top Artists</h1> */}
 
-                <div className='mt-12 booking-list flex flex-wrap gap-8'>
+                <div className='my-24 booking-list flex flex-wrap gap-8'>
                     {artistData.map(artist => (
                         <BookingProfile
-                            key={artist.id} // Ensure to provide a unique key for each item in the list
+                            key={artist.id}
+                            id={artist.id} // Ensure to provide a unique key for each item in the list
                             image={artist.image}
-                            name={artist.name}
-                            rating={'5.0'}
-                            description={artist.description}
+                            name={artist.nickname}
                         />
                     ))}
                 </div>

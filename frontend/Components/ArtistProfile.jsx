@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const ArtistProfile = ({name,image,career,genre,birthday,music}) => {
+const ArtistProfile = ({id,name,image,career,genre,birthday}) => {
   return (
    
         <div class="min-w-56 flex flex-col md:flex-row bg-[#222222] overflow-hidden rounded-md">
@@ -15,9 +15,8 @@ const ArtistProfile = ({name,image,career,genre,birthday,music}) => {
                 Career: {career}<br />
                 Genre: {genre}<br />
                 Birthday: {birthday}<br/>
-                Music: {music}
                 </p>
-                <Link to={`/artistprofile/${name}`}>
+                <Link to={`/artistprofile/${id}`}>
                     <button className='mt-2 px-6 py-3 red rounded-md'>VIEW</button>
                 </Link>
             </div>

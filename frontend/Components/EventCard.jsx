@@ -1,22 +1,27 @@
 import React, { useState } from 'react'
+import { useToast } from './Toast';
+
 
 const EventCard = ({ image, name, month, eventName, location, time }) => {
     const [addReminder, setAddReminder] = useState(false);
+    const {showToastMessage} = useToast()
+    
   
     const toggleReminder = () => {
       // Toggle the addReminder state when the button is clicked
       setAddReminder(true);
+      showToastMessage('Added to Reminder')
     };
   
     return (
       <div className="w-96 p-8 bg-white flex flex-col items-center rounded-md">
-        <div className="relative flex items-start w-[350px] h-[250px] overflow-hidden rounded-md mb-3">
-          <img src={image} className="relative top-0 w-full  object-cover rounded-md" />
+        <div className="relative flex items-start w-[300px] h-[300px] overflow-hidden rounded-md mb-3">
+          <img src={image} className="relative top-0 w-full h-full object-cover rounded-md" />
           <div className="absolute text-white top-0 m-4 text-xl">{month}</div>
         </div>
   
         <div className="w-full text-black flex flex-col gap-2">
-          <div className="text-xl">{name}</div>
+          <div className="text-xl text-center">{name}</div>
           <div className="text-3xl">{eventName}</div>
           <div className="flex items-center gap-3">
             <svg

@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CustomCarousel from '../Components/Carousel';
 import Isotope from 'isotope-layout';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {  faStar } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom';
 import ShopItem from '../Components/ShopItem';
+import { shopData, shopSliderImage } from '../sampleData';
 
 
 const ShopPage = () => {
@@ -39,9 +37,9 @@ const ShopPage = () => {
   };
 
   return (
-    <div>
+    <div className='mx-0 md:mx-[12%]'>
      
-      <CustomCarousel/>
+      <CustomCarousel image={shopSliderImage}/> 
 
       <div className="w-full mt-12">
         <div className="title text-center">
@@ -82,16 +80,11 @@ const ShopPage = () => {
 
         {/* Filtered items container */}
        
-        <div className="filter-container mx-[12%]">
-            
-           <ShopItem type={'best'} ratingStar={5} price={'230'}/>
-           <ShopItem type={'featured'} ratingStar={5} price={'180'}/>
-           <ShopItem type={'new'} ratingStar={5} price={'200'}/>
-           <ShopItem type={'featured'} ratingStar={5} price={'100'}/>
-           <ShopItem type={'new'} ratingStar={4} price={'45'}/>
-           <ShopItem type={'best'} ratingStar={4} price={'15'}/>
-           <ShopItem type={'best'} ratingStar={4} price={'145'}/>
-           <ShopItem type={'new'} ratingStar={5} price={'230'}/>
+        <div className="filter-container ">
+
+          {shopData.map((data,i) => (
+              <ShopItem key={i} image={data.displayImage} name={data.name} type={'best'} ratingStar={5} price={'230'}/>
+          ))}
 
         </div>
      

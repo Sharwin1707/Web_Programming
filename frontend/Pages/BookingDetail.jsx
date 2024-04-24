@@ -1,18 +1,38 @@
-import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import React, {useState} from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {  faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { useToast } from '../Components/Toast'
 
-import data from '../sampleData'
+import {data} from '../sampleData'
 
 const BookingDetail = () => {
     const {id} = useParams()
+    const navigate = useNavigate()
+    const { showToastMessage } = useToast();
 
-    const sampleData = data.filter(data => data.name === id);
+    const [showToast, setShowToast] = useState(false);
+
+    const sampleData = data.filter(data => data.id == id);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Handle form submission logic here (e.g., API call)
+        // Show the toast after submission
+        showToastMessage('Form submitted successfully!');
+
+        // Navigate to another page after submission
+        navigate('/request');
+      };
     
 
   return (
     <div className='py-16 mx-[12%]'>
+        {showToast && (
+        <div className="toast">
+          <p>Form submitted successfully!</p>
+        </div>
+      )}
         <Link to={'/book'}>
             <FontAwesomeIcon className='mr-2' size='2xl' icon={faArrowLeft}/>
         </Link>
@@ -22,22 +42,21 @@ const BookingDetail = () => {
                     <img className='w-full h-full object-cover rounded-md' src={sampleData[0].image} alt="" />
                 </div>
                 <p className='text-white text-md my-10'><strong>Description: </strong>
-                    {sampleData[0].description}
+                    {sampleData[0].about}
                 </p>
             </div>
             
         <div>
-            <h1 className='text-white text-5xl mb-4'>{id}</h1>
+            <h1 className='text-white text-5xl mb-4'>{sampleData[0].nickname}</h1>
             <div className='text-white poppins'>Career: {sampleData[0].career}</div>
-            <div className='text-white poppins flex gap-3'>Genre: {sampleData[0].genre.map((index,genre) => (<div key={index}>{genre}</div>))}</div>
+            <div className='text-white poppins flex gap-3'>Genre: {sampleData[0].genre}</div>
             <div className='text-white poppins'>Birthday: {sampleData[0].birthday}</div>
-            <div className='text-white poppins'>Music: {}</div>
             <br /><hr />
 
             <form className='mt-12 flex flex-col gap-3' action="">
                 <h1 className='flex-1 text-white text-2xl'>Send Booking Request</h1>
-                <input className='rounded-md p-1 focus:outline-none poppins' placeholder='First name' type="text" />
-                <input className='rounded-md p-1 focus:outline-none poppins' placeholder='Last name' type="text" />
+                <input className='rounded-md p-1 focus:outline-none poppins' placeholder='Name' type="text" />
+                <input className='rounded-md p-1 focus:outline-none poppins' placeholder='Organization Name' type="text" />
                 <input className='rounded-md p-1 focus:outline-none poppins' type="date" />
                 <label className='text-white text-xl mt-4' >Service available:</label>
                 <div className='flex gap-4 mb-4'>
@@ -58,7 +77,7 @@ const BookingDetail = () => {
                 <input className='rounded-md p-1 focus:outline-none poppins' type="number" placeholder='Mobile number' />
                 <textarea placeholder='Request detail' className='rounded-md p-1 focus:outline-none poppins' name="" id="" cols="30" rows="10"></textarea>
                 
-                <label class="block mb-2 text-xl font-medium text-white poppins" for="file_input">Attachment</label>
+                <label className="block mb-2 text-xl font-medium text-white poppins" htmlFor="file_input">Attachment</label>
                 <input
                 type="file"
                 class="bg-blue-gray-300 rounded-md  block w-full text-sm text-white poppins
@@ -68,7 +87,7 @@ const BookingDetail = () => {
                     hover:file:bg-pink-100"
   />
 
-                <input className='text-white bg-red-400 rounded-md py-3' type="submit" value='Submit' />
+                <input onClick={handleSubmit} className='text-white bg-red-400 rounded-md py-3' type="submit" value='Submit' />
             </form>
         </div>
     </div>

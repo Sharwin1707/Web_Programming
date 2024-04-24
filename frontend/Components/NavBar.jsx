@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {  faCaretDown, faBars } from '@fortawesome/free-solid-svg-icons'
+import {  faCaretDown, faBars, faUser, faSignOut, faBell, faMusic, faBuilding } from '@fortawesome/free-solid-svg-icons'
 
-const NavBar = () => {
+const NavBar = ({userType, userName, onLogout}) => {
+
 
   const [dropDownVisibility, setDropDownVisibility] = useState(false)
   const [navVisibility, setNavVisibility] = useState(false)
@@ -26,7 +27,8 @@ const NavBar = () => {
             <nav className='hidden xl:flex gap-10 justify-center items-center '>
                 <Link to='/' className='nav-link px-2 py-1 text-white text-xl text-center'>Home</Link>
                 <Link to='/artist' className='nav-link px-2 py-1 text-white text-xl text-center'>Artist</Link>
-                <Link to='/book' className='nav-link px-2 py-1 text-white text-xl text-center'>Book</Link>
+                {
+                  userType == 'Organization' || userType == 'Artist' ? <Link to='/book' className='nav-link px-2 py-1 text-white text-xl text-center'>Book</Link> : ''}
                 <Link to='/event' className='nav-link px-2 py-1 text-white text-xl text-center'>Events</Link>
 
                 <div className='shop-hover'>
@@ -46,9 +48,30 @@ const NavBar = () => {
                   
                 </div>
                 <Link to='/forum' className='nav-link px-2 py-1 text-white text-xl text-center'>Forum</Link>
+
+                {userType === 'Artist' ?  <Link to={'/manage'}><div><FontAwesomeIcon icon={faBell}/></div></Link> : ''}
+
+                {
+                  userName ? 
+                  <div className='shop-hover flex justify-center items-center gap-3 p-2'>
+                    <div className='relative flex gap-2 justify-center items-center px-4 py-2 border rounded-md'>
+
+                    {userType === 'User' ? <FontAwesomeIcon icon={faUser}/> : ''}
+                    {userType === 'Artist' ? <FontAwesomeIcon icon={faMusic}/> : ''}
+                    {userType === 'Organization' ? <FontAwesomeIcon icon={faBuilding}/> : ''}
+                    <h1 className='text-md'>{userName}</h1>
+
+                    <div className='shop-dropdown absolute top-12 gap-1 bg-gray-800 rounded-md z-10'>
+                       <button onClick={onLogout} className='px-4 py-2 hover:bg-blue-gray-600 rounded-md'>Logout</button>
+                    </div>
+                      
+                    </div>
+                  </div>
+                  :
                 <Link to={'/login'}>
                   <button className='red px-6 py-2 rounded-sm hover:bg-red-600'>Login</button>
                 </Link>
+                }
             </nav> 
 
               
@@ -61,7 +84,9 @@ const NavBar = () => {
               <div className='menu-nav absolute left-0 w-full top-16 flex justify-center  flex-col bg-blue-gray-800 p-4 rounded-md'> 
                 <Link to='/' className='nav-link px-2 py-1 text-white text-xl text-center'>Home</Link>
                 <Link to='/artist' className='nav-link px-2 py-1 text-white text-xl text-center'>Artist</Link>
+                
                 <Link to='/book' className='nav-link px-2 py-1 text-white text-xl text-center'>Book</Link>
+                
                 <Link to='/event' className='nav-link px-2 py-1 text-white text-xl text-center'>Events</Link>
                 <Link to='/forum' className='nav-link px-2 py-1 text-white text-xl text-center'>Forum</Link>
 
@@ -78,6 +103,30 @@ const NavBar = () => {
                   </div>
                   
                 </div>
+
+                {userType === 'Artist' ?  <Link to={'/manage'}><div><FontAwesomeIcon icon={faBell}/></div></Link> : ''}
+
+                {
+                  userName ? 
+                  <div className='shop-hover flex justify-center items-center gap-3 p-2'>
+                    <div className='relative flex gap-2 justify-center items-center px-4 py-2 border rounded-md'>
+
+                    {userType === 'User' ? <FontAwesomeIcon icon={faUser}/> : ''}
+                    {userType === 'Artist' ? <FontAwesomeIcon icon={faMusic}/> : ''}
+                    {userType === 'Organization' ? <FontAwesomeIcon icon={faBuilding}/> : ''}
+                    <h1 className='text-md'>{userName}</h1>
+
+                    <div className='shop-dropdown absolute top-12 gap-1 bg-gray-800 rounded-md z-10'>
+                       <button className='px-4 py-2 hover:bg-blue-gray-600 rounded-md'>Logout</button>
+                    </div>
+                      
+                    </div>
+                  </div>
+                  :
+                <Link to={'/login'}>
+                  <button className='red px-6 py-2 rounded-sm hover:bg-red-600'>Login</button>
+                </Link>
+                }
                 
       
               </div>
