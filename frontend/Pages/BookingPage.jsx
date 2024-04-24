@@ -6,7 +6,7 @@ import {  faHourglass } from '@fortawesome/free-solid-svg-icons'
 import {data} from '../sampleData'; // Import sample data for testing
 import { Link } from 'react-router-dom';
 
-const BookingPage = () => {
+const BookingPage = ({useType}) => {
     const [searchInput, setSearchInput] = useState('');
     const [artistData, setArtistData] = useState([]);
 

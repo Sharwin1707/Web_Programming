@@ -1,5 +1,5 @@
 import './App.css'
-import {Routes, Route } from 'react-router-dom'
+import {Routes, Route, useNavigate } from 'react-router-dom'
 import HomePage from '../Pages/HomePage'
 import BookingPage from '../Pages/BookingPage'
 import BookingDetail from '../Pages/BookingDetail'
@@ -25,7 +25,7 @@ import EventManagementPage from '../Pages/EventManagementPage'
 import AdminAddProducts from '../Pages/AdminAddProducts'
 
 function App() {
-
+  const navigate = useNavigate()
 
   const [user, setUserType] = useState('');
   const [userName, setUserName] = useState('');
@@ -45,6 +45,7 @@ function App() {
   const logout = () => {
     setUserType('');
     setUserName('');
+    navigate('/')
   };
 
   console.log(user)
@@ -59,7 +60,7 @@ function App() {
           <Route path='/' element={<HomePage/>} />
           <Route path='/artist' element={<ArtistPage/>} />
           <Route path='/artistprofile/:id' element={<ArtistProfilePage/>} />
-          <Route path='/book/' element={<BookingPage/>} />
+          <Route path='/book/' element={<BookingPage userType={user}/>} />
           <Route path='/book/:id' element={<BookingDetail/>}/>
           <Route path='/shop' element={<ShopPage/>} />
           <Route path='/event' element={<EventPage userType={user}/>} />
@@ -72,9 +73,10 @@ function App() {
           <Route path='/cart' element={<ShoppingCartPage/>} />
           <Route path='/register' element={<RegisterPage/>} />
           <Route path='/event/create' element={<CreateEventPage/>} />
-          <Route path='/profile' element={<UserProfilePage/>} />
+          <Route path='/profile' element={<UserProfilePage userType={user}/>} />
           <Route path='/purchasehistory' element={<PurchaseHistoryPage/>} />
           <Route path='/adminAdd' element={<AdminAddProducts/>} />
+         
       </Routes>
       </main>  
     </div>

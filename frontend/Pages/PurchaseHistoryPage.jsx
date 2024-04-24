@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const PurchaseHistoryPage = () => {
   return (
-        <div className="px-[12%] poppins my-12">
+        <div className="px-0 md:px-[20%] poppins my-12">
             <Link to={'/shop'}>
                 <FontAwesomeIcon icon={faArrowLeft} size='2x my-4'/>
             </Link>
