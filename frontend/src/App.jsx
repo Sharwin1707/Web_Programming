@@ -23,6 +23,7 @@ import UserProfilePage from '../Pages/UserProfilePage'
 import PurchaseHistoryPage from '../Pages/PurchaseHistoryPage'
 import EventManagementPage from '../Pages/EventManagementPage'
 import AdminAddProducts from '../Pages/AdminAddProducts'
+import ForumPage from '../Pages/ForumPage'
 
 function App() {
   const navigate = useNavigate()
@@ -76,6 +77,7 @@ function App() {
           <Route path='/profile' element={<UserProfilePage userType={user}/>} />
           <Route path='/purchasehistory' element={<PurchaseHistoryPage/>} />
           <Route path='/adminAdd' element={<AdminAddProducts/>} />
+          <Route path='/forum' element={<ForumPage/>} />
          
       </Routes>
       </main>  
