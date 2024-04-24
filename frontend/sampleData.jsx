@@ -44,42 +44,50 @@ const shopSliderImage = [
 const shopData = [
   {
     name: "Coldplay Music of The Spheres Black T-Shirt", 
+    type : 'best',
     displayImage: "https://media.karousell.com/media/photos/products/2023/11/30/coldplay_music_of_the_spheres__1701361899_1a38ab91_progressive.jpg",
     allImages: ['https://media.karousell.com/media/photos/products/2023/11/30/coldplay_music_of_the_spheres__1701361899_1a38ab91_progressive.jpg']
   },
   {
     name: "Taylor Swift Era's Tour Navy Blue T-Shirt", 
+    type : 'featured',
     displayImage: "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1695413842-il_1588xN.5356331517_4ivv.jpg?crop=1xw:1.00xh;center,top&resize=980:*",
     allImages:['https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1695413842-il_1588xN.5356331517_4ivv.jpg?crop=1xw:1.00xh;center,top&resize=980:*','https://images.tokopedia.net/img/cache/700/VqbcmM/2023/3/19/91613a67-fec3-455a-8037-d78170b2a34d.png','https://img.thetedellis.com/v7/thetedellis.com/wp-content/uploads/2024/01/Taylor-Swift-The-Eras-Tour-US-Dates-Black-T-Shirt.jpg?org_if_sml=0']
   },
   { 
     name: "Taylor Swift Era's Tour 2024 Black T-Shirt", 
+    type : 'new',
     displayImage: "https://images.tokopedia.net/img/cache/700/VqbcmM/2023/3/19/91613a67-fec3-455a-8037-d78170b2a34d.png",
     allImages: ['https://images.tokopedia.net/img/cache/700/VqbcmM/2023/3/19/91613a67-fec3-455a-8037-d78170b2a34d.png','https://img.thetedellis.com/v7/thetedellis.com/wp-content/uploads/2024/01/Taylor-Swift-The-Eras-Tour-US-Dates-Black-T-Shirt.jpg?org_if_sml=0','https://i5.walmartimages.com/seo/Taylor-2023-The-Eras-Tour-T-shirt-Crewneck-Short-Sleeve-Tee-Men-Women-s-Clothes_ecb916c7-c12a-4318-8d47-65d7c1bf9d0d.08a7cfa5c304b6b68cac9458ff68f053.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF']
   },
     
   {
     name: "Masdo Long Sleeve Black Sweatshirt", 
+    type : 'best',
     displayImage: "https://wpstore.my/cdn/shop/products/ISMAIL-IZZANI-ALBUM-COVER-V2-WHITE_1024x1024.png?v=1666838779",
     allImages:['https://wpstore.my/cdn/shop/products/ISMAIL-IZZANI-ALBUM-COVER-V2-WHITE_1024x1024.png?v=1666838779']
   },
   { 
     name: "Hikari Riders X Pesta Kita (Hujan) Tote Bag", 
+    type : 'new',
     displayImage: "https://wpstore.my/cdn/shop/products/Album01_1024x1024.png?v=1643023281", 
     allImages: ['https://wpstore.my/cdn/shop/products/Album01_1024x1024.png?v=1643023281']
   },
   { 
     name: "Dolla X Playaz Black T-Shirt", 
+    type : 'best',
     displayImage: "https://playaz.my/cdn/shop/products/20220404playaz0607_1024x1024.jpg?v=1650240496" ,
     allImages: ['https://playaz.my/cdn/shop/products/20220404playaz0607_1024x1024.jpg?v=1650240496','https://playaz.my/cdn/shop/products/20220404playaz0611_1024x1024.jpg?v=1650240496']
   },
   { 
     name: "Justin Bieber Changes Black T-Shirt", 
+    type : 'featured',
     displayImage: "https://thehypehousemerch.com/wp-content/uploads/2022/12/5-1.jpg.webp",
     allImages: ['https://thehypehousemerch.com/wp-content/uploads/2022/12/5-1.jpg.webp']
   },
   { 
     name: "Justin Bieber Stadium Tour Grey Hoodie", 
+    type : 'best',
     displayImage: "https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2017%2F08%2Fjustin-bieber-merch-9.jpg?cbr=1&q=90" ,
     allImages: ['https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2017%2F08%2Fjustin-bieber-merch-9.jpg?cbr=1&q=90','https://i.ebayimg.com/images/g/u2AAAOSwMBZjSINn/s-l1200.webp','https://media.karousell.com/media/photos/products/2022/6/11/bieber_stadium_tour_hoodie_1654954961_922f7ca6_progressive.jpg']
   },

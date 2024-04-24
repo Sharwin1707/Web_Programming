@@ -44,6 +44,7 @@ const NavBar = ({userType, userName, onLogout}) => {
                     <Link to={'/shop'} className=' px-2 py-1 rounded-md hover:bg-black'>Merchandise</Link>
                     <Link to={'/cart'} className=' px-2 py-1 rounded-md hover:bg-black'>Cart</Link>
                     <Link to={'/purchasehistory'} className=' px-2 py-1 rounded-md hover:bg-black'>Tracking Order</Link>
+                    {userType == 'Artist' ? <Link to={'/adminadd'} className=' px-2 py-1 rounded-md hover:bg-black'>Manage Merchandise</Link> : ''}
                   </div> 
                   
                 </div>

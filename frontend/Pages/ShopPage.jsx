@@ -83,7 +83,7 @@ const ShopPage = () => {
         <div className="filter-container ">
 
           {shopData.map((data,i) => (
-              <ShopItem key={i} image={data.displayImage} name={data.name} type={'best'} ratingStar={5} price={'230'}/>
+              <ShopItem key={i} image={data.displayImage} name={data.name} type={data.type} ratingStar={5} price={'230'}/>
           ))}
 
         </div>
