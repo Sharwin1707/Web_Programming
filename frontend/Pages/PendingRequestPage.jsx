@@ -13,7 +13,7 @@ const PendingRequestPage = () => {
             <Link to={'/book'}>
                 <FontAwesomeIcon className='mr-2' size='1x' icon={faArrowLeft}/>
             </Link>  
-            Pending Request
+            Booking Status
         </h1>
         <div className="relative w-full overflow-x-auto shadow-md sm:rounded-lg my-4">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
@@ -39,7 +39,7 @@ const PendingRequestPage = () => {
                 <tbody>
                     <tr className="bg-white border hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" className="px-6 py-4 font-semibold text-black whitespace-nowrap">
-                            SonaOne
+                            Ismail Izzani
                         </th>
                         <td className="px-6 py-4">
                             in review
@@ -57,7 +57,7 @@ const PendingRequestPage = () => {
 
                     <tr className="bg-white border hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" className="px-6 py-4 font-semibold text-black whitespace-nowrap">
-                            Altimet
+                            Yuna
                         </th>
                         <td className="px-6 py-4">
                             in review
@@ -75,7 +75,7 @@ const PendingRequestPage = () => {
 
                     <tr className="bg-white border hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" className="px-6 py-4 font-semibold text-black whitespace-nowrap">
-                            Faizal Tahir
+                            Luqman Podlski
                         </th>
                         <td className="px-6 py-4">
                             in review

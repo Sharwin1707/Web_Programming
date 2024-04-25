@@ -57,7 +57,7 @@ const UserProfilePage = ({ userType }) => {
 
   return (
     <div className='text-black poppins px-[12%] py-10'>
-      {userType === 'User' || userType === 'Organization' && (
+      {userType == 'User' || userType == 'Organization' ?
         <div className="container container-below-header"> 
         <div className="profile-section">
         <h2>Profile Settings</h2>
@@ -171,7 +171,7 @@ const UserProfilePage = ({ userType }) => {
         </div>
       </div>
       </div>
-      )}
+      :''}
 
       {userType === 'Artist' && (
         <div className="container container-below-header">
