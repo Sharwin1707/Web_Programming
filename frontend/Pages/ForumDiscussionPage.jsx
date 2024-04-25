@@ -1,9 +1,14 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faArrowLeft,  faMagnifyingGlass, faUserCircle, faHeart, faMessage, faReply } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 const ForumDiscussionPage = () => {
+
+    const {id} = useParams()
+    const title = id.replace('%',' ');
+
+
   return (
     <div className='px-[12%] py-10'>
 
@@ -18,11 +23,8 @@ const ForumDiscussionPage = () => {
         </div>
 
         
-        
-        
-
       <div className='py-10'>
-        <h1 className='text-2xl'>Discussuion Title</h1>
+        <h1 className='text-2xl'>{title}</h1>
         
         {/*-------------------Discussion topic -------------*/}
         <div className='my-10 py-4 border-y '> 
