@@ -27,7 +27,7 @@ const BookingPage = ({useType}) => {
         <div className='flex flex-col justify-center items-center relative py-6'>
             
             <div>
-                <div className='w-full flex mt-12'>
+                <div className='w-full xl:w-[1000px] flex mt-12'>
                     <div className='flex flex-col justify-center items-center'>
                         <div>
                             <h1 className='text-white text-4xl'>Book Our Artists Now</h1>

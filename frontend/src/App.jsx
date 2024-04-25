@@ -24,6 +24,7 @@ import PurchaseHistoryPage from '../Pages/PurchaseHistoryPage'
 import EventManagementPage from '../Pages/EventManagementPage'
 import AdminAddProducts from '../Pages/AdminAddProducts'
 import ForumPage from '../Pages/ForumPage'
+import ForumDiscussionPage from '../Pages/ForumDiscussionPage'
 
 function App() {
   const navigate = useNavigate()
@@ -78,6 +79,7 @@ function App() {
           <Route path='/purchasehistory' element={<PurchaseHistoryPage/>} />
           <Route path='/adminAdd' element={<AdminAddProducts/>} />
           <Route path='/forum' element={<ForumPage/>} />
+          <Route path='/forum/:id' element={<ForumDiscussionPage/>} />
          
       </Routes>
       </main>  
