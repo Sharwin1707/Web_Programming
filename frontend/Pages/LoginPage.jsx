@@ -16,7 +16,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     // Simulated authentication logic (replace with actual authentication)
-    const isAuthenticated = username === 'demo' && password === 'password';
+    const isAuthenticated = username === 'demo' && password === '';
 
     if (isAuthenticated) {
       

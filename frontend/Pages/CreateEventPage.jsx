@@ -6,7 +6,7 @@ const CreateEventPage = () => {
     <div className='px-[12%] flex flex-col justify-center items-center py-12'>
         
         <form action="" className='max-w-[400px] poppins flex flex-col gap-6 py-4'>
-            <h1 className='text-3xl py-4'>Event Management</h1>
+            <h1 className='text-3xl py-4'>Create Event</h1>
             <hr />
             <div className='flex flex-col '>
                 <label htmlFor="">Artist Name</label>

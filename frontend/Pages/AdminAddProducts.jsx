@@ -69,7 +69,7 @@ const AdminAddProducts = () => {
     return (
         <div id="formContainer" className="container mt-5 josefin center container-add-product" style={{ minHeight: formHeight }}>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
-                <Link to={'/'}>
+                <Link to={'/shop'}>
                     <FontAwesomeIcon icon={faArrowLeft} size='2x' />
                 </Link>
                 <h2 className="mb-4 text-white head-cont" style={{ marginLeft: '10px' }}>Add New Product</h2>
