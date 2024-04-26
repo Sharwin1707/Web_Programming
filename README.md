@@ -1,5 +1,4 @@
-#WIF2005 Web Programming
-#Group13
+# WIF2005 Web Programming / Group13
 
 <ins>Link document</ins><br>
 Proposal: http://surl.li/rqeff <br>
