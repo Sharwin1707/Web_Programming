@@ -9,4 +9,4 @@ Navigation: https://tinyurl.com/4jc5ap79
 open Terminal run this code<br>
 npm run dev <br>
 if cannot run this first <br>
-npm install vite 
+npm install vite hello
