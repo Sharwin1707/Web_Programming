@@ -7,6 +7,7 @@ import NavBar from '../Components/NavBar.jsx'
 import { ThemeProvider } from "@material-tailwind/react";
 import Footer from '../Components/Footer.jsx'
 import { ToastProvider } from '../Components/Toast.jsx'
+import ScrollToTop from '../Components/ScrollTop.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -18,5 +19,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </ToastProvider>
       </ThemeProvider> 
     <Footer/>
-  </BrowserRouter>,
+    
+  </BrowserRouter>
 )

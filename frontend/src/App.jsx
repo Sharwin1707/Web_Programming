@@ -25,6 +25,7 @@ import EventManagementPage from '../Pages/EventManagementPage'
 import AdminAddProducts from '../Pages/AdminAddProducts'
 import ForumPage from '../Pages/ForumPage'
 import ForumDiscussionPage from '../Pages/ForumDiscussionPage'
+import ScrollToTop from '../Components/ScrollTop'
 
 function App() {
   const navigate = useNavigate()
@@ -58,30 +59,31 @@ function App() {
     <div>
       <NavBar userType={user} userName={userName} onLogout={logout}/>
       <main className='flex-1 min-h-[79vh]'>
-        <Routes>
-          <Route path='/' element={<HomePage/>} />
-          <Route path='/artist' element={<ArtistPage/>} />
-          <Route path='/artistprofile/:id' element={<ArtistProfilePage/>} />
-          <Route path='/book/' element={<BookingPage userType={user}/>} />
-          <Route path='/book/:id' element={<BookingDetail/>}/>
-          <Route path='/shop' element={<ShopPage/>} />
-          <Route path='/event' element={<EventPage userType={user}/>} />
-          <Route path='/event/manage' element={<EventManagementPage/>} />
-          <Route path='/shop/:id' element={<ProductDetailPage/>} />
-          <Route path='/request' element={<PendingRequestPage/>} />
-          <Route path='/manage' element={<ArtistManagement/>} />
-          <Route path='/login' element={<LoginPage/>} />
-          <Route path='/payment' element={<PaymentPage/>} />
-          <Route path='/cart' element={<ShoppingCartPage/>} />
-          <Route path='/register' element={<RegisterPage/>} />
-          <Route path='/event/create' element={<CreateEventPage/>} />
-          <Route path='/profile' element={<UserProfilePage userType={user}/>} />
-          <Route path='/purchasehistory' element={<PurchaseHistoryPage/>} />
-          <Route path='/adminAdd' element={<AdminAddProducts/>} />
-          <Route path='/forum' element={<ForumPage/>} />
-          <Route path='/forum/:id' element={<ForumDiscussionPage/>} />
-         
-      </Routes>
+          <ScrollToTop/>
+          <Routes>
+            <Route path='/' element={<HomePage/>} />
+            <Route path='/artist' element={<ArtistPage/>} />
+            <Route path='/artistprofile/:id' element={<ArtistProfilePage/>} />
+            <Route path='/book/' element={<BookingPage userType={user}/>} />
+            <Route path='/book/:id' element={<BookingDetail/>}/>
+            <Route path='/shop' element={<ShopPage/>} />
+            <Route path='/event' element={<EventPage userType={user}/>} />
+            <Route path='/event/manage' element={<EventManagementPage/>} />
+            <Route path='/shop/:id' element={<ProductDetailPage/>} />
+            <Route path='/request' element={<PendingRequestPage/>} />
+            <Route path='/manage' element={<ArtistManagement/>} />
+            <Route path='/login' element={<LoginPage/>} />
+            <Route path='/payment' element={<PaymentPage/>} />
+            <Route path='/cart' element={<ShoppingCartPage/>} />
+            <Route path='/register' element={<RegisterPage/>} />
+            <Route path='/event/create' element={<CreateEventPage/>} />
+            <Route path='/profile' element={<UserProfilePage userType={user}/>} />
+            <Route path='/purchasehistory' element={<PurchaseHistoryPage/>} />
+            <Route path='/adminAdd' element={<AdminAddProducts/>} />
+            <Route path='/forum' element={<ForumPage/>} />
+            <Route path='/forum/:id' element={<ForumDiscussionPage/>} />
+          
+        </Routes>
       </main>  
     </div>
   )
