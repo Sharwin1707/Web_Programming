@@ -21,7 +21,7 @@ const LoginPage = () => {
     if (isAuthenticated) {
       
       // Redirect to homepage and pass user type as route state
-      navigate('/', { state: {username: username, userType: userType } });
+      navigate('/', { state: {username: username, userType: userType , userId : '123455' } });
       showToastMessage('Welcome,' + username)
     } else {
       // Handle login error (e.g., display an error message)

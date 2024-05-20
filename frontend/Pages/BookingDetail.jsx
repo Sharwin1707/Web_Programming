@@ -5,25 +5,56 @@ import {  faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useToast } from '../Components/Toast'
 
 import {data} from '../sampleData'
+import axios from 'axios'
 
-const BookingDetail = () => {
+const BookingDetail = ({userId}) => {
     const {id} = useParams()
     const navigate = useNavigate()
     const { showToastMessage } = useToast();
-
     const [showToast, setShowToast] = useState(false);
-
     const sampleData = data.filter(data => data.id == id);
+
+    const [name, setName] = useState('')
+    const [organizationName, setOrganizationName] = useState('')
+    const [bookingDate, setBookingDate] = useState(new Date())
+    const [serviceRequested, setServiceRequested] = useState('')
+    const [email, setEmail] = useState('')
+    const [mobileNum, setMobileNum] = useState('')
+    const [requestedDetail, setRequestedDetail] = useState('')
+    const [attachment, setAttachment] = useState('url to the file')
+
+
+    
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Handle form submission logic here (e.g., API call)
-        // Show the toast after submission
-        showToastMessage('Form submitted successfully!');
-
-        // Navigate to another page after submission
-        navigate('/request');
-      };
+        const bookingData = {
+            userId: userId,
+            artistName: sampleData[0].nickname,
+            name: name,
+            organizationName: organizationName,
+            bookingDate: bookingDate,
+            serviceRequested: serviceRequested,
+            email: email,
+            mobileNum: mobileNum,
+            requestDetail: requestedDetail,
+            attachment: attachment
+        };
+    
+        // Log the booking data to ensure it's correct
+        console.log('Booking Data:', bookingData);
+    
+        axios.post('http://localhost:3000/booking', bookingData)
+            .then((response) => {
+                console.log('Server Response:', response.data);
+                showToastMessage('Form submitted successfully!');
+                navigate('/request');
+            })
+            .catch(error => {
+                console.error('Error submitting form:', error);
+            });
+    };
+    
     
 
   return (
@@ -53,42 +84,44 @@ const BookingDetail = () => {
             <div className='text-white poppins'>Birthday: {sampleData[0].birthday}</div>
             <br /><hr />
 
-            <form className='mt-12 flex flex-col gap-3' action="">
+            <form className='mt-12 flex flex-col gap-3' onSubmit={handleSubmit}>
                 <h1 className='flex-1 text-white text-2xl'>Send Booking Request</h1>
-                <input className='rounded-md p-1 focus:outline-none poppins' placeholder='Name' type="text" />
-                <input className='rounded-md p-1 focus:outline-none poppins' placeholder='Organization Name' type="text" />
-                <input className='rounded-md p-1 focus:outline-none poppins' type="date" />
+                <input className='rounded-md p-1 focus:outline-none poppins' placeholder='Name' type="text" onChange={(e) => setName(e.target.value)}/>
+                <input className='rounded-md p-1 focus:outline-none poppins' placeholder='Organization Name' type="text" onChange={(e) => setOrganizationName(e.target.value)}/>
+                <input className='rounded-md p-1 focus:outline-none poppins' type="date" onChange={(e) => setBookingDate(e.target.value)}/>
                 <label className='text-white text-xl mt-4' >Service available:</label>
                 <div className='flex gap-4 mb-4'>
                     <div className='flex justify-center items-center gap-2'>
-                        <input className='w-5 h-5' type="checkbox" />
-                        <label className='text-white text-xl' >Event</label>
+                        <input className='w-5 h-5' type="radio" name="serviceRequested" value="Event" onChange={(e) => setServiceRequested(e.target.value)} />
+                        <label className='text-white text-xl'>Event</label>
                     </div>
                     <div className='flex justify-center items-center gap-2'>
-                        <input className='w-5 h-5' type="checkbox" />
-                        <label className='text-white text-xl' >Collaboration</label>
+                        <input className='w-5 h-5' type="radio" name="serviceRequested" value="Collaboration" onChange={(e) => setServiceRequested(e.target.value)} />
+                        <label className='text-white text-xl'>Collaboration</label>
                     </div>
                     <div className='flex justify-center items-center gap-2'>
-                        <input className='w-5 h-5' type="checkbox" />
-                        <label className='text-white text-xl' >Ambassador</label>
-                    </div>  
+                        <input className='w-5 h-5' type="radio" name="serviceRequested" value="Ambassador" onChange={(e) => setServiceRequested(e.target.value)} />
+                        <label className='text-white text-xl'>Ambassador</label>
+                    </div>
+
                 </div>
-                <input className='rounded-md p-1 focus:outline-none poppins' type="email" placeholder='Email' />
-                <input className='rounded-md p-1 focus:outline-none poppins' type="number" placeholder='Mobile number' />
-                <textarea placeholder='Request detail' className='rounded-md p-1 focus:outline-none poppins' name="" id="" cols="30" rows="10"></textarea>
+                <input className='rounded-md p-1 focus:outline-none poppins' type="email" placeholder='Email' onChange={(e) => setEmail(e.target.value)}/>
+                <input className='rounded-md p-1 focus:outline-none poppins' type="number" placeholder='Mobile number' onChange={(e) => setMobileNum(e.target.value)}/>
+                <textarea placeholder='Request detail' className='rounded-md p-1 focus:outline-none poppins' name="" id="" cols="30" rows="10" onChange={(e) => setRequestedDetail(e.target.value)}></textarea>
                 
                 <label className="block mb-2 text-xl font-medium text-white poppins" htmlFor="file_input">Attachment</label>
                 <input
                 type="file"
-                class="bg-blue-gray-300 rounded-md  block w-full text-sm text-white poppins
+                className="bg-blue-gray-300 rounded-md  block w-full text-sm text-white poppins
                     file:mr-4 file:py-2 file:px-4 file:rounded-md
                     file:border-0 file:text-sm file:font-semibold
                     file:bg-white file:text-black
                     hover:file:bg-pink-100"
   />
 
-                <input onClick={handleSubmit} className='text-white bg-red-400 rounded-md py-3' type="submit" value='Submit' />
+                <input className='text-white bg-red-400 rounded-md py-3' type="submit" value='Submit' />
             </form>
+
         </div>
     </div>
     </div>

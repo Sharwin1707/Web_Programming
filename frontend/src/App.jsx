@@ -32,9 +32,10 @@ function App() {
 
   const [user, setUserType] = useState('');
   const [userName, setUserName] = useState('');
+  const [id, setUserId] = useState('');
 
   const location = useLocation();
-  const { userType, username } = location.state || '';
+  const { userType, username, userId } = location.state || '';
 
   useEffect(() => {
     if (userType) {
@@ -43,7 +44,10 @@ function App() {
     if (username) {
       setUserName(username);
     }
-  }, [userType, username]);
+    if (userId) {
+      setUserId(userId);
+    }
+  }, [userType, username, userId]);
 
   const logout = () => {
     setUserType('');
@@ -53,6 +57,7 @@ function App() {
 
   console.log(user)
   console.log(userName)
+  console.log(id)
 
 
   return (
@@ -65,7 +70,7 @@ function App() {
             <Route path='/artist' element={<ArtistPage/>} />
             <Route path='/artistprofile/:id' element={<ArtistProfilePage/>} />
             <Route path='/book/' element={<BookingPage userType={user}/>} />
-            <Route path='/book/:id' element={<BookingDetail/>}/>
+            <Route path='/book/:id' element={<BookingDetail userId={id}/>}/>
             <Route path='/shop' element={<ShopPage/>} />
             <Route path='/event' element={<EventPage userType={user}/>} />
             <Route path='/event/manage' element={<EventManagementPage/>} />
