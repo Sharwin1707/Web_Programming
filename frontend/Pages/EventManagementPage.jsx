@@ -1,74 +1,75 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 
 const EventManagementPage = () => {
   return (
-    <div className='px-[12%] flex flex-col justify-center items-center py-12'>
-        
-        <form action="" className='w-[800px] poppins flex flex-col gap-6 py-4'>
-            <h1 className='text-3xl py-4'>Event Management</h1>
+    <div className="px-[12%] flex flex-col justify-center items-center py-12">
+      <form action="" className="w-[800px] poppins flex flex-col gap-6 py-4">
+        <h1 className="text-3xl py-4">Event Management</h1>
 
-            <div className='flex flex-col'>
-                <label htmlFor="">Cancel Event :</label>
-                <div>
-                    <input className='' type="radio" name='isCancel'/>
-                    <label htmlFor="">Yes</label>
-                </div>
-                <div>
-                <input className='' type="radio" name='isCancel'/>
-                <label htmlFor="">No</label>
-                </div>
-        
-            </div>
-            <hr />
-            <div className='flex flex-col '>
-                <label htmlFor="">Artist Name</label>
-                <input className=' px-4 py-2 rounded-md' type="text"/>
-            </div>
-            <div className='flex flex-col '>
-                <label htmlFor="">Consert/Show Name</label>
-                <input className=' px-4 py-2 rounded-md' type="text"/>
-            </div>
-            <div className='flex flex-col '>
-                <label htmlFor="">Event Details</label>
-                <textarea className=' px-4 py-2 rounded-md' rows={'10'} type="text"/>
-            </div>
-            <div className='flex flex-col '>
-                <label htmlFor="">Venue</label>
-                <input className=' px-4 py-2 rounded-md' type="text"/>
-            </div>
-            <div className='flex flex-col '>
-                <label htmlFor="">Date</label>
-                <input className=' px-4 py-2 rounded-md' type="date"/>
-            </div>
-            <div className='flex gap-8'>
-                <div className='flex gap-2'>
-                    <label htmlFor="">Start</label>
-                    <input className='px-4 py-2 rounded-md' type="time" />
-                </div>
-                <div className='flex gap-2'>
-                    <label htmlFor="">End</label>
-                    <input className='px-4 py-2 rounded-md' type="time" />
-                </div> 
-            </div>
-            <div className='flex flex-col '>
-                <label htmlFor="">Image</label>
-                <input
-                type="file"
-                class=" bg-blue-gray-300 rounded-md  block text-sm text-white poppins
+        <div className="flex flex-col">
+          <label htmlFor="">Cancel Event :</label>
+          <div>
+            <input className="" type="radio" name="isCancel" />
+            <label htmlFor="">Yes</label>
+          </div>
+          <div>
+            <input className="" type="radio" name="isCancel" />
+            <label htmlFor="">No</label>
+          </div>
+        </div>
+        <hr />
+        <div className="flex flex-col ">
+          <label htmlFor="">Artist Name</label>
+          <input className=" px-4 py-2 rounded-md" type="text" />
+        </div>
+        <div className="flex flex-col ">
+          <label htmlFor="">Consert/Show Name</label>
+          <input className=" px-4 py-2 rounded-md" type="text" />
+        </div>
+        <div className="flex flex-col ">
+          <label htmlFor="">Event Details</label>
+          <textarea className=" px-4 py-2 rounded-md" rows={"10"} type="text" />
+        </div>
+        <div className="flex flex-col ">
+          <label htmlFor="">Venue</label>
+          <input className=" px-4 py-2 rounded-md" type="text" />
+        </div>
+        <div className="flex flex-col ">
+          <label htmlFor="">Date</label>
+          <input className=" px-4 py-2 rounded-md" type="date" />
+        </div>
+        <div className="flex gap-8">
+          <div className="flex gap-2">
+            <label htmlFor="">Start</label>
+            <input className="px-4 py-2 rounded-md" type="time" />
+          </div>
+          <div className="flex gap-2">
+            <label htmlFor="">End</label>
+            <input className="px-4 py-2 rounded-md" type="time" />
+          </div>
+        </div>
+        <div className="flex flex-col ">
+          <label htmlFor="">Image</label>
+          <input
+            type="file"
+            class=" bg-blue-gray-300 rounded-md  block text-sm text-white poppins
                     file:mr-4 file:py-2 file:px-4 file:rounded-md
                     file:border-0 file:text-sm file:font-semibold
                     file:bg-white file:text-black
-                    hover:file:bg-gray-400"/>
-            </div>
+                    hover:file:bg-gray-400"
+          />
+        </div>
 
-            <div className='flex justify-center gap-6'>
-                <button className='px-4 py-2 bg-gray-600 rounded-md'>Update</button>
-                <Link to={'/event'}><button className='px-4 py-2 bg-red-400 rounded-md'>Cancel</button></Link>
-            </div>
-        </form>
+        <div className="flex justify-center gap-6">
+          <button className="px-4 py-2 bg-gray-600 rounded-md">Update</button>
+          <Link to={"/event"}>
+            <button className="px-4 py-2 bg-red-400 rounded-md">Cancel</button>
+          </Link>
+        </div>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default EventManagementPage
+export default EventManagementPage;

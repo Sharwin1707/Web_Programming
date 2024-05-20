@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 
 const RegisterPage = () => {
   return (
@@ -56,7 +56,6 @@ const RegisterPage = () => {
       <span></span> <span></span> <span></span> <span></span> <span></span>
       <span></span> <span></span> <span></span> <span></span> <span></span>
       <span></span> <span></span> <span></span> <span></span> <span></span>
-
       <div className="signin">
         <div className="content">
           <h2>Sign Up</h2>
@@ -79,7 +78,11 @@ const RegisterPage = () => {
             </div>
 
             <div>
-              <select name="" id="" className='w-full p-2 bg-[#333] text-white rounded-md'>
+              <select
+                name=""
+                id=""
+                className="w-full p-2 bg-[#333] text-white rounded-md"
+              >
                 <option value="">User</option>
                 <option value="">Artist</option>
                 <option value="">Oragnization</option>
@@ -87,17 +90,21 @@ const RegisterPage = () => {
             </div>
 
             <div className="links">
-              <a href="#">Forgot Password</a> <Link to={'/Login'}>Login</Link>
+              <a href="#">Forgot Password</a> <Link to={"/Login"}>Login</Link>
             </div>
 
             <div className="inputBox">
-              <input type="submit" value="Sign Up" onclick="redirectToAnotherPage()"/>
+              <input
+                type="submit"
+                value="Sign Up"
+                onclick="redirectToAnotherPage()"
+              />
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default RegisterPage
+export default RegisterPage;
