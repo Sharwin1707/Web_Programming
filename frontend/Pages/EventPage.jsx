@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EventCard from "../Components/EventCard";
 import { eventData } from "../sampleData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useStateContext } from "../Context/ContextProvider";
 
-const EventPage = ({ userType }) => {
+const EventPage = () => {
+  const { user } = useStateContext();
+  const [userType, setUserType] = useState("User");
+
   const sampleArtistData = [
     {
       image:
@@ -18,7 +22,12 @@ const EventPage = ({ userType }) => {
     },
   ];
 
-  console.log(userType);
+  useEffect(() => {
+    if(user){
+      setUserType(user.userType);
+    }    
+  },[]);
+
   return (
     <div className="mx-[12%] flex flex-col items-center">
       <h1 className="text-center text-4xl my-8">Event Schedule</h1>

@@ -4,14 +4,16 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { data } from "../sampleData";
+import { useStateContext } from "../Context/ContextProvider";
 
 const ArtistProfilePage = ({ image }) => {
   const { id } = useParams();
+  const {isGuest} = useStateContext()
 
   const artistData = data.filter((artist) => artist.id === id);
   return (
     <div className="px-[12%] pt-8">
-      <Link to={"/artist"}>
+      <Link to={isGuest ? "/guest/artist" : "/artist"}>
         <FontAwesomeIcon icon={faArrowLeft} size="2x" />
       </Link>
 

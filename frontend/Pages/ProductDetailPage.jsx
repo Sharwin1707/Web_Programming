@@ -6,10 +6,13 @@ import { Link } from "react-router-dom";
 import { shopData } from "../sampleData";
 import { useParams } from "react-router-dom";
 import { useToast } from "../Components/Toast";
+import { useStateContext } from "../Context/ContextProvider";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
   const { showToastMessage } = useToast();
+
+  const { token } = useStateContext();
 
   // State to track the product image data
   const [productImage, setProductImage] = useState({});
@@ -42,7 +45,7 @@ const ProductDetailPage = () => {
 
   return (
     <div className="mx-[12%] my-12">
-      <Link to={"/shop"}>
+      <Link to={token ? "/shop" : "/guest/shop"}>
         <FontAwesomeIcon icon={faArrowLeft} size="2x" />
       </Link>
       <div className="flex flex-col md:flex-row justify-center gap-12">

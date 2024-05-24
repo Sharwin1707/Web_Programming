@@ -1,20 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
 import "./index.css";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@material-tailwind/react";
 import Footer from "../Components/Footer.jsx";
 import { ToastProvider } from "../Components/Toast.jsx";
-
+import { ContextProvider } from "../Context/ContextProvider.jsx";
+import router from "./router.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
+  <ContextProvider>
     <ThemeProvider>
       <ToastProvider>
-        <App />
+        <RouterProvider router={router} />
       </ToastProvider>
     </ThemeProvider>
     <Footer />
-  </BrowserRouter>
+  </ContextProvider>
 );

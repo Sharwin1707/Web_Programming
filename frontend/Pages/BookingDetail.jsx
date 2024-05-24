@@ -6,8 +6,10 @@ import { useToast } from "../Components/Toast";
 
 import { data } from "../sampleData";
 import axios from "axios";
+import { useStateContext } from "../Context/ContextProvider";
 
-const BookingDetail = ({ userId }) => {
+const BookingDetail = () => {
+  const { user } = useStateContext();
   const { id } = useParams();
   const navigate = useNavigate();
   const { showToastMessage } = useToast();
@@ -26,7 +28,7 @@ const BookingDetail = ({ userId }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const bookingData = {
-      userId: userId,
+      userId: user._id,
       artistName: sampleData[0].nickname,
       name: name,
       organizationName: organizationName,
@@ -42,7 +44,7 @@ const BookingDetail = ({ userId }) => {
     console.log("Booking Data:", bookingData);
 
     axios
-      .post("http://localhost:3000/booking", bookingData)
+      .post("http://localhost:3000/bookings", bookingData)
       .then((response) => {
         console.log("Server Response:", response.data);
         showToastMessage("Form submitted successfully!");

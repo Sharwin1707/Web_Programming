@@ -1,9 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useStateContext } from "../Context/ContextProvider";
 
 const PendingRequestPage = () => {
+  const [bookingData, setBookingData] = useState([]);
+  const { token } = useStateContext();
+
+  useEffect(() => {
+    fetchBookingData();
+  }, [bookingData]);
+
+  const fetchBookingData = () => {
+    axios
+      .post("http://localhost:3000/bookings/find", { uid: token })
+      .then((res) => {
+        if (res) {
+          setBookingData(res.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching booking data:", error);
+      });
+  };
+
+  const handleCancelBooking = (id) => {
+    if (window.confirm("Are you sure you want to cancel this booking?")) {
+      axios
+        .delete(`http://localhost:3000/bookings/${id}`)
+        .then((res) => {
+          console.log("Booking deleted");
+          // After deleting the booking, fetch updated booking data
+          fetchBookingData();
+        })
+        .catch((error) => {
+          console.error("Error deleting booking:", error);
+        });
+    }
+  };
+
   return (
     <div className="flex flex-1 flex-col  relative mx-10">
       <div className="mt-12"></div>
@@ -35,65 +72,36 @@ const PendingRequestPage = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th
-                scope="row"
-                className="px-6 py-4 font-semibold text-black whitespace-nowrap"
+            {bookingData.map((data, index) => (
+              <tr
+                key={index} // add key prop for each item in the list
+                className="bg-white border hover:bg-gray-50 dark:hover:bg-gray-600"
               >
-                Ismail Izzani
-              </th>
-              <td className="px-6 py-4">in review</td>
-              <td className="px-6 py-4">Event</td>
-              <td className="px-6 py-4">2 May 2024</td>
-              <td className="px-6 py-4 text-right">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                <td
+                  scope="row"
+                  className="px-6 py-4 font-semibold text-black whitespace-nowrap"
                 >
-                  Cancel
-                </a>
-              </td>
-            </tr>
-
-            <tr className="bg-white border hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th
-                scope="row"
-                className="px-6 py-4 font-semibold text-black whitespace-nowrap"
-              >
-                Yuna
-              </th>
-              <td className="px-6 py-4">in review</td>
-              <td className="px-6 py-4">Ambassador</td>
-              <td className="px-6 py-4">28 Disember 2024</td>
-              <td className="px-6 py-4 text-right">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Cancel
-                </a>
-              </td>
-            </tr>
-
-            <tr className="bg-white border hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th
-                scope="row"
-                className="px-6 py-4 font-semibold text-black whitespace-nowrap"
-              >
-                Luqman Podlski
-              </th>
-              <td className="px-6 py-4">in review</td>
-              <td className="px-6 py-4">Collaboration</td>
-              <td className="px-6 py-4">12 Jun 2024</td>
-              <td className="px-6 py-4 text-right">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Cancel
-                </a>
-              </td>
-            </tr>
+                  {data.artistName}
+                </td>
+                <td className="px-6 py-4">in review</td>
+                <td className="px-6 py-4">{data.serviceRequested}</td>
+                <td className="px-6 py-4">{data.bookingDate}</td>
+                <td className="px-6 py-4 text-right">
+                  <a
+                    href="#"
+                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                    onClick={() => handleCancelBooking(data._id)}
+                  >
+                    Cancel
+                  </a>
+                </td>
+              </tr>
+            ))}
+            {bookingData.length === 0 && (
+              <tr>
+                <td colSpan="5">Waiting for data...</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

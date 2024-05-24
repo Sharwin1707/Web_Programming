@@ -1,7 +1,11 @@
 import express from "express";
 import { UserModel } from "../models/User.js";
+import dotenv from 'dotenv';
+import mongoose from "mongoose";
+dotenv.config()
 
 const router = express.Router();
+
 
 // retrieve all users
 router.get("/", async (req, res) => {
@@ -81,5 +85,37 @@ router.delete("/:id", async (req, res) => {
     console.log(err);
   }
 });
+
+router.post("/login", async (req, res) => {
+  try{
+    const {username,password,userType} = req.body;
+    const user = await UserModel.findOne({username : username})
+    if(user){
+      if(user.password === password){    
+        if(user.userType === userType) {
+          return res.status(200).send({user : user});
+        }
+        return res.status(403).send('User type is not authorized')
+      }
+      else{
+        return res.status(403).send('Password incorrect')
+      }
+    }
+    else{
+      return res.status(402).send("User does not exist")
+    }
+
+  }catch(e){
+
+  }
+})
+
+
+
+
+
+
+
+
 
 export { router };

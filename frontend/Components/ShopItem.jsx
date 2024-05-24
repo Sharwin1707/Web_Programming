@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { useStateContext } from "../Context/ContextProvider";
 
 const ShopItem = ({ image, name, price, ratingStar, type }) => {
   // Create an array of star elements based on the ratingStar prop
@@ -12,8 +13,10 @@ const ShopItem = ({ image, name, price, ratingStar, type }) => {
     );
   }
 
+  const {token} = useStateContext()
+
   return (
-    <Link to={`/shop/${name}`}>
+    <Link to={token ? `/shop/${name}` : `/guest/shop/${name}`}>
       <div className={`filter-item w-56 m-4 ${type}`}>
         <div className="w-full h-60  overflow-hidden">
           <img

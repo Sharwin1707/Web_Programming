@@ -1,6 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useStateContext } from "../Context/ContextProvider";
 
-const UserProfilePage = ({ userType }) => {
+const UserProfilePage = () => {
+  const {user} = useStateContext()
+  const [userType ,setUserType] = useState()
+
+  useEffect(() => {
+    setUserType(user.userType)
+  },[])
+
   const initialProfile = {
     image:
       "https://www.sinarharian.com.my/uploads/images/2019/04/18/275597.jpg",

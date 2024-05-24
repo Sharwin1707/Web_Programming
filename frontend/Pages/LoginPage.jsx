@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useToast } from "../Components/Toast";
+import axios from "axios";
+import { useStateContext } from "../Context/ContextProvider";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -8,25 +10,45 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("User");
 
+  const { setUser, setToken,isGuest, setIsGuest } = useStateContext();
+
   const { showToastMessage } = useToast();
 
   // Function to handle form submission (login)
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Simulated authentication logic (replace with actual authentication)
-    const isAuthenticated = username === "demo" && password === "";
+    const credential = {
+      username: username,
+      password: password,
+      userType: userType
+    };
 
-    if (isAuthenticated) {
-      // Redirect to homepage and pass user type as route state
-      navigate("/", {
-        state: { username: username, userType: userType, userId: "123455" },
+    axios
+      .post(`${import.meta.env.VITE_SERVER_ENDPOINT}/users/login`, credential)
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) { 
+          setUser(res.data.user)
+          setToken(res.data.user._id)   
+          setIsGuest(false)    
+          navigate("/");
+        }
       });
-      showToastMessage("Welcome," + username);
-    } else {
-      // Handle login error (e.g., display an error message)
-      console.log("Invalid credentials. Please try again.");
-    }
+
+    // Simulated authentication logic (replace with actual authentication)
+    // const isAuthenticated = username === "demo" && password === "";
+
+    // if (isAuthenticated) {
+    //   // Redirect to homepage and pass user type as route state
+    //   navigate("/", {
+    //     state: { username: username, userType: userType, userId: "123455" },
+    //   });
+    //   showToastMessage("Welcome," + username);
+    // } else {
+    //   // Handle login error (e.g., display an error message)
+    //   console.log("Invalid credentials. Please try again.");
+    // }
   };
 
   return (
@@ -123,7 +145,7 @@ const LoginPage = () => {
 
             <div className="links">
               <a href="#">Forgot Password</a>{" "}
-              <Link to={"/register"}>Signup</Link>
+              <Link to={isGuest ? "/guest/register" : "/register"}>Signup</Link>
             </div>
 
             <div className="inputBox">

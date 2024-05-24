@@ -5,10 +5,13 @@ import { faHourglass } from "@fortawesome/free-solid-svg-icons";
 
 import { data } from "../sampleData"; // Import sample data for testing
 import { Link } from "react-router-dom";
+import { useStateContext } from "../Context/ContextProvider";
 
 const BookingPage = ({ useType }) => {
   const [searchInput, setSearchInput] = useState("");
   const [artistData, setArtistData] = useState([]);
+  const {user} = useStateContext()
+  
 
   useEffect(() => {
     // Set initial artist data on component mount

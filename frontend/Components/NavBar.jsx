@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCaretDown,
@@ -10,10 +10,38 @@ import {
   faMusic,
   faBuilding,
 } from "@fortawesome/free-solid-svg-icons";
+import { useStateContext } from "../Context/ContextProvider";
 
-const NavBar = ({ userType, userName, onLogout }) => {
+const NavBar = ({onLogout}) => {
   const [dropDownVisibility, setDropDownVisibility] = useState(false);
   const [navVisibility, setNavVisibility] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [username, setUsername] = useState('');
+  const [userType, setUserType] = useState("User");
+  const navigate = useNavigate();
+
+  const { token, user, setUser, setIsGuest } = useStateContext();
+
+  if (!token) {
+    return <Navigate to="/guest" />;
+  }
+
+  useEffect(() => {
+    if (user) {
+      setUserData(user);
+      setUserType(user.userType);
+      setUsername(user.username);
+    }
+  }, [user]);
+
+  // const onLogout = () => {
+  //   localStorage.removeItem("ACCESS_TOKEN");
+  //   setUser(null);
+  //   setUserData(null);
+  //   setUsername('')
+  //   setIsGuest(true)
+  //   navigate('/guest');
+  // };
 
   const shopDropdown = () => {
     setDropDownVisibility(!dropDownVisibility);
@@ -82,7 +110,7 @@ const NavBar = ({ userType, userName, onLogout }) => {
             </Link>
             {userType == "Artist" ? (
               <Link
-                to={"/adminadd"}
+                to={"/shopadmin"}
                 className=" px-2 py-1 rounded-md hover:bg-black"
               >
                 Manage Merchandise
@@ -109,7 +137,7 @@ const NavBar = ({ userType, userName, onLogout }) => {
           ""
         )}
 
-        {userName ? (
+        {username ? (
           <div className="shop-hover flex justify-center items-center gap-3 p-2">
             <div className="relative flex gap-2 justify-center items-center px-4 py-2 border rounded-md">
               {userType === "User" ? <FontAwesomeIcon icon={faUser} /> : ""}
@@ -119,7 +147,7 @@ const NavBar = ({ userType, userName, onLogout }) => {
               ) : (
                 ""
               )}
-              <h1 className="text-md">{userName}</h1>
+              <h1 className="text-md">{username}</h1>
 
               <div className="shop-dropdown absolute top-12 gap-1 bg-gray-800 rounded-md z-10 flex flex-col">
                 <Link to={"/profile"}>
@@ -128,7 +156,7 @@ const NavBar = ({ userType, userName, onLogout }) => {
                   </button>
                 </Link>
                 <button
-                  onClick={onLogout}
+                  onClick={() => onLogout()}
                   className="px-4 py-2 hover:bg-blue-gray-600 rounded-md"
                 >
                   Logout
@@ -222,7 +250,7 @@ const NavBar = ({ userType, userName, onLogout }) => {
             ""
           )}
 
-          {userName ? (
+          {username ? (
             <div className="shop-hover flex justify-center items-center gap-3 p-2">
               <div className="relative flex gap-2 justify-center items-center px-4 py-2 border rounded-md">
                 {userType === "User" ? <FontAwesomeIcon icon={faUser} /> : ""}
@@ -236,7 +264,7 @@ const NavBar = ({ userType, userName, onLogout }) => {
                 ) : (
                   ""
                 )}
-                <h1 className="text-md">{userName}</h1>
+                <h1 className="text-md">{username}</h1>
 
                 <div className="shop-dropdown absolute top-12 gap-1 bg-gray-800 rounded-md z-10">
                   <button className="px-4 py-2 hover:bg-blue-gray-600 rounded-md">

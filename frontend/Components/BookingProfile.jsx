@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useStateContext } from "../Context/ContextProvider";
 
 const BookingProfile = ({ id, image, name }) => {
+  const { token } = useStateContext();
+
   return (
     <div className="bg-[#222222] w-[300px] h-[400px] p-2">
       <h1 className="text-center">{name}</h1>

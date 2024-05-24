@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import DatabaseConnection from "./config/db.js";
 import { router as UserRoute } from "./routes/UserRoute.js";
 import { router as BookingRoute } from "./routes/BookingRoute.js";
+import jwt from 'jsonwebtoken'
 
 dotenv.config();
 DatabaseConnection();
@@ -17,8 +18,11 @@ app.use(express.json());
 app.use("/users", UserRoute);
 
 //booking routes
-app.use("/booking", BookingRoute);
+app.use("/bookings", BookingRoute);
 
 app.listen(PORT, () => {
   console.log(`Listening to port ${PORT}`);
 });
+
+
+

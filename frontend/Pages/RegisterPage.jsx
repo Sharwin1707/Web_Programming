@@ -90,7 +90,7 @@ const RegisterPage = () => {
             </div>
 
             <div className="links">
-              <a href="#">Forgot Password</a> <Link to={"/Login"}>Login</Link>
+              <a href="#">Forgot Password</a> <Link to={"/guest/login"}>Login</Link>
             </div>
 
             <div className="inputBox">
