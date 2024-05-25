@@ -112,6 +112,38 @@ router.post("/login", async (req, res) => {
 
 
 
+// Registration route
+router.post('/register', async (req, res) => {
+  try {
+    const { email, username, password, userType } = req.body;
+
+    // Check if the user already exists
+    const existingUser = await UserModel.findOne({ email: email });
+    if (existingUser) {
+      return res.status(400).send('User already exists');
+    }
+
+    
+
+    // Create a new user
+    const newUser = new UserModel({
+      email,
+      username,
+      password,
+      userType,
+    });
+
+    // Save the user to the database
+    await newUser.save();
+
+    return res.status(201).send({ user: newUser });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).send('Internal server error');
+  }
+});
+
+
 
 
 
