@@ -70,10 +70,10 @@ const ForumPage = () => {
         </button>
       </div>
 
-      <div class="flex flex-col m-auto p-auto">
-        <div class="flex overflow-x-scroll pb-2 hide-scroll-bar">
-          <div class="flex flex-nowrap">
-            <div class="inline-block px-3">
+      <div className="flex flex-col m-auto p-auto">
+        <div className="flex overflow-x-scroll pb-2 hide-scroll-bar">
+          <div className="flex flex-nowrap">
+            <div className="inline-block px-3">
               <div className="w-[400px] h-[200px] border border-white p-2">
                 <Link
                   to={`/forum/${"Taylor Swift - The Tortured Poets Department ALBUM REVIEW"}`}
@@ -98,7 +98,7 @@ const ForumPage = () => {
               </div>
             </div>
 
-            <div class="inline-block px-3">
+            <div className="inline-block px-3">
               <div className="w-[400px] h-[200px] border border-white p-2">
                 <Link>
                   <h1 className="text-xl font-semibold josefin text-blue-500 underline">

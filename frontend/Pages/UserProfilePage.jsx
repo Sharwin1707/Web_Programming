@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "../Context/ContextProvider";
 
 const UserProfilePage = () => {
-  const {user} = useStateContext()
-  const [userType ,setUserType] = useState()
+  const [userType, setUserType] = useState();
 
+  const { user } = useStateContext();
   useEffect(() => {
-    setUserType(user.userType)
-  },[])
+    if (user) {
+      setUserType(user.userType);
+    }
+  }, []);
 
   const initialProfile = {
     image:
@@ -80,7 +82,7 @@ const UserProfilePage = () => {
                     id="profilePic"
                   />
                 </div>
-                <div className="profile-name">{profile.stageName}</div>
+                <div className="profile-name">{user.username}</div>
               </div>
               {userType == "User" ? (
                 <div className="info-row">
@@ -228,7 +230,7 @@ const UserProfilePage = () => {
                     id="profilePic"
                   />
                 </div>
-                <div className="profile-name">{profile.stageName}</div>
+                <div className="profile-name">{user.username}</div>
               </div>
               <div className="info-row">
                 <label htmlFor="firstName">First Name</label>

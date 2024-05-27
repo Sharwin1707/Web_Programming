@@ -31,7 +31,8 @@ const LoginPage = () => {
         if (res.status === 200) { 
           setUser(res.data.user)
           setToken(res.data.user._id)   
-          setIsGuest(false)    
+          setIsGuest(false)   
+          showToastMessage(`Login successful. Welcome ${username}`); 
           navigate("/");
         }
       });

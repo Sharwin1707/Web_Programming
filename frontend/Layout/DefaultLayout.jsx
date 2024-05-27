@@ -5,15 +5,19 @@ import NavBar from "../Components/NavBar";
 import { useStateContext } from "../Context/ContextProvider";
 import axios from "axios";
 import ScrollToTop from "../Components/ScrollTop";
+import { useToast } from "../Components/Toast";
 
 const DefaultLayout = () => {
   const { token, setUser,setToken, setIsGuest } = useStateContext(); // Use token directly from the context
   console.log(token);
 
+  const {showToastMessage} = useToast()
+
   const onLogout = () => {
       setUser(null);
       setToken(null);
       setIsGuest(true);
+      showToastMessage('You have logged out')
       return <Navigate to="/guest"/>
   }
 

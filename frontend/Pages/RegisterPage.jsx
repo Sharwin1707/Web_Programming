@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useStateContext } from "../Context/ContextProvider";
+import { useToast } from "../Components/Toast";
 
 
 const RegisterPage = () => {
@@ -12,6 +13,8 @@ const RegisterPage = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [userType, setUserType] = useState('');
+
+    const {showToastMessage} = useToast()
   
     const navigate = useNavigate();
 
@@ -34,7 +37,7 @@ const RegisterPage = () => {
         setUser(response.data.user)
         setToken(response.data.user._id)   
         setIsGuest(false)    
-        // Redirect to profile management page after successful signup
+        showToastMessage('Please complete your profile')
         navigate('/profile'); // Adjust the path to your profile management page
       } catch (error) {
         console.error(error);

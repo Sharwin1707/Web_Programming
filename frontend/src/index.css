@@ -316,7 +316,7 @@ input[type="submit"]:active
   z-index: 100;
   transform: translateX(-50%);
   padding: 10px 20px;
-  background-color: rgb(61, 219, 61);
+  background-color: rgb(255, 89, 23);
   color: white;
   border-radius: 5px;
   animation: slideIn 0.5s forwards, fadeOut 0.5s 2.5s forwards;
