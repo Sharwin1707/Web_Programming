@@ -4,6 +4,7 @@ import { useStateContext } from "../Context/ContextProvider";
 
 const ArtistProfile = ({ id, name, image, career, genre, birthday }) => {
   const {isGuest} = useStateContext()
+  console.log(isGuest)
   return (
     <div className="min-w-56 flex flex-col md:flex-row bg-[#222222] overflow-hidden rounded-md">
       <div className="w-96 h-96 overflow-hidden rounded-md">

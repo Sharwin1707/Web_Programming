@@ -4,7 +4,9 @@ import dotenv from "dotenv";
 import DatabaseConnection from "./config/db.js";
 import { router as UserRoute } from "./routes/UserRoute.js";
 import { router as BookingRoute } from "./routes/BookingRoute.js";
-import jwt from 'jsonwebtoken'
+import { router as ProfileRoute } from "./routes/ProfileRoute.js";
+import { router as ImageRoute } from "./routes/ImageRoute.js";
+import multer from "multer";
 
 dotenv.config();
 DatabaseConnection();
@@ -14,15 +16,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
 //user routes
 app.use("/users", UserRoute);
 
 //booking routes
 app.use("/bookings", BookingRoute);
 
+app.use("/profile", ProfileRoute);
+
+app.use('/images', ImageRoute);
+
+
+
 app.listen(PORT, () => {
   console.log(`Listening to port ${PORT}`);
 });
-
-
-

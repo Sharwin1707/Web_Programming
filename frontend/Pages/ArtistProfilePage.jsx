@@ -1,16 +1,29 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { data } from "../sampleData";
 import { useStateContext } from "../Context/ContextProvider";
+import axios from "axios";
 
-const ArtistProfilePage = ({ image }) => {
+const ArtistProfilePage = ({ data }) => {
   const { id } = useParams();
   const {isGuest} = useStateContext()
+  const [artistData, setArtistData] = useState([]);
 
-  const artistData = data.filter((artist) => artist.id === id);
+  const fetchData = async () => {
+    const response = await axios.get(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`)
+    if(response.status === 200){
+      console.log(response.data)
+      setArtistData(response.data)
+    }
+  }
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const artist = artistData.filter((artist) => artist._id === id);
+  console.log(artist)
   return (
     <div className="px-[12%] pt-8">
       <Link to={isGuest ? "/guest/artist" : "/artist"}>
@@ -21,7 +34,7 @@ const ArtistProfilePage = ({ image }) => {
         <br />
         <br />
         <h1 className="text-center text-4xl josefin">
-          {artistData[0].nickname}
+          {artist[0].stageName}
         </h1>
         <br />
         <div>Profile Music Photo Video</div>
@@ -29,7 +42,7 @@ const ArtistProfilePage = ({ image }) => {
         <div className="w-[600px] h-[600px] overflow-hidden rounded-md">
           <img
             className="w-full h-full object-cover rounded-md"
-            src={artistData[0].image}
+            src={artist[0].image}
             alt=""
           />
         </div>

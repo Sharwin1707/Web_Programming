@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from "react";
 import ArtistProfile from "../Components/ArtistProfile";
 import { data } from "../sampleData";
+import axios from "axios";
 
 const ArtistPage = () => {
   const [searchBar, setSearchBar] = useState("");
   const [artistData, setArtistData] = useState([]);
+
+  const fetchData = async () => {
+    const response = await axios.get(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`)
+    if(response.status === 200){
+      console.log(response)
+      setArtistData(response.data)
+    }
+  }
   useEffect(() => {
     // Set initial artist data on component mount
-    setArtistData(data);
+    //setArtistData(data);
+    fetchData();
   }, []);
 
   const searchArtist = () => {
@@ -46,10 +56,11 @@ const ArtistPage = () => {
       <div className="flex flex-col gap-12 mt-8">
         {artistData.map((artist) => (
           <ArtistProfile
-            key={artist.id}
-            id={artist.id}
+            data={artistData}
+            key={artist._id}
+            id={artist._id}
             image={artist.image}
-            name={artist.nickname}
+            name={artist.stageName}
             career={artist.career}
             genre={artist.genre}
             birthday={artist.birthday}
