@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,12 +11,29 @@ import {
   faBuilding,
 } from "@fortawesome/free-solid-svg-icons";
 import { useStateContext } from "../Context/ContextProvider";
+import { useFetch } from "../Hook/useFetch";
 
-const NavBar = ({onLogout}) => {
+const BookingNotification = () => {
+  const { user } = useStateContext();
+  const bookData = useFetch(
+    `${import.meta.env.VITE_SERVER_ENDPOINT}/bookings/artistManage/${user._id}`
+  );
+
+  return (
+    <Link to="/manage">
+      <div className="relative">
+        <FontAwesomeIcon icon={faBell} />
+        {bookData.length > 0 && <span className="absolute top-0 left-2 bg-red-400 rounded-full w-4 h-4 flex justify-center items-center text-sm">{bookData.length}</span>}
+      </div>
+    </Link>
+  );
+};
+
+const NavBar = ({ onLogout }) => {
   const [dropDownVisibility, setDropDownVisibility] = useState(false);
   const [navVisibility, setNavVisibility] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
   const [userType, setUserType] = useState("User");
   const navigate = useNavigate();
 
@@ -128,11 +145,9 @@ const NavBar = ({onLogout}) => {
         </Link>
 
         {userType === "Artist" ? (
-          <Link to={"/manage"}>
-            <div>
-              <FontAwesomeIcon icon={faBell} />
-            </div>
-          </Link>
+          <Suspense fallback={<div>...</div>}>
+            <BookingNotification/>
+          </Suspense>
         ) : (
           ""
         )}

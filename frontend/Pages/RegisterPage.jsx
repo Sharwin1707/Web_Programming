@@ -35,36 +35,42 @@ const RegisterPage = () => {
           userType,
         }
       );
-      console.log(response.data);
+      
       setUser(response.data.user);
       setToken(response.data.user._id);
       setIsGuest(false);
-      const artistProfile = {
-        _id: response.data.user._id,
-        image: " ",
-        firstName: " ",
-        lastName: " ",
-        stageName: " ",
-        career: " ",
-        genre: " ",
-        birthday: " ",
-        music: " ",
-        email: email,
-        about: " ",
-      };
-      const createProfile = axios.post(
-        `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`,
-        artistProfile
-      );
-      showToastMessage("Please complete your profile");
 
-      axios
-        .get(`${import.meta.env.VITE_SERVER_ENDPOINT}/users/${token}`)
-        .then((response) => {
-          setUser(response.data);
-        });
+      if (userType === "Artist") {
+        const artistProfile = {
+          _id: response.data.user._id,
+          image: " ",
+          firstName: " ",
+          lastName: " ",
+          stageName: " ",
+          career: " ",
+          genre: " ",
+          birthday: " ",
+          music: " ",
+          email: email,
+          about: " ",
+        };
+        const createProfile = axios.post(
+          `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`,
+          artistProfile
+        );
+        showToastMessage("Please complete your profile");
 
-      navigate("/profile"); // Adjust the path to your profile management page
+        axios
+          .get(`${import.meta.env.VITE_SERVER_ENDPOINT}/users/${token}`)
+          .then((response) => {
+            setUser(response.data);
+          });
+
+        navigate("/profile"); // Adjust the path to your profile management page
+      }
+      else{
+        navigate("/"); // Adjust the path to
+      }
     } catch (error) {
       console.error(error);
       // Handle error appropriately

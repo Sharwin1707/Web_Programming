@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ArtistProfile from "../Components/ArtistProfile";
-import { data } from "../sampleData";
 import axios from "axios";
 
 const ArtistPage = () => {
@@ -22,8 +21,8 @@ const ArtistPage = () => {
 
   const searchArtist = () => {
     // Filter artist data based on search input
-    const filteredArtists = data.filter((artist) =>
-      artist.name.toLowerCase().includes(searchBar.toLowerCase())
+    const filteredArtists = artistData.filter((artist) =>
+      artist.stageName.toLowerCase().includes(searchBar.toLowerCase())
     );
     setArtistData(filteredArtists);
   };
@@ -39,7 +38,7 @@ const ArtistPage = () => {
           value={searchBar}
           onChange={(event) => {
             if (!event.target.value) {
-              setArtistData(data);
+              fetchData()
             }
             setSearchBar(event.target.value);
           }}

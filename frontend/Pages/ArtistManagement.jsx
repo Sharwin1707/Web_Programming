@@ -1,72 +1,35 @@
-import React from "react";
+import React, { useEffect, useState, startTransition, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useFetch } from "../Hook/useFetch";
+import { useStateContext } from "../Context/ContextProvider";
 
-const data = [
-  {
-    id: "1",
-    firstname: "Ahmad",
-    lastname: "Aladdin",
-    organization: "Organization",
-    bookingDate: "1-5-2024",
-    serviceRequest: "Collaboration",
-    email: "ahmad@gmail.com",
-    mobileNumber: "0132384775",
-    requesDetail: "",
-    attactchments: "",
-  },
-  {
-    id: "1",
-    firstname: "Ahmad",
-    lastname: "Aladdin",
-    organization: "Organization",
-    bookingDate: "1-5-2024",
-    serviceRequest: "Collaboration",
-    email: "ahmad@gmail.com",
-    mobileNumber: "0132384775",
-    requesDetail: "",
-    attactchments: "",
-  },
-  {
-    id: "1",
-    firstname: "Ahmad",
-    lastname: "Aladdin",
-    organization: "Organization",
-    bookingDate: "1-5-2024",
-    serviceRequest: "Collaboration",
-    email: "ahmad@gmail.com",
-    mobileNumber: "0132384775",
-    requesDetail: "",
-    attactchments: "",
-  },
-  {
-    id: "1",
-    firstname: "Ahmad",
-    lastname: "Aladdin",
-    organization: "Organization",
-    bookingDate: "1-5-2024",
-    serviceRequest: "Collaboration",
-    email: "ahmad@gmail.com",
-    mobileNumber: "0132384775",
-    requesDetail: "",
-    attactchments: "",
-  },
-  {
-    id: "1",
-    firstname: "Ahmad",
-    lastname: "Aladdin",
-    organization: "Organization",
-    bookingDate: "1-5-2024",
-    serviceRequest: "Collaboration",
-    email: "ahmad@gmail.com",
-    mobileNumber: "0132384775",
-    requesDetail: "",
-    attactchments: "",
-  },
-];
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
 
-const ArtistManagement = () => {
+
+
+const BookDetails = () => {
+  const { user } = useStateContext();
+  const [bookingData, setBookingData] = useState([]);
+  const bookData = useFetch(
+    `${import.meta.env.VITE_SERVER_ENDPOINT}/bookings/artistManage/${user._id}`
+  );
+
+  useEffect(() => {
+    if (bookData.length > 0) {
+      startTransition(() => {
+        setBookingData(bookData);
+      });
+    }
+  }, [bookData]);
+
   return (
     <div className="mx-[12%] my-16">
       <Link to={"/"}>
@@ -99,33 +62,27 @@ const ArtistManagement = () => {
               <th className="px-6 py-3">Action</th>
             </tr>
           </thead>
-
           <tbody>
-            {data.map((bookingData, i) => (
-              <tr className="bg-white border text-center hover:bg-gray-50 text-black dark:hover:bg-gray-600">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-semibold  whitespace-nowrap"
-                >
+            {bookingData.map((booking, i) => (
+              <tr key={i} className="bg-white border text-center hover:bg-gray-50 text-black dark:hover:bg-gray-600">
+                <th scope="row" className="px-6 py-4 font-semibold whitespace-nowrap">
                   {i + 1}
                 </th>
-                <td className="px-6 py-4 flex">{bookingData.organization}</td>
-                <td className="px-6 py-4">{bookingData.bookingDate}</td>
-                <td className="px-6 py-4">{bookingData.serviceRequest}</td>
-                <td className="px-6 py-4 text-right">{bookingData.email}</td>
-                <td className="px-6 py-4 text-right">
-                  {bookingData.mobileNumber}
-                </td>
+                <td className="px-6 py-4">{booking.organizationName}</td>
+                <td className="px-6 py-4">{formatDate(booking.bookingDate)}</td>
+                <td className="px-6 py-4">{booking.serviceRequested}</td>
+                <td className="px-6 py-4">{booking.email}</td>
+                <td className="px-6 py-4">{booking.mobileNum}</td>
                 <td>
                   <button className="bg-gray-500 px-4 py-2 rounded-md">
                     View
                   </button>
                 </td>
-                <td className="flex gap-2 p-2">
+                <td className="flex gap-2 p-2 justify-center">
                   <button className="bg-green-500 px-4 py-2 rounded-md">
                     Accept
                   </button>
-                  <button className="red text-white px-4 py-2 rounded-md">
+                  <button className="bg-red-500 text-white px-4 py-2 rounded-md">
                     Reject
                   </button>
                 </td>
@@ -135,7 +92,17 @@ const ArtistManagement = () => {
         </table>
       </div>
     </div>
+  )
+}
+
+const ArtistManagement = () => {
+  
+  return (
+    <Suspense fallback={<div>Loading artist details...</div>}>
+      <BookDetails/>
+    </Suspense>
   );
 };
 
 export default ArtistManagement;
+

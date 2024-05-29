@@ -18,6 +18,7 @@ router.post("/", async (req, res) => {
   try {
     const {
       userId,
+      artistId,
       artistName,
       name,
       organizationName,
@@ -31,6 +32,7 @@ router.post("/", async (req, res) => {
 
     if (
       !userId ||
+      !artistId ||
       !artistName ||
       !name ||
       !organizationName ||
@@ -46,6 +48,7 @@ router.post("/", async (req, res) => {
 
     const newBooking = new BookingModel({
       userId,
+      artistId,
       artistName,
       name,
       organizationName,
@@ -67,6 +70,18 @@ router.post("/find", async (req, res) => {
   try {
     const uid = req.body.uid;
     const data = await BookingModel.find({ userId: uid });
+    if (data) {
+      return res.status(200).send(data);
+    }
+    return res.status(400).send("There is no booking request");
+  } catch (e) {}
+});
+
+
+router.get("/artistManage/:id", async (req, res) => {
+  try {
+    const {id} = req.params;
+    const data = await BookingModel.find({ artistId: id });
     if (data) {
       return res.status(200).send(data);
     }

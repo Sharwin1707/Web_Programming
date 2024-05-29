@@ -1,5 +1,6 @@
 import axios from "axios";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useFetch } from "../Hook/useFetch";
 
 const StateContext = createContext({
   user: null,
@@ -14,6 +15,13 @@ export const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
   const [isGuest, setIsGuest] = useState(true);
+
+  // useEffect(() => {
+  //     if(token){
+  //       const user = useFetch(`${import.meta.env.VITE_SERVER_ENDPOINT}/users/${token}`)
+  //       setUser(user);
+  //     }
+  // },[])
 
   // if(token){
   //   axios.get(`${import.meta.env.VITE_SERVER_ENDPOINT}/users/find`)

@@ -5,6 +5,7 @@ import BookingProfile from "../Components/BookingProfile";
 import ShopItem from "../Components/ShopItem";
 import { useLocation } from "react-router-dom";
 import ArtistCard from "../Components/ArtistCard";
+import { useFetch } from "../Hook/useFetch";
 
 const HomePage = () => {
   const sampleImage = [
@@ -13,7 +14,8 @@ const HomePage = () => {
     { id: "img3", url: "https://i.ytimg.com/vi/nPZWNsFXqs8/maxresdefault.jpg" },
   ];
 
-  const sampleData = data.slice(0, 5);
+  const artistData = useFetch(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`);
+  
   return (
     <div className="mx-0   xl:mx-[15%]">
       <CustomCarousel image={sampleImage} />
@@ -21,11 +23,11 @@ const HomePage = () => {
       <h1 className="text-center text-2xl my-8">More Artists</h1>
 
       <div className="flex justify-center flex-wrap gap-5">
-        {sampleData.map((artist) => (
+        {artistData.map((artist) => (
           <ArtistCard
-            key={artist.id}
-            id={artist.id}
-            name={artist.nickname}
+            key={artist._id}
+            id={artist._id}
+            name={artist.stageName}
             image={artist.image}
           />
         ))}

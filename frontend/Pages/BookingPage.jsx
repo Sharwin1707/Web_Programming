@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import BookingProfile from "../Components/BookingProfile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHourglass } from "@fortawesome/free-solid-svg-icons";
-
-import { data } from "../sampleData"; // Import sample data for testing
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../Context/ContextProvider";
 
@@ -11,17 +10,26 @@ const BookingPage = ({ useType }) => {
   const [searchInput, setSearchInput] = useState("");
   const [artistData, setArtistData] = useState([]);
   const {user} = useStateContext()
-  
 
+  const fetchData = async () => {
+    const response = await axios.get(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`)
+    if(response.status === 200){
+      console.log(response)
+      setArtistData(response.data)
+    }
+  }
   useEffect(() => {
     // Set initial artist data on component mount
-    setArtistData(data);
+    //setArtistData(data);
+    fetchData();
   }, []);
+
+  
 
   const searchArtist = () => {
     // Filter artist data based on search input
-    const filteredArtists = data.filter((artist) =>
-      artist.name.toLowerCase().includes(searchInput.toLowerCase())
+    const filteredArtists = artistData.filter((artist) =>
+      artist.stageName.toLowerCase().includes(searchInput.toLowerCase())
     );
     setArtistData(filteredArtists);
   };
@@ -47,7 +55,7 @@ const BookingPage = ({ useType }) => {
               value={searchInput}
               onChange={(event) => {
                 if (!event.target.value) {
-                  setArtistData(data);
+                  fetchData()
                 }
                 setSearchInput(event.target.value);
               }}
@@ -75,10 +83,10 @@ const BookingPage = ({ useType }) => {
         <div className="my-24 booking-list flex flex-wrap gap-8">
           {artistData.map((artist) => (
             <BookingProfile
-              key={artist.id}
-              id={artist.id} // Ensure to provide a unique key for each item in the list
+              key={artist._id}
+              id={artist._id} // Ensure to provide a unique key for each item in the list
               image={artist.image}
-              name={artist.nickname}
+              name={artist.stageName}
             />
           ))}
         </div>

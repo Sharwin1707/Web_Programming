@@ -5,6 +5,10 @@ const bookingScheme = mongoose.Schema({
     type: String,
     required: true,
   },
+  artistId: {
+    type: String,
+    required: true,
+  },
   artistName: {
     type: String,
     required: true,

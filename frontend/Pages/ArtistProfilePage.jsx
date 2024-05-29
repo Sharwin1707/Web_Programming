@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { Suspense } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,24 +6,38 @@ import { faCartShopping, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useStateContext } from "../Context/ContextProvider";
 import axios from "axios";
 
-const ArtistProfilePage = ({ data }) => {
-  const { id } = useParams();
-  const {isGuest} = useStateContext()
-  const [artistData, setArtistData] = useState([]);
+// Custom hook to fetch artist data with Suspense
+let cache = {};
 
-  const fetchData = async () => {
-    const response = await axios.get(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`)
-    if(response.status === 200){
-      console.log(response.data)
-      setArtistData(response.data)
-    }
+function fetchArtistData() {
+  if (!cache.artistDataPromise) {
+    cache.artistDataPromise = axios
+      .get(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`)
+      .then(response => {
+        if (response.status === 200) {
+          cache.artistData = response.data;
+          return response.data;
+        } else {
+          throw new Error('Error fetching data');
+        }
+      });
   }
-  useEffect(() => {
-    fetchData();
-  }, []);
+  if (!cache.artistData) {
+    throw cache.artistDataPromise;
+  }
+  return cache.artistData;
+}
 
+const useArtistData = () => {
+  return fetchArtistData();
+};
+
+const ArtistProfilePage = () => {
+  const { id } = useParams();
+  const { isGuest } = useStateContext();
+  const artistData = useArtistData();
   const artist = artistData.filter((artist) => artist._id === id);
-  console.log(artist)
+
   return (
     <div className="px-[12%] pt-8">
       <Link to={isGuest ? "/guest/artist" : "/artist"}>
@@ -50,20 +64,17 @@ const ArtistProfilePage = ({ data }) => {
         <p className="text-center my-4 josefin">
           <strong>About</strong>
           <br />
-          I am a Malaysian singer, songwriter and male <br />
-          actor. I was a champion in a competition on <br />
-          YouTube and the son of a veteran singer of <br />
-          the 1980s, Suliza Salam.
+          {artist[0].about}
         </p>
 
         <p className="text-center josefin">
-          Career: Malaysian Singer
+          Career: {artist[0].career}
           <br />
           Genre: Pop and R&B
           <br />
-          Birthday: April 13th, 2000 (24 years old)
+          Birthday: {artist[0].birthday}
           <br />
-          Music: Sabar, Demi Kita, Bidadari and more.
+          Music: {artist[0].music}
         </p>
 
         <br />
@@ -108,8 +119,7 @@ const ArtistProfilePage = ({ data }) => {
           <div className="w-72 h-72 border">
             <img
               className="w-full h-full object-cover"
-              src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSDESydYY3nitDE4INBWsUsPLQaQsXgX6LiFH-1EVFYGX-pwwsA
-"
+              src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSDESydYY3nitDE4INBWsUsPLQaQsXgX6LiFH-1EVFYGX-pwwsA"
               alt=""
             />
           </div>
@@ -117,8 +127,7 @@ const ArtistProfilePage = ({ data }) => {
           <div className="w-72 h-72 border">
             <img
               className="w-full h-full object-cover"
-              src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRG-NzNP2uvqlKPzQYyYdbGjh8hPoK_a-1Zz6fcFHY2dm_5-Pxx
-"
+              src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRG-NzNP2uvqlKPzQYyYdbGjh8hPoK_a-1Zz6fcFHY2dm_5-Pxx"
               alt=""
             />
           </div>
@@ -128,4 +137,10 @@ const ArtistProfilePage = ({ data }) => {
   );
 };
 
-export default ArtistProfilePage;
+const ArtistProfilePageWithSuspense = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <ArtistProfilePage />
+  </Suspense>
+);
+
+export default ArtistProfilePageWithSuspense;

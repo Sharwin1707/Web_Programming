@@ -17,9 +17,21 @@ const DefaultLayout = () => {
       setUser(null);
       setToken(null);
       setIsGuest(true);
+      localStorage.removeItem("ACCESS_TOKEN");
       showToastMessage('You have logged out')
       return <Navigate to="/guest"/>
   }
+
+  useEffect(() => {
+    if(token){
+      axios
+      .get(`${import.meta.env.VITE_SERVER_ENDPOINT}/users/${token}`)
+      .then((response) => {
+        setUser(response.data);
+      });
+    }
+    
+  }, []);
 
   useEffect(() => {
     if(token){
