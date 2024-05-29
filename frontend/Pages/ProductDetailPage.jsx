@@ -12,7 +12,7 @@ const ProductDetailPage = () => {
   const { id } = useParams();
   const { showToastMessage } = useToast();
 
-  const { token } = useStateContext();
+  const { token, isGuest } = useStateContext();
 
   // State to track the product image data
   const [productImage, setProductImage] = useState({});
@@ -105,7 +105,7 @@ const ProductDetailPage = () => {
               <FontAwesomeIcon icon={faCartShopping} />
               Add to Cart
             </button>
-            <Link to={"/payment"}>
+            <Link to={isGuest?"/guest/login":"/payment"}>
               <button className="px-4 py-2 bg-green-600 rounded-md">
                 Buy Now
               </button>
