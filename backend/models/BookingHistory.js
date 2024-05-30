@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const bookingScheme = mongoose.Schema({
-  userId: {
+const bookingHistoryScheme = mongoose.Schema({
+  requestId: {
     type: String,
     required: true,
   },
@@ -10,10 +10,6 @@ const bookingScheme = mongoose.Schema({
     required: true,
   },
   artistName: {
-    type: String,
-    required: true,
-  },
-  name: {
     type: String,
     required: true,
   },
@@ -37,18 +33,10 @@ const bookingScheme = mongoose.Schema({
     type: String,
     required: true,
   },
-  requestDetail: {
-    type: String,
-    required: true,
-  },
-  attachment: {
-    type: String,
-    required: true,
-  },
   status : {
     type: String,
     required: true,
   }
 });
 
-export const BookingModel = mongoose.model("Booking", bookingScheme);
+export const BookingHistoryModel = mongoose.model("BookingHistory", bookingHistoryScheme);

@@ -5,6 +5,14 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useStateContext } from "../Context/ContextProvider";
 
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
 const PendingRequestPage = () => {
   const [bookingData, setBookingData] = useState([]);
   const { token } = useStateContext();
@@ -83,9 +91,9 @@ const PendingRequestPage = () => {
                 >
                   {data.artistName}
                 </td>
-                <td className="px-6 py-4">in review</td>
+                <td className="px-6 py-4">{data.status}</td>
                 <td className="px-6 py-4">{data.serviceRequested}</td>
-                <td className="px-6 py-4">{data.bookingDate}</td>
+                <td className="px-6 py-4">{formatDate(data.bookingDate)}</td>
                 <td className="px-6 py-4 text-right">
                   <a
                     href="#"

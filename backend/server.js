@@ -7,6 +7,7 @@ import { router as BookingRoute } from "./routes/BookingRoute.js";
 import { router as ProfileRoute } from "./routes/ProfileRoute.js";
 import { router as ImageRoute } from "./routes/ImageRoute.js";
 import { router as MerchandiseRoute } from "./routes/MerchandiseRoute.js";
+import {router as BookingHistoryRoute} from "./routes/BookingHistoryRoute.js"
 import multer from "multer";
 
 dotenv.config();
@@ -25,6 +26,9 @@ app.use("/users", UserRoute);
 
 //booking routes
 app.use("/bookings", BookingRoute);
+
+//booking history routes
+app.use("/bookhistory", BookingHistoryRoute);
 
 app.use("/profile", ProfileRoute);
 

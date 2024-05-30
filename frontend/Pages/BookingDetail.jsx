@@ -90,6 +90,7 @@ const BookingDetail = () => {
       mobileNum: mobileNum,
       requestDetail: requestedDetail,
       attachment: attachment,
+      status : "in review"
     };
 
     axios

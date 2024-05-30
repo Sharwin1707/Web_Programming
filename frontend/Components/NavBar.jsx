@@ -15,15 +15,40 @@ import { useFetch } from "../Hook/useFetch";
 
 const BookingNotification = () => {
   const { user } = useStateContext();
-  const bookData = useFetch(
-    `${import.meta.env.VITE_SERVER_ENDPOINT}/bookings/artistManage/${user._id}`
-  );
+  const [bookData, setBookData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_SERVER_ENDPOINT}/bookings/artistManage/${user._id}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch bookings");
+        }
+        const data = await response.json();
+        setBookData(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, [user._id]);
 
   return (
     <Link to="/manage">
       <div className="relative">
         <FontAwesomeIcon icon={faBell} />
-        {bookData.length > 0 && <span className="absolute top-0 left-2 bg-red-400 rounded-full w-4 h-4 flex justify-center items-center text-sm">{bookData.length}</span>}
+        {!loading && !error && bookData.length > 0 && (
+          <span className="absolute top-0 left-2 bg-red-400 rounded-full w-4 h-4 flex justify-center items-center text-sm">
+            {bookData.length}
+          </span>
+        )}
       </div>
     </Link>
   );
@@ -68,6 +93,7 @@ const NavBar = ({ onLogout }) => {
     setNavVisibility(!navVisibility);
   };
 
+  
   return (
     <header className="h-16 flex justify-around items-center py-2">
       <div>
