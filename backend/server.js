@@ -8,6 +8,8 @@ import { router as ProfileRoute } from "./routes/ProfileRoute.js";
 import { router as ImageRoute } from "./routes/ImageRoute.js";
 import { router as MerchandiseRoute } from "./routes/MerchandiseRoute.js";
 import {router as BookingHistoryRoute} from "./routes/BookingHistoryRoute.js"
+import { router as CustomerOrderRoute } from "./routes/CustomerOrderRoute.js";
+import { router as CartRoute } from "./routes/CartRoute.js";
 import multer from "multer";
 
 dotenv.config();
@@ -36,6 +38,12 @@ app.use('/images', ImageRoute);
 
 //merchandise routes
 app.use("/merchandise", MerchandiseRoute);
+
+//customer order routes
+app.use("/customerorder", CustomerOrderRoute);
+
+//cart routes
+app.use("/cart", CartRoute);
 
 
 
