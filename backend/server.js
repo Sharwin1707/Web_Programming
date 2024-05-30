@@ -6,7 +6,7 @@ import { router as UserRoute } from "./routes/UserRoute.js";
 import { router as BookingRoute } from "./routes/BookingRoute.js";
 import { router as ProfileRoute } from "./routes/ProfileRoute.js";
 import { router as ImageRoute } from "./routes/ImageRoute.js";
-import { router as CartRoute } from "./routes/CartRoute.js";
+import { router as MerchandiseRoute } from "./routes/MerchandiseRoute.js";
 import multer from "multer";
 
 dotenv.config();
