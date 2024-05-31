@@ -10,6 +10,7 @@ import { router as MerchandiseRoute } from "./routes/MerchandiseRoute.js";
 import {router as BookingHistoryRoute} from "./routes/BookingHistoryRoute.js"
 import { router as CustomerOrderRoute } from "./routes/CustomerOrderRoute.js";
 import { router as CartRoute } from "./routes/CartRoute.js";
+import { router as createEventRoute } from "./routes/createEventRoute.js";
 import multer from "multer";
 
 dotenv.config();
@@ -44,6 +45,9 @@ app.use("/customerorder", CustomerOrderRoute);
 
 //cart routes
 app.use("/cart", CartRoute);
+
+//createEvent routes
+app.use("/createEvent" ,createEventRoute);
 
 
 
