@@ -12,7 +12,7 @@ const upload = multer({ storage: storage });
 
 
 /***************create an event*********************** */
-router.post('/', upload.single('image'), async (req, res) => {
+router.post('/create', upload.single('image'), async (req, res) => {
   console.log('Received request to create event'); // Log for debugging
   try {
     const { ArtistName, concertName, eventDetail, venue, date, start, end } = req.body;
