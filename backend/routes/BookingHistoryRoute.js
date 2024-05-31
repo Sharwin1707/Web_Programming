@@ -3,6 +3,7 @@ import { BookingHistoryModel } from "../models/BookingHistory.js";
 
 const router = express.Router();
 
+// Fetch the booking history for the given artist ID
 router.get("/:id", async (req, res) => {
     try {
       const { id: artistId } = req.params;

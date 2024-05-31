@@ -4,7 +4,7 @@ import { BookingHistoryModel } from "../models/BookingHistory.js";
 
 const router = express.Router();
 
-//get all booking
+//Get all booking
 router.get("/", async (req, res) => {
   try {
     const bookingData = await BookingModel.find();
@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// create new booking request
+//Create new booking request
 router.post("/", async (req, res) => {
   try {
     const {
@@ -70,6 +70,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+//
 router.post("/find", async (req, res) => {
   try {
     const uid = req.body.uid;
@@ -81,7 +82,7 @@ router.post("/find", async (req, res) => {
   } catch (e) {}
 });
 
-
+//Get a booking request by id
 router.get("/artistManage/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -98,6 +99,7 @@ router.get("/artistManage/:id", async (req, res) => {
   }
 });
 
+//Delete booking request
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -111,6 +113,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+//Update booking request
 router.put("/response/:id", async (req, res) => {
   try {
     const { id } = req.params;

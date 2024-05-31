@@ -11,6 +11,7 @@ import {router as BookingHistoryRoute} from "./routes/BookingHistoryRoute.js"
 import { router as CustomerOrderRoute } from "./routes/CustomerOrderRoute.js";
 import { router as CartRoute } from "./routes/CartRoute.js";
 import { router as createEventRoute } from "./routes/createEventRoute.js";
+import { router as PostForum} from "./routes/PostForumRoute.js";
 import multer from "multer";
 
 dotenv.config();
@@ -33,8 +34,10 @@ app.use("/bookings", BookingRoute);
 //booking history routes
 app.use("/bookhistory", BookingHistoryRoute);
 
+//profile management route
 app.use("/profile", ProfileRoute);
 
+//Image route
 app.use('/images', ImageRoute);
 
 //merchandise routes
@@ -49,6 +52,8 @@ app.use("/cart", CartRoute);
 //createEvent routes
 app.use("/createEvent" ,createEventRoute);
 
+//Posting forum routes
+app.use("/post" , PostForum);
 
 
 app.listen(PORT, () => {
