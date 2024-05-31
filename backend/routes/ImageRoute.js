@@ -9,7 +9,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 const router = express.Router()
 
 
-
+// Upload image
 router.post('/upload', upload.single('file'), async (req, res) => {
     try {
         const file = req.file;

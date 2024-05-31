@@ -110,8 +110,6 @@ router.post("/login", async (req, res) => {
   }
 })
 
-
-
 // Registration route
 router.post('/register', async (req, res) => {
   try {
@@ -142,12 +140,5 @@ router.post('/register', async (req, res) => {
     return res.status(500).send('Internal server error');
   }
 });
-
-
-
-
-
-
-
 
 export { router };

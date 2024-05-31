@@ -128,7 +128,6 @@ router.put("/artist", async (req, res) => {
   }
 });
 
-
 router.put('/artist/image', async (req, res) => {
   try {
     const { _id, image } = req.body;
@@ -153,7 +152,5 @@ router.put('/artist/image', async (req, res) => {
     return res.status(500).json({ message: "An error occurred", error: e.message });
   }
 });
-
-
 
 export { router };

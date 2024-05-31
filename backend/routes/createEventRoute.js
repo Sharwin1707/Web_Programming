@@ -31,7 +31,7 @@ router.post('/create', upload.single('image'), async (req, res) => {
   }
 });
 
-/***************get all event******************************8 */
+/*************** Get all event **************************/
 router.get('/', async(req, res) => {
     try {
       const event = await createEventModel.find();
@@ -41,7 +41,7 @@ router.get('/', async(req, res) => {
     }
 });
 
-/************************************ Delete Post ************************************/
+/*************** Delete Post **************************/
 router.delete('/:id', async (req, res) => {
     // Check the ID is valid type
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -64,7 +64,7 @@ router.delete('/:id', async (req, res) => {
     }
   });
   
-/**************update event*********** */
+/************** Update event **************************/
   router.put('/:id', upload.single('image'), async (req, res) => {
     const { ArtistName, concertName, eventDetail, venue, date, start, end } = req.body;
 
