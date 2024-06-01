@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate  } from "react-router-dom";
-import { createEvent } from "../controllers/EventController";
 import axios from "axios";
 
 const CreateEventPage = () => {
@@ -18,6 +17,7 @@ const CreateEventPage = () => {
   const[end, setEnd] = useState('');
   const [image, setImage] = useState(null);
   const navigate = useNavigate(); // useNavigate instead of useHistory
+  
  //handle submit
  const handleCreate = async (e) =>{
   e.preventDefault()

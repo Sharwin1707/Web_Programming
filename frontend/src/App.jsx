@@ -78,22 +78,4 @@
 
 // export default App;
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import EventPage from "../Pages/EventPage";
-import CreateEventPage from "../Pages/CreateEventPage";
-import EventManagementPage from "../Pages/EventManagementPage";
 
-const app = () => {
-    return <BrowserRouter>
-    <Routes>
-        <Route path="/event" element={<EventPage/>}>
-        <Route path="/event/create" element={<CreateEventPage/>}/>
-        <Route path="/event/manage" element={<EventManagementPage/>}/>
-
-        </Route>
-
-    </Routes>
-    </BrowserRouter>
-}
-
-export default App

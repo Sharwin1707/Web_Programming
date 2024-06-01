@@ -41,6 +41,17 @@ router.get('/', async(req, res) => {
     }
 });
 
+/*************** Get specific event **************************/
+router.get('/:id', async(req, res) => {
+  try {
+    const event = await createEventModel.findById(req.params.id);
+    res.status(200).json({event});
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});
+
+
 /*************** Delete Post **************************/
 router.delete('/:id', async (req, res) => {
     // Check the ID is valid type

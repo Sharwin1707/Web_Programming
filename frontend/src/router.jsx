@@ -69,7 +69,7 @@ const router = createBrowserRouter([
         element: <CreateEventPage />,
       },
       {
-        path: "/event/manage",
+        path: "/event/manage/:id",
         element: <EventManagementPage />,
       },
       {

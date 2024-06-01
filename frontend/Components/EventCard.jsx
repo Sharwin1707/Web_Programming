@@ -3,6 +3,7 @@ import { useToast } from "./Toast";
 import { Link } from "react-router-dom";
 
 const EventCard = ({
+  id, //add the event ID
   image,
   name,
   month,
@@ -13,7 +14,7 @@ const EventCard = ({
 }) => {
   const [addReminder, setAddReminder] = useState(false);
   const { showToastMessage } = useToast();
-
+  const [imageError, setImageError] = useState(false);
   const toggleReminder = () => {
     // Toggle the addReminder state when the button is clicked
     setAddReminder(true);
@@ -23,11 +24,21 @@ const EventCard = ({
   return (
     <div className="w-96 p-8 bg-white flex flex-col items-center rounded-md">
       <div className="relative flex items-start w-[300px] h-[300px] overflow-hidden rounded-md mb-3">
+      {image && !imageError ? (
         <img
-          src={image}
+          src={`data:image/jpeg;base64,${image}`}
           className="relative top-0 w-full h-full object-cover rounded-md"
+          onError={() => setImageError(true)}
         />
-        <div className="absolute text-white top-0 m-4 text-xl">{month}</div>
+      ) : (
+        <div className="relative top-0 w-full h-full flex items-center justify-center bg-gray-200 rounded-md">
+          <span className="text-gray-500">Image not available</span>
+        </div>
+      )}
+
+        <div className="absolute text-white top-0 m-4 text-xl">
+        {new Date(month).toLocaleString('default', { month: 'short' })}
+        </div>
       </div>
 
       <div className="w-full text-black flex flex-col gap-2">
@@ -66,20 +77,22 @@ const EventCard = ({
         >
           {addReminder ? "Added to Reminder 🔔" : "Add Reminder"}
         </button>
-        {userType == "Artist" ? (
-          <Link
-            className="py-2 border text-center border-black rounded"
-            to={"/event/manage"}
-          >
-            {" "}
+        {userType === "Artist" ?  (
+          <Link to={`/event/manage/${id}`} className="py-2 border text-center border-black rounded">
+           
+          
+            
             <button>Edit</button>
           </Link>
         ) : (
           ""
-        )}
+      )}
       </div>
     </div>
   );
 };
 
 export default EventCard;
+
+
+
