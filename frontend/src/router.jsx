@@ -25,6 +25,56 @@ import UserProfilePage from "../Pages/UserProfilePage";
 
 const router = createBrowserRouter([
   {
+    path: "/guest",
+    element: <GuestLayout />,
+    children: [
+      {
+        path: "/guest",
+        element: <HomePage />,
+      },
+      {
+        path: "/guest/artist",
+        element: <ArtistPage />,
+      },
+      {
+        path: "/guest/artistprofile/:id",
+        element: <ArtistProfilePage />,
+      },
+      {
+        path: "/guest/event",
+        element: <EventPage />,
+      },
+      {
+        path: "/guest/shop",
+        element: <ShopPage />,
+      },
+      {
+        path: "/guest/shop/:id",
+        element: <ProductDetailPage />,
+      },
+      {
+        path: "/guest/shop/:id",
+        element: <ProductDetailPage />,
+      },
+      {
+        path: "/guest/forum",
+        element: <ForumPage />,
+      },
+      {
+        path: "/guest/forum/:id",
+        element: <ForumDiscussionPage />,
+      },
+      {
+        path: "/guest/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/guest/register",
+        element: <RegisterPage />,
+      },
+    ],
+  },
+  {
     path: "/",
     element: <DefaultLayout />,
     children: [
@@ -111,56 +161,6 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <UserProfilePage />,
-      },
-    ],
-  },
-  {
-    path: "/",
-    element: <GuestLayout />,
-    children: [
-      {
-        path: "/guest",
-        element: <HomePage />,
-      },
-      {
-        path: "/guest/artist",
-        element: <ArtistPage />,
-      },
-      {
-        path: "/guest/artistprofile/:id",
-        element: <ArtistProfilePage />,
-      },
-      {
-        path: "/guest/event",
-        element: <EventPage />,
-      },
-      {
-        path: "/guest/shop",
-        element: <ShopPage />,
-      },
-      {
-        path: "/guest/shop/:id",
-        element: <ProductDetailPage />,
-      },
-      {
-        path: "/guest/shop/:id",
-        element: <ProductDetailPage />,
-      },
-      {
-        path: "/guest/forum",
-        element: <ForumPage />,
-      },
-      {
-        path: "/guest/forum/:id",
-        element: <ForumDiscussionPage />,
-      },
-      {
-        path: "/guest/login",
-        element: <LoginPage />,
-      },
-      {
-        path: "/guest/register",
-        element: <RegisterPage />,
       },
     ],
   },

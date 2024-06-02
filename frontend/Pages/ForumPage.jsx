@@ -7,6 +7,7 @@ import {
   faMessage,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const ForumPage = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -18,11 +19,37 @@ const ForumPage = () => {
     setOpenModal(!openModal);
   };
 
-  const addPost = () => {
-    setTopic((prevTopic) => [...prevTopic, { topic: title, content: content }]);
-    setTitle("");
-    setContent("");
-    setOpenModal(false); // Close the modal after adding the post
+  // Fetch all posts
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/post`
+      );
+      if (response.status === 200) {
+        console.log(response);
+        setTopic(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  // Add a new post
+  const addPost = async () => {
+    try {
+      const newPost = { username: "currentUser", title, content }; // Add username as needed
+      await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/post`, newPost);
+      fetchPosts(); // Refresh the posts after adding a new one
+      setTitle("");
+      setContent("");
+      setOpenModal(false);
+      return
+    } catch (error) {
+      console.error("Error adding post:", error);
+    }
   };
 
   useEffect(() => {}, [forumTopic]);
@@ -57,6 +84,51 @@ const ForumPage = () => {
           </select>
         </div>
       </div>
+
+      {/* ---------------create post modal----------------------- */}
+      {openModal ? (
+        <div className="absolute w-screen h-screen top-0 left-0 backdrop-blur-sm flex justify-center items-center">
+          <div className=" w-[800px] h-[600px] bg-white rounded-md text-black">
+            <div className="flex flex-col px-6 py-3">
+              <label htmlFor="">Title:</label>
+              <input
+                onChange={(event) => setTitle(event.target.value)}
+                className="border border-gray-600 rounded-md px-4 py-2"
+                type="text"
+                value={title}
+              />
+            </div>
+            <div className="flex flex-col px-6 py-3">
+              <label htmlFor="">Content:</label>
+              <textarea
+                onChange={(event) => setContent(event.target.value)}
+                className="border border-gray-600 px-4 py-2"
+                cols="30"
+                rows="15"
+                value={content}
+              ></textarea>
+            </div>
+
+            <div className="px-6 flex gap-10">
+              <button
+                onClick={addPost}
+                className="px-4 py-2 border-4 border-red-400 rounded-md"
+              >
+                Create
+              </button>
+              <button
+                onClick={createPostModal}
+                className="px-5 py-3 rounded-md bg-red-400 text-white"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+      {/* ---------------create post modal----------------------- */}
 
       {/* ---------------Trending discussion--------------------------- */}
       <div className="flex justify-between items-center ">
@@ -128,46 +200,31 @@ const ForumPage = () => {
 
       {/*-------------------- Top discussion------------------------------------- */}
 
-      <div className="flex gap-[5%]">
-        <div className="w-[60%] flex flex-col gap-4">
-          {/* ---------sample post---------- */}
-          <h1 className="text-2xl">New Post</h1>
+      <div className="flex gap-[10%]">
+        <div className="flex gap-[10%]">
+          <div className="w-[1000px] flex flex-col gap-4">
+            {/* ---------sample post---------- */}
+            <h1 className="text-2xl">New Discussion</h1>
 
-          <div className="border bg-white p-2 rounded-md">
-            <Link to={`/forum/${"Songs and Relatability"}`}>
-              <h1 className="text-xl font-semibold josefin text-blue-500 underline">
-                Songs and Relatability
-              </h1>
-            </Link>
-            <p className="line-clamp-3 text-black">
-              I'm older and grew up when music was a way for relaxation. So
-              relatability has never been the primary reason for my listening to
-              an artist or songs. Like how could I find relatability in Bon
-              Jovi's Living on a Prayer as a teen still in school? Or more
-              recently Ed Sheeran's The A Team as I'm not a sex worker or a drug
-              addict. But I'm really moved by the lyrics of these songs every
-              time I hear them.But like the majority of Taylor Swift's fans
-              always cite accessibility and relatability as the main reason for
-              their liking her.How about people here? Are those things important
-              to you?
-            </p>
+            {forumTopic
+              .slice()
+              .reverse()
+              .map((topic) => (
+                <div key={topic._id} className="border bg-white p-2 rounded-md">
+                  <Link to={`/forum/${topic._id}`}>
+                    <h1 className="text-xl font-semibold josefin text-blue-500 underline">
+                      {topic.title}
+                    </h1>
+                  </Link>
+                  <p className="line-clamp-3 text-black">{topic.content}</p>
+                </div>
+              ))}
           </div>
-
-          {forumTopic
-            .slice()
-            .reverse()
-            .map((topics, index) => (
-              <div key={index} className="border bg-white p-2 rounded-md">
-                <Link to={`/forum/${topics.topic}`}>
-                  <h1 className="text-xl font-semibold josefin text-blue-500 underline">
-                    {topics.topic}
-                  </h1>
-                </Link>
-                <p className="line-clamp-3 text-black">{topics.content}</p>
-              </div>
-            ))}
         </div>
 
+        {/*-------------------- Top discussion------------------------------------- */}
+
+        {/* -------- Top community and search dekat kanan---------- */}
         <div className="w-[35%] flex flex-col gap-8">
           <div className="border p-2">
             <h1 className="">Top Comunities</h1>
@@ -279,51 +336,8 @@ const ForumPage = () => {
             </div>
           </div>
         </div>
+        {/* -------- Top community and search dekat kanan---------- */}
       </div>
-
-      {/* ---------------create post modal----------------------- */}
-      {openModal ? (
-        <div className="absolute w-screen h-screen top-0 left-0 backdrop-blur-sm flex justify-center items-center">
-          <div className=" w-[800px] h-[600px] bg-white rounded-md text-black">
-            <div className="flex flex-col px-6 py-3">
-              <label htmlFor="">Title:</label>
-              <input
-                onChange={(event) => setTitle(event.target.value)}
-                className="border border-gray-600 rounded-md px-4 py-2"
-                type="text"
-              />
-            </div>
-            <div className="flex flex-col px-6 py-3">
-              <label htmlFor="">Content:</label>
-              <textarea
-                onChange={(event) => setContent(event.target.value)}
-                className="border border-gray-600 px-4 py-2"
-                name=""
-                id=""
-                cols="30"
-                rows="15"
-              ></textarea>
-            </div>
-
-            <div className="px-6 flex gap-10">
-              <button
-                onClick={addPost}
-                className="px-4 py-2 border-4 border-red-400 rounded-md"
-              >
-                Create
-              </button>
-              <button
-                onClick={createPostModal}
-                className="px-5 py-3 rounded-md bg-red-400 text-white"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
     </div>
   );
 };
