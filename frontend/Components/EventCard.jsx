@@ -70,6 +70,7 @@ const EventCard = ({
           {time}
         </div>
 
+        {userType !== "Organization" ?  (
         <button
           type="button"
           className="mt-4 mb-2 px-4 py-2 bg-black text-white rounded-md"
@@ -77,11 +78,13 @@ const EventCard = ({
         >
           {addReminder ? "Added to Reminder 🔔" : "Add Reminder"}
         </button>
-        {userType === "Artist" ?  (
+         ) : (
+          ""
+      )}
+
+        {userType === "Organization" ?  (
           <Link to={`/event/manage/${id}`} className="py-2 border text-center border-black rounded">
            
-          
-            
             <button>Edit</button>
           </Link>
         ) : (

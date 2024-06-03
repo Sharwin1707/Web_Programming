@@ -39,7 +39,7 @@ const EventPage = () => {
 
       <div className="w-full px-[5%] flex justify-between">
         <input className="w-80 p-1 rounded-md" type="month"></input>
-        {userType === "Artist" ? (
+        {userType === "Organization" ? (
           <Link to={"/event/create"}>
             <div className="w-10 h-10 flex justify-center items-center bg-white rounded-full">
               <FontAwesomeIcon color="black" icon={faAdd} />
@@ -50,7 +50,7 @@ const EventPage = () => {
         )}
       </div>
 
-      {userType === "Artist" ? (
+      {userType === "Organization" ? (
         <div className="w-full  my-12 flex flex-col">
           <hr />
 
@@ -67,7 +67,7 @@ const EventPage = () => {
           <div className="w-full flex flex-wrap gap-8 mb-12 josefin">
             {events.map((event, i) => (
               <EventCard
-                userType={"Artist"}
+                userType={"Organization"}
                 key={i}
                 id={event._id} //pass the event ID
                 image={event.image}
@@ -88,7 +88,7 @@ const EventPage = () => {
         ""
       )}
 
-      {userType !== "Artist" ? (
+      {userType !== "Organization" ? (
         <div className="w-full flex justify-center flex-wrap gap-8 my-12 josefin">
           {/* loading animation */}
           {loading ? (
