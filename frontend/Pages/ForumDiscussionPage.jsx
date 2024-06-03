@@ -10,16 +10,30 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useParams } from "react-router-dom";
 import FroumChatContainer from "../Components/FroumChatContainer";
+import axios from "axios";
 
 const ForumDiscussionPage = () => {
   const { id } = useParams();
-  const topicTitle = id.replace("%", " ");
   const [openModal, setOpenModal] = useState(false);
+  const [mainTopic, setMainTopic] = useState({});
   const [forumDiscussion, setDiscussion] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const [isLiked, setLike] = useState(false);
+
+  useEffect(() => {
+    const fetchTopic = async () => {
+      await axios.get(`http://localhost:3000/post/${id}`).then((response) => {
+        if(response.status === 200){
+          setMainTopic(response.data)
+          console.log(response.data)
+        }
+      })
+    }
+
+    fetchTopic();
+  },[])
 
   const likeClicked = () => {
     setLike(!isLiked);
@@ -67,19 +81,20 @@ const ForumDiscussionPage = () => {
       </div>
 
       <div className="py-10">
-        <h1 className="text-2xl">{topicTitle}</h1>
+        <h1 className="text-2xl">{mainTopic.title}</h1>
 
         {/*-------------------Discussion topic -------------*/}
         <div className="my-10 py-4 border-y ">
           <div className="flex gap-3">
             <FontAwesomeIcon icon={faUserCircle} size="2x" />
-            <h1>Demo</h1>
+            <div>
+              <h1>{mainTopic.username}</h1>
+              <p className="text-gray-500"><small>post on {new Date(mainTopic.postAt).toLocaleDateString()}</small> </p>
+            </div>
+            
           </div>
           <p className="py-4 ">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. In maxime
-            non, illum dolorum sint quaerat esse sequi? Possimus minus sint
-            eaque debitis quidem, reprehenderit dolorum eos. Distinctio, ab.
-            Similique, odio.
+            {mainTopic.content}
           </p>
           <div className="flex gap-4 items-center">
             <FontAwesomeIcon
