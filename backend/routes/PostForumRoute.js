@@ -13,6 +13,17 @@ router.get('/', async (req, res) => {
     }
   });
 
+  //get by id
+  router.get('/:id', async (req, res) => {
+    try {
+      const {id} = req.params
+      const post = await PostModel.findById(id);
+      return res.status(200).send(post);
+    } catch (e) {
+      console.log(e);
+    }
+  });  
+
 // Create a new post
 router.post('/', async (req, res) => {
     try {
