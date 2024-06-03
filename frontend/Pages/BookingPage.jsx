@@ -6,25 +6,27 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../Context/ContextProvider";
 
-const BookingPage = ({ useType }) => {
+const BookingPage = () => {
   const [searchInput, setSearchInput] = useState("");
   const [artistData, setArtistData] = useState([]);
-  const {user} = useStateContext()
+  const [loading, setLoading] = useState(true);
+  const { user } = useStateContext();
 
   const fetchData = async () => {
-    const response = await axios.get(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`)
-    if(response.status === 200){
-      console.log(response)
-      setArtistData(response.data)
+    const response = await axios.get(
+      `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`
+    );
+    if (response.status === 200) {
+      console.log(response);
+      setArtistData(response.data);
+      setLoading(false)
     }
-  }
+  };
   useEffect(() => {
     // Set initial artist data on component mount
     //setArtistData(data);
     fetchData();
   }, []);
-
-  
 
   const searchArtist = () => {
     // Filter artist data based on search input
@@ -55,7 +57,7 @@ const BookingPage = ({ useType }) => {
               value={searchInput}
               onChange={(event) => {
                 if (!event.target.value) {
-                  fetchData()
+                  fetchData();
                 }
                 setSearchInput(event.target.value);
               }}
@@ -71,7 +73,7 @@ const BookingPage = ({ useType }) => {
           <div>
             <Link to={"/request"}>
               <button className="flex justify-center items-center red px-5 py-2 rounded-md text-white">
-                Pending Request
+                Request Status
                 <FontAwesomeIcon className="ml-2" icon={faHourglass} />
               </button>
             </Link>
@@ -81,14 +83,21 @@ const BookingPage = ({ useType }) => {
         {/* <h1 className=' text-white text-xl my-10'>Top Artists</h1> */}
 
         <div className="my-24 booking-list flex flex-wrap gap-8">
-          {artistData.map((artist) => (
-            <BookingProfile
-              key={artist._id}
-              id={artist._id} // Ensure to provide a unique key for each item in the list
-              image={artist.image}
-              name={artist.stageName}
-            />
-          ))}
+          {loading ? (
+            <div className="w-full h-full flex justify-center items-center mt-12">
+              <img className="animate-spin" src="/vinyl.png" alt="" />
+              <span className="mx-2">Loading...</span>
+            </div>
+          ) : (
+            artistData.map((artist) => (
+              <BookingProfile
+                key={artist._id}
+                id={artist._id} // Ensure to provide a unique key for each item in the list
+                image={artist.image}
+                name={artist.stageName}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>

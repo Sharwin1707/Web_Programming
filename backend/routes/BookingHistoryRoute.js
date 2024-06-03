@@ -22,4 +22,24 @@ router.get("/:id", async (req, res) => {
     }
   });
 
+
+  // Fetch the booking history for the given request ID
+router.get("/user/:id", async (req, res) => {
+  try {
+    const { id: requestId } = req.params;
+    
+    // Fetch the booking history for the given artist ID
+    const bookingHistory = await BookingHistoryModel.find({ requestId });
+
+    if (bookingHistory.length === 0) {
+      return res.status(404).send("No booking history found");
+    }
+
+    return res.status(200).json(bookingHistory);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).send("An error occurred while retrieving booking history");
+  }
+});
+
 export { router };

@@ -15,11 +15,34 @@ const formatDate = (dateString) => {
 
 const PendingRequestPage = () => {
   const [bookingData, setBookingData] = useState([]);
-  const { token } = useStateContext();
+  const [pastBookingData, setPastBookingData] = useState([]);
+  const { token, user } = useStateContext();
 
   useEffect(() => {
     fetchBookingData();
   }, [bookingData]);
+
+  useEffect(() => {
+    const fetchPastBookings = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_SERVER_ENDPOINT}/bookhistory/${user._id}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch bookings");
+        }
+        const data = await response.json();
+        setPastBookingData(data);
+        console.log(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        // setLoading(false);
+      }
+    };
+
+    fetchPastBookings();
+  }, []);
 
   const fetchBookingData = () => {
     axios
@@ -50,7 +73,7 @@ const PendingRequestPage = () => {
   };
 
   return (
-    <div className="flex flex-1 flex-col  relative mx-10">
+    <div className="min-h-[100vh] flex flex-1 flex-col  relative mx-10">
       <div className="mt-12"></div>
       <h1 className="text-3xl poppins mb-12">
         <Link to={"/book"}>
@@ -79,7 +102,7 @@ const PendingRequestPage = () => {
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-white">
             {bookingData.map((data, index) => (
               <tr
                 key={index} // add key prop for each item in the list
@@ -107,7 +130,66 @@ const PendingRequestPage = () => {
             ))}
             {bookingData.length === 0 && (
               <tr>
-                <td colSpan="5">Waiting for data...</td>
+                <td colSpan="8" className="px-6 py-4 text-center text-black">
+                  No booking history found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+
+        <h1 className="text-3xl poppins my-12 ">Past Booking</h1>
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+          <thead className="poppins text-md text-white bg-blue-700">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                Artist
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Status
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Service Requested
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Date
+              </th>
+              <th scope="col" className="px-6 py-3">
+                <span className="sr-only">Cancel</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white">
+            {pastBookingData.map((data, index) => (
+              <tr
+                key={index} // add key prop for each item in the list
+                className="bg-white border hover:bg-gray-50 dark:hover:bg-gray-600"
+              >
+                <td
+                  scope="row"
+                  className="px-6 py-4 font-semibold text-black whitespace-nowrap"
+                >
+                  {data.artistName}
+                </td>
+                <td
+                  className={`px-6 py-4 whitespace-nowrap ${
+                    data.status === "Accepted"
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }`}
+                >
+                  {data.status}
+                </td>
+                <td className="px-6 py-4">{data.serviceRequested}</td>
+                <td className="px-6 py-4">{formatDate(data.bookingDate)}</td>
+                <td className="px-6 py-4 text-right"></td>
+              </tr>
+            ))}
+            {pastBookingData.length === 0 && (
+              <tr>
+                <td colSpan="8" className="px-6 py-4 text-center text-black">
+                  No booking history found.
+                </td>
               </tr>
             )}
           </tbody>
