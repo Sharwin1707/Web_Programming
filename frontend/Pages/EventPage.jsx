@@ -90,7 +90,12 @@ const EventPage = () => {
 
       {userType !== "Artist" ? (
         <div className="w-full flex justify-center flex-wrap gap-8 my-12 josefin">
-          {Array.isArray(events) && events.length > 0 ? (
+          {/* loading animation */}
+          {loading ? (
+            <div className="w-full h-full flex justify-center items-center mt-12">
+              <img className="animate-spin" src="/vinyl.png" alt="" /> Loading..
+            </div>
+          ) : Array.isArray(events) && events.length > 0 ? (
             events.map((event) => (
               <EventCard
                 //key={i}
