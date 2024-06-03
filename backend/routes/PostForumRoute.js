@@ -16,20 +16,20 @@ router.get('/', async (req, res) => {
 // Create a new post
 router.post('/', async (req, res) => {
     try {
-        const{ username, title, content} = req.body;
+        const{userId, username, title, content} = req.body;
 
-        if(!username || !title || !content ){
+        if(!userId || !username || !title || !content ){
             return res.status(400).send("Please fill in the required fields");
         }
 
-        const newPost = new PostModel({ username, title, content,
+        const newPost = new PostModel({userId, username, title, content,
         });
 
         await newPost.save();
         return res.status(200).send("New Post saved successfully");
 
     } catch (error) {
-        console.log(e);
+        console.log(error);
     }
   });
 

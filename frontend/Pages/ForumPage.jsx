@@ -8,22 +8,27 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useStateContext } from "../Context/ContextProvider";
 
 const ForumPage = () => {
   const [searchBar, setSearchBar] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [forumTopic, setTopic] = useState([]);
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState(""); 
+  const [content, setContent] = useState("");
 
-// Filter topic data based on search input
-const searchTopic = () => {
-  const searchLower = searchBar.toLowerCase();
-  const filteredTopic = forumTopic.filter((topic) =>
-    topic.title.toLowerCase().includes(searchLower) || topic.content.toLowerCase().includes(searchLower)
-  );
-  setTopic(filteredTopic);
-};
+  const { user } = useStateContext();
+
+  // Filter topic data based on search input
+  const searchTopic = () => {
+    const searchLower = searchBar.toLowerCase();
+    const filteredTopic = forumTopic.filter(
+      (topic) =>
+        topic.title.toLowerCase().includes(searchLower) ||
+        topic.content.toLowerCase().includes(searchLower)
+    );
+    setTopic(filteredTopic);
+  };
 
   const createPostModal = () => {
     setOpenModal(!openModal);
@@ -50,13 +55,18 @@ const searchTopic = () => {
   // Add a new post
   const addPost = async () => {
     try {
-      const newPost = { username: "currentUser", title, content }; // Add username as needed
+      const newPost = {
+        userId: user._id,
+        username: user.username,
+        title,
+        content,
+      }; // Add username as needed
       await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/post`, newPost);
       fetchPosts(); // Refresh the posts after adding a new one
       setTitle("");
       setContent("");
       setOpenModal(false);
-      return
+      return;
     } catch (error) {
       console.error("Error adding post:", error);
     }
@@ -67,27 +77,27 @@ const searchTopic = () => {
   return (
     <div className="relative px-[10%] josefin py-10">
       <div className="flex justify-between">
-      <form className="m-4 flex justify-center" id="searchForm ">
-        <input
-          className="px-2 py-1 rounded-l-md"
-          type="text"
-          placeholder="Search..."
-          value={searchBar}
-          onChange={(event) => {
-            if (!event.target.value) {
-              fetchPosts()
-            }
-            setSearchBar(event.target.value);
-          }}
-        />
-        <button
-          className="red px-2 py-1 rounded-r-md ml-1"
-          type="button"
-          onClick={searchTopic}
-        >
-          Search
-        </button>
-      </form>
+        <form className="m-4 flex justify-center" id="searchForm ">
+          <input
+            className="px-2 py-1 rounded-l-md"
+            type="text"
+            placeholder="Search..."
+            value={searchBar}
+            onChange={(event) => {
+              if (!event.target.value) {
+                fetchPosts();
+              }
+              setSearchBar(event.target.value);
+            }}
+          />
+          <button
+            className="red px-2 py-1 rounded-r-md ml-1"
+            type="button"
+            onClick={searchTopic}
+          >
+            Search
+          </button>
+        </form>
 
         <div>
           <select
@@ -229,13 +239,22 @@ const searchTopic = () => {
               .slice()
               .reverse()
               .map((topic) => (
-                <div key={topic._id} className="border bg-white p-2 rounded-md">
-                  <Link to={`/forum/${topic._id}`}>
-                    <h1 className="text-xl font-semibold josefin text-blue-500 underline">
+                <div
+                  key={topic._id}
+                  className="border bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                >
+                  <Link to={`/forum/${topic._id}`} className="no-underline">
+                    <h1 className="text-2xl font-bold josefin text-blue-600 underline mb-2">
                       {topic.title}
                     </h1>
                   </Link>
-                  <p className="line-clamp-3 text-black">{topic.content}</p>
+                  <div className="flex items-center justify-between text-gray-600 text-sm mb-4">
+                    <span>
+                      post by <span className="font-semibold">{topic.username} on <span className="text-gray-400">{new Date(topic.postAt).toLocaleDateString()}</span></span>
+                    </span>
+                    
+                  </div>
+                  <p className="line-clamp-3 text-gray-800">{topic.content}</p>
                 </div>
               ))}
           </div>
