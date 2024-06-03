@@ -40,7 +40,7 @@ const BookingHistory = () => {
     };
 
     fetchBookings();
-  }, [user._id]);
+  }, [user._id, bookingData]);
 
   return (
     <div>

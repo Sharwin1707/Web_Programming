@@ -11,9 +11,11 @@ let artistName = "";
 
 const ArtistDetail = () => {
   const { id } = useParams();
-  const artistData = useFetch(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`);
+  const artistData = useFetch(
+    `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`
+  );
   const artist = artistData.filter((artist) => artist._id === id);
-  artistName = artist[0].stageName
+  artistName = artist[0].stageName;
 
   if (!artist.length) {
     return <p>Artist not found</p>;
@@ -40,12 +42,8 @@ const ArtistDetail = () => {
         </div>
 
         <div>
-          <h1 className="text-white text-5xl mb-4">
-            {artist[0].stageName}
-          </h1>
-          <div className="text-white poppins">
-            Career: {artist[0].career}
-          </div>
+          <h1 className="text-white text-5xl mb-4">{artist[0].stageName}</h1>
+          <div className="text-white poppins">Career: {artist[0].career}</div>
           <div className="text-white poppins flex gap-3">
             Genre: {artist[0].genre}
           </div>
@@ -74,10 +72,41 @@ const BookingDetail = () => {
   const [email, setEmail] = useState("");
   const [mobileNum, setMobileNum] = useState("");
   const [requestedDetail, setRequestedDetail] = useState("");
-  const [attachment, setAttachment] = useState("url to the file");
+  const [attachment, setAttachment] = useState(null);
+  const [attachmentUrl, setAttachmentUrl] = useState("no attachment");
 
-  const handleSubmit = (event) => {
+  const handleFileChange = (e) => {
+    setAttachment(e.target.files[0]);
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    let fileUrl = "no attachment";
+    if (attachment) {
+      const formData = new FormData();
+      formData.append("file", attachment);
+
+      try {
+        const uploadResponse = await axios.post(
+          `${import.meta.env.VITE_SERVER_ENDPOINT}/images/upload`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        fileUrl = uploadResponse.data.url;
+        setAttachmentUrl(fileUrl);
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        return;
+      }
+    }
+
+    console.log(fileUrl);
+
     const bookingData = {
       userId: user._id,
       artistId: id,
@@ -89,20 +118,22 @@ const BookingDetail = () => {
       email: email,
       mobileNum: mobileNum,
       requestDetail: requestedDetail,
-      attachment: attachment,
-      status : "in review"
+      attachment: fileUrl,
+      status: "in review",
     };
 
-    axios
-      .post("http://localhost:3000/bookings", bookingData)
-      .then((response) => {
-        console.log("Server Response:", response.data);
-        showToastMessage("Form submitted successfully!");
-        navigate("/request");
-      })
-      .catch((error) => {
-        console.error("Error submitting form:", error);
-      });
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/bookings`,
+        bookingData
+      );
+      console.log("Server Response:", response.data);
+      showToastMessage("Form submitted successfully!");
+      setShowToast(true);
+      navigate("/request");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   };
 
   return (
@@ -120,9 +151,7 @@ const BookingDetail = () => {
         className="flex flex-col gap-3 sm:w-[300px] md:w-[600px] xl:w-[800px] mb-12"
         onSubmit={handleSubmit}
       >
-        <h1 className="flex-1 text-white text-2xl">
-          Send Booking Request
-        </h1>
+        <h1 className="flex-1 text-white text-2xl">Send Booking Request</h1>
         <input
           className="rounded-md p-1 focus:outline-none poppins"
           placeholder="Name"
@@ -140,9 +169,7 @@ const BookingDetail = () => {
           type="date"
           onChange={(e) => setBookingDate(e.target.value)}
         />
-        <label className="text-white text-xl mt-4">
-          Service available:
-        </label>
+        <label className="text-white text-xl mt-4">Service available:</label>
         <div className="flex gap-4 mb-4">
           <div className="flex justify-center items-center gap-2">
             <input
@@ -210,12 +237,13 @@ const BookingDetail = () => {
             file:border-0 file:text-sm file:font-semibold
             file:bg-white file:text-black
             hover:file:bg-pink-100"
+            onChange={handleFileChange}
         />
 
         <input
           className="text-white bg-red-400 rounded-md py-3"
           type="submit"
-          value="Submit"
+          value="Submit"         
         />
       </form>
     </div>
@@ -223,4 +251,3 @@ const BookingDetail = () => {
 };
 
 export default BookingDetail;
-

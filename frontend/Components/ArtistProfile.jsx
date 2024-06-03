@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useStateContext } from "../Context/ContextProvider";
 
 const ArtistProfile = ({ id, name, image, career, genre, birthday }) => {
-  const {isGuest} = useStateContext()
+  const {isGuest,token} = useStateContext()
   console.log(isGuest)
   return (
     <div className="min-w-56 flex flex-col md:flex-row bg-[#222222] overflow-hidden rounded-md">
@@ -25,7 +25,7 @@ const ArtistProfile = ({ id, name, image, career, genre, birthday }) => {
           Birthday: {birthday}
           <br />
         </p>
-        <Link to={isGuest ? `/guest/artistprofile/${id}` : `/artistprofile/${id}`}>
+        <Link to={token ? `/artistprofile/${id}` : `/guest/artistprofile/${id}`}>
           <button className="mt-2 px-6 py-3 red rounded-md">VIEW</button>
         </Link>
       </div>

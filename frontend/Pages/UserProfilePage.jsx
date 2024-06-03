@@ -56,10 +56,6 @@ const UserProfilePage = () => {
     const { name, value } = e.target;
     setProfile((prevProfile) => ({ ...prevProfile, [name]: value }));
 
-    if (name === "newPassword") {
-      const newStrength = calculatePasswordStrength(value);
-      setPasswordStrength(newStrength);
-    }
   };
 
   const toggleEditMode = () => {
