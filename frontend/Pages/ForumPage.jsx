@@ -10,10 +10,20 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const ForumPage = () => {
+  const [searchBar, setSearchBar] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [forumTopic, setTopic] = useState([]);
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(""); 
+
+// Filter topic data based on search input
+const searchTopic = () => {
+  const searchLower = searchBar.toLowerCase();
+  const filteredTopic = forumTopic.filter((topic) =>
+    topic.title.toLowerCase().includes(searchLower) || topic.content.toLowerCase().includes(searchLower)
+  );
+  setTopic(filteredTopic);
+};
 
   const createPostModal = () => {
     setOpenModal(!openModal);
@@ -57,18 +67,27 @@ const ForumPage = () => {
   return (
     <div className="relative px-[10%] josefin py-10">
       <div className="flex justify-between">
-        <div className="w-[400px] p-2  bg-white rounded-full flex flex-nowrap">
-          <FontAwesomeIcon
-            className="px-2"
-            icon={faMagnifyingGlass}
-            color="gray"
-          />
-          <input
-            className="border border-white"
-            type="text"
-            placeholder="Search.."
-          />
-        </div>
+      <form className="m-4 flex justify-center" id="searchForm ">
+        <input
+          className="px-2 py-1 rounded-l-md"
+          type="text"
+          placeholder="Search..."
+          value={searchBar}
+          onChange={(event) => {
+            if (!event.target.value) {
+              fetchPosts()
+            }
+            setSearchBar(event.target.value);
+          }}
+        />
+        <button
+          className="red px-2 py-1 rounded-r-md ml-1"
+          type="button"
+          onClick={searchTopic}
+        >
+          Search
+        </button>
+      </form>
 
         <div>
           <select
