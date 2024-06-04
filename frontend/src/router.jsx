@@ -23,6 +23,8 @@ import CreateEventPage from "../Pages/CreateEventPage";
 import EventManagementPage from "../Pages/EventManagementPage";
 import UserProfilePage from "../Pages/UserProfilePage";
 
+
+
 const router = createBrowserRouter([
   {
     path: "/guest",

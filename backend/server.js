@@ -12,6 +12,8 @@ import { router as CustomerOrderRoute } from "./routes/CustomerOrderRoute.js";
 import { router as CartRoute } from "./routes/CartRoute.js";
 import { router as createEventRoute } from "./routes/createEventRoute.js";
 import { router as PostForum} from "./routes/PostForumRoute.js";
+import { router as emailRoute } from "./routes/emailRoute.js";
+
 import multer from "multer";
 
 dotenv.config();
@@ -54,6 +56,9 @@ app.use("/createEvent" ,createEventRoute);
 
 //Posting forum routes
 app.use("/post" , PostForum);
+
+//send email
+app.use("/email" , emailRoute);
 
 
 app.listen(PORT, () => {

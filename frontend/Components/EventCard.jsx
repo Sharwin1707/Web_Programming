@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useToast } from "./Toast";
 import { Link } from "react-router-dom";
+import { createEventModel } from "../../backend/models/createEvent";
+import { useStateContext } from "../Context/ContextProvider";
+import axios from "axios";
+
 
 const EventCard = ({
   id, //add the event ID
@@ -11,14 +15,47 @@ const EventCard = ({
   location,
   time,
   userType,
+  
 }) => {
   const [addReminder, setAddReminder] = useState(false);
   const { showToastMessage } = useToast();
   const [imageError, setImageError] = useState(false);
+  const { user } = useStateContext();
+
+  
+  const sendReminderEmail = async () => {
+    try {
+
+      const newEmail = {
+        userId: user._id,
+        userEmail: user.email,
+        username: user.username,
+        eventID: id,
+        concertName : eventName,
+        eventDate : new Date(month).toISOString().split('T')[0],
+        eventTime: time,
+        eventLocation : location
+        
+      }; 
+
+
+      await axios.post('http://localhost:3000/email/sendReminder', newEmail );
+      showToastMessage('Reminder email sent');
+    } catch (error) {
+      console.error('Error sending email:', error);
+      showToastMessage('Error sending email');
+    }
+  };
+
+
+
+
   const toggleReminder = () => {
     // Toggle the addReminder state when the button is clicked
     setAddReminder(true);
     showToastMessage("Added to Reminder");
+    sendReminderEmail(); // Call the function to send an email
+   
   };
 
   return (
@@ -83,7 +120,7 @@ const EventCard = ({
       )}
 
         {userType === "Organization" ?  (
-          <Link to={`/event/manage/${id}`} className="py-2 border text-center border-black rounded">
+          <Link to={`/event/manage/${id}`} className="mt-4 mb-2 px-4 py-2 bg-black text-white rounded-md text-center">
            
             <button>Edit</button>
           </Link>
