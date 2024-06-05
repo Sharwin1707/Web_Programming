@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "../Context/ContextProvider";
 import axios from "axios";
 import ImageUpload from "../Components/ImageUpload";
+import UploadToGallery from "../Components/UploadToGallery";
 
 const UserProfilePage = () => {
   const [userType, setUserType] = useState();
@@ -21,7 +22,6 @@ const UserProfilePage = () => {
     newPassword: "",
   });
   const [isEditMode, setIsEditMode] = useState(false);
-
 
   const { user } = useStateContext();
 
@@ -44,8 +44,7 @@ const UserProfilePage = () => {
           } else {
             console.warn("Profile not found");
           }
-        }
-        else if(user && user._id && user.userType === "User"){
+        } else if (user && user._id && user.userType === "User") {
           const response = await axios.get(
             `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/user/${user._id}`
           );
@@ -111,7 +110,11 @@ const UserProfilePage = () => {
               <div className="profile-container">
                 <div className="profile-pic flex flex-col items-center justify-center">
                   <div className="">
-                    <ImageUpload id={user._id} currentImg={profile.image} userType={user.userType}/>
+                    <ImageUpload
+                      id={user._id}
+                      currentImg={profile.image}
+                      userType={user.userType}
+                    />
                   </div>
                 </div>
 
@@ -290,6 +293,8 @@ const UserProfilePage = () => {
           </div>
         </div>
       )}
+
+      {userType === "Artist" ? <UploadToGallery /> : ""}
     </div>
   );
 };

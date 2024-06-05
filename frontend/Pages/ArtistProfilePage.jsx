@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -34,13 +34,33 @@ const useArtistData = () => {
 
 const ArtistProfilePage = () => {
   const { id } = useParams();
-  const { isGuest } = useStateContext();
+  const { isGuest, user} = useStateContext();
   const artistData = useArtistData();
   const artist = artistData.filter((artist) => artist._id === id);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [images, setImages] = useState([]);
+
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_ENDPOINT}/gallery/images/${id}`
+        );
+        setImages(response.data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to fetch images. Please try again.");
+      }
+    };
+
+    fetchImages();
+  }, [id]);
 
   return (
     <div className="px-[12%] pt-8">
-      <Link to={isGuest ? "/guest/artist" : "/artist"}>
+      <Link to={user ? "/artist" :"/guest/artist" }>
         <FontAwesomeIcon icon={faArrowLeft} size="2x" />
       </Link>
 
@@ -81,57 +101,26 @@ const ArtistProfilePage = () => {
         <br />
         <br />
 
-        <h1 className="josefin text-2xl">GALLERY</h1>
+        <h1 className="josefin text-white text-2xl">GALLERY</h1>
 
-        <div className="flex justify-center flex-wrap gap-8 my-4">
-          <div className="w-72 h-72 border">
-            <img
-              className="w-full h-full object-cover"
-              src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRAjXJvZlf4HfgS2ymq19yLF17hnTuiWJBBKL9WP29rqJYoLPB_"
-              alt=""
-            />
-          </div>
+        <hr className="w-full"/>
 
-          <div className="w-72 h-72 border">
-            <img
-              className="w-full h-full object-cover"
-              src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRz5XjwGbOsUFWFXiEiq_lFr1yW4FWma1OuUTPT7zZuDX6pWQyz"
-              alt=""
-            />
-          </div>
-
-          <div className="w-72 h-72 border">
-            <img
-              className="w-full h-full object-cover"
-              src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcREl_W8z2M-hvL4GynE1x3ZVYvWT2iuE9sw961s8lu-kuaz5RVr"
-              alt=""
-            />
-          </div>
-
-          <div className="w-72 h-72 border">
-            <img
-              className="w-full h-full object-cover"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEg6TYrZR9nO1uFjpcKrwsmiAxf8ja9f7Cymd7ZzVT3R0JLTS"
-              alt=""
-            />
-          </div>
-
-          <div className="w-72 h-72 border">
-            <img
-              className="w-full h-full object-cover"
-              src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSDESydYY3nitDE4INBWsUsPLQaQsXgX6LiFH-1EVFYGX-pwwsA"
-              alt=""
-            />
-          </div>
-
-          <div className="w-72 h-72 border">
-            <img
-              className="w-full h-full object-cover"
-              src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRG-NzNP2uvqlKPzQYyYdbGjh8hPoK_a-1Zz6fcFHY2dm_5-Pxx"
-              alt=""
-            />
-          </div>
-        </div>
+        <div className="mt-4 flex justify-center flex-wrap gap-8 my-8">
+        {images.length > 0 ? (
+          images.map((image, index) => (
+            <div className="w-[250px] h-[250px]">
+              <img
+                key={index}
+                src={image.imageUrl}
+                alt={`Gallery image ${index}`}
+                className="w-full h-full object-cover m-2"
+              />
+            </div>
+          ))
+        ) : (
+          <p className="text-white text-2xl josefin">No images uploaded by <span>{artist[0].stageName}</span></p>
+        )}
+      </div>
       </div>
     </div>
   );
