@@ -18,11 +18,10 @@ const UserProfilePage = () => {
     image: "",
     phoneNumber: "",
     currentPassword: "",
-    newPassword: ""
+    newPassword: "",
   });
   const [isEditMode, setIsEditMode] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [passwordStrength, setPasswordStrength] = useState("weak");
+
 
   const { user } = useStateContext();
 
@@ -35,17 +34,30 @@ const UserProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        if (user && user._id) {
-          const response = await axios.get(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist/${user._id}`);
+        if (user && user._id && user.userType === "Artist") {
+          const response = await axios.get(
+            `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist/${user._id}`
+          );
           if (response.data) {
             console.log(response.data);
             setProfile(response.data);
           } else {
-            console.warn('Profile not found');
+            console.warn("Profile not found");
+          }
+        }
+        else if(user && user._id && user.userType === "User"){
+          const response = await axios.get(
+            `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/user/${user._id}`
+          );
+          if (response.data) {
+            console.log(response.data);
+            setProfile(response.data);
+          } else {
+            console.warn("Profile not found");
           }
         }
       } catch (error) {
-        console.error('Error fetching profile:', error);
+        console.error("Error fetching profile:", error);
       }
     };
 
@@ -55,19 +67,19 @@ const UserProfilePage = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProfile((prevProfile) => ({ ...prevProfile, [name]: value }));
-
   };
 
   const toggleEditMode = () => {
     setIsEditMode(!isEditMode);
   };
 
-
-
-  const saveProfile = async () => {
+  const saveArtistProfile = async () => {
     try {
       console.log("Updated Profile:", profile);
-      const response = await axios.put(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`, profile);
+      const response = await axios.put(
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`,
+        profile
+      );
       console.log("Response:", response);
       setIsEditMode(false);
     } catch (error) {
@@ -75,14 +87,22 @@ const UserProfilePage = () => {
     }
   };
 
-
-
+  const saveUserProfile = async () => {
+    try {
+      console.log("Updated Profile:", profile);
+      const response = await axios.put(
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`,
+        profile
+      );
+      console.log("Response:", response);
+      setIsEditMode(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
 
   return (
     <div className="text-black poppins px-[12%] py-10">
-
-      
-      
       {userType === "Artist" && (
         <div className="container container-below-header">
           <div className="profile-section">
@@ -91,10 +111,10 @@ const UserProfilePage = () => {
               <div className="profile-container">
                 <div className="profile-pic flex flex-col items-center justify-center">
                   <div className="">
-                    <ImageUpload id={user._id} currentImg={profile.image}/>  
-                  </div>        
+                    <ImageUpload id={user._id} currentImg={profile.image} userType={user.userType}/>
+                  </div>
                 </div>
-               
+
                 <div className="profile-name">{user.username}</div>
               </div>
               <div className="info-row">
@@ -195,7 +215,68 @@ const UserProfilePage = () => {
                   onChange={handleInputChange}
                 />
               </div>
-              
+
+              {isEditMode ? (
+                <button id="saveProfileBtn" onClick={saveArtistProfile}>
+                  Save Profile
+                </button>
+              ) : (
+                <button id="editProfileBtn" onClick={toggleEditMode}>
+                  Edit Profile
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {userType === "User" && (
+        <div className="container container-below-header">
+          <div className="profile-section">
+            <h2>User Profile</h2>
+            <div className="profile-info">
+              <div className="profile-container">
+                <div className="profile-pic flex flex-col items-center justify-center">
+                  <div className="">
+                    <ImageUpload id={user._id} currentImg={profile.image} />
+                  </div>
+                </div>
+
+                <div className="profile-name">{user.username}</div>
+              </div>
+              <div className="info-row">
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  value={profile.firstName}
+                  readOnly={!isEditMode}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="info-row">
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  value={profile.lastName}
+                  readOnly={!isEditMode}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="info-row">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={profile.email}
+                  readOnly={!isEditMode}
+                  onChange={handleInputChange}
+                />
+              </div>
               {isEditMode ? (
                 <button id="saveProfileBtn" onClick={saveProfile}>
                   Save Profile
@@ -213,5 +294,4 @@ const UserProfilePage = () => {
   );
 };
 
-
-export default UserProfilePage
+export default UserProfilePage;

@@ -21,61 +21,68 @@ const RegisterPage = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      alert('Passwords do not match');
       return;
     }
 
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER_ENDPOINT}/users/register`,
-        {
-          email,
-          username,
-          password,
-          userType,
-        }
+        { email, username, password, userType }
       );
-      
-      setUser(response.data.user);
-      setToken(response.data.user._id);
+
+      const { user } = response.data;
+      setUser(user);
+      setToken(user._id);
       setIsGuest(false);
-
-      if (userType === "Artist") {
-        const artistProfile = {
-          _id: response.data.user._id,
-          image: " ",
-          firstName: " ",
-          lastName: " ",
-          stageName: " ",
-          career: " ",
-          genre: " ",
-          birthday: " ",
-          music: " ",
-          email: email,
-          about: " ",
-        };
-        const createProfile = axios.post(
-          `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`,
-          artistProfile
-        );
-        showToastMessage("Please complete your profile");
-
-        axios
-          .get(`${import.meta.env.VITE_SERVER_ENDPOINT}/users/${token}`)
-          .then((response) => {
-            setUser(response.data);
-          });
-
-        navigate("/profile"); // Adjust the path to your profile management page
-      }
-      else{
-        navigate("/"); // Adjust the path to
+      console.log(userType);
+      
+      if (userType === 'Artist') {
+        await createArtistProfile(user);
+        showToastMessage('Please complete your profile');
+        navigate('/profile'); // Adjust the path to your profile management page
+      } else if (userType === 'User') {
+        await createUserProfile(user);
+        showToastMessage('Please complete your profile');
+        navigate('/');
+      } else {
+        navigate('/');
       }
     } catch (error) {
       console.error(error);
-      // Handle error appropriately
+      showToastMessage('Registration failed. Please try again.');
     }
   };
+
+  const createArtistProfile = async (user) => {
+    const artistProfile = {
+      _id: user._id,
+      image: ' ',
+      firstName: ' ',
+      lastName: ' ',
+      stageName: ' ',
+      career: ' ',
+      genre: ' ',
+      birthday: ' ',
+      music: ' ',
+      email: user.email,
+      about: ' ',
+    };
+    await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`, artistProfile);
+  };
+
+  const createUserProfile = async (user) => {
+    const userProfile = {
+      _id: user._id,
+      image: ' ',
+      username : username,
+      firstName: ' ',
+      lastName: ' ',
+      email: user.email,
+    };
+    await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/user`, userProfile).then((response) => {console.log(response)});
+  };
+
 
   return (
     <section>

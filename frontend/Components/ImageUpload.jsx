@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { useStateContext } from "../Context/ContextProvider";
 
-const ImageUpload = ({ id, currentImg }) => {
+const ImageUpload = ({ id, currentImg , userType }) => {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState(null); // Define the imageUrl state
   const [error, setError] = useState(null);
+  const {user} = useStateContext()
 
-  console.log("Current image:", currentImg);
 
   useEffect(() => {
     setImageUrl(currentImg);
@@ -43,10 +44,18 @@ const ImageUpload = ({ id, currentImg }) => {
         _id: id,
         image: uploadResponse.data.url,
       };
-      await axios.put(
+      
+      if(user.userType === "Artist"){
+        await axios.put(
         `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist/image`,
         saveToDb
-      );
+      ) 
+      }
+      else if(user.userType === "User"){
+        await axios.put(
+          `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/user/image`,
+          saveToDb)
+      }
 
       // Update imageUrl state only after successful upload and database update
       setImageUrl(uploadResponse.data.url);

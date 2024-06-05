@@ -47,5 +47,36 @@ const artistProfileScheme = mongoose.Schema({
     },
 })
 
+const userProfileSchema = new mongoose.Schema({
+    _id: {
+      type: String,
+      required: true
+    },
+    image: {
+      type: String,
+      required: true,
+      default: ' '
+    },
+    username: {
+      type: String,
+      required: true
+    },
+    firstName: {
+      type: String,
+      required: true,
+      default: ' '
+    },
+    lastName: {
+      type: String,
+      required: true,
+      default: ' '
+    },
+    email: {
+      type: String,
+      required: true
+    }
+  });
+
 
 export const ArtistProfileModel = mongoose.model('ArtistProfile', artistProfileScheme)
+export const UserProfileModel = mongoose.model('UserProfile', userProfileSchema)
