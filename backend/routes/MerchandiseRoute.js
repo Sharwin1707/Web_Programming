@@ -23,11 +23,11 @@ router.get("/", async (req, res) => {
 // Create new merchandise
 router.post("/", async (req, res) => {
   try {
-    const { _id, price, rating, description, quantity, type, tag } = req.body;
-    if (!_id || !price || !rating || !description || !quantity || !type || !tag) {
+    const { _id, price, rating, description, quantity, type, tag, image, name } = req.body;
+    if (!_id || !price || !rating || !description || !quantity || !type || !tag || !image || !name) {
       return res.status(400).send("Please enter the required fields");
     }
-    const newMerchandise = new MerchandiseModel({ _id, price, rating, description, quantity, type, tag });
+    const newMerchandise = new MerchandiseModel({ _id, price, rating, description, quantity, type, tag, image, name});
     await newMerchandise.save();
     return res.status(200).send("Merchandise created successfully: " + newMerchandise);
   } catch (err) {

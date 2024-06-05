@@ -3,10 +3,29 @@ import CustomCarousel from "../Components/Carousel";
 import Isotope from "isotope-layout";
 import ShopItem from "../Components/ShopItem";
 import { shopData, shopSliderImage } from "../sampleData";
+import axios from "axios";
+
+
+
 
 const ShopPage = () => {
   const [activeFilter, setActiveFilter] = useState("*");
+  const [shopData, setShopData] = useState([]); // State to store fetched merchandise
   const isotopeRef = useRef(null);
+
+  useEffect(() => {
+    // Fetch merchandise data when component mounts
+    const fetchMerchandise = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/`);
+        setShopData(response.data);
+      } catch (err) {
+        console.error("Error fetching merchandise data:", err);
+      }
+    };
+
+    fetchMerchandise();
+  }, []);
 
   useEffect(() => {
     // Initialize Isotope when the component mounts
@@ -86,15 +105,15 @@ const ShopPage = () => {
 
         {/* Filtered items container */}
 
-        <div className="filter-container ">
+        <div className="filter-container">
           {shopData.map((data, i) => (
             <ShopItem
               key={i}
-              image={data.displayImage}
+              image={data.image}
               name={data.name}
-              type={data.type}
-              ratingStar={5}
-              price={"230"}
+              type={data.tag}
+              ratingStar={data.rating}
+              price={data.price}
             />
           ))}
         </div>
@@ -104,3 +123,4 @@ const ShopPage = () => {
 };
 
 export default ShopPage;
+

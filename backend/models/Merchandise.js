@@ -8,6 +8,8 @@ const merchandiseSchema = new mongoose.Schema({
     quantity: Number,
     type: String,
     tag: String,
+    image: String,
+    name: String
   });
   
   export const MerchandiseModel = mongoose.model("Merchandise", merchandiseSchema);
