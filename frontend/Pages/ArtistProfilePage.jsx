@@ -2,7 +2,11 @@ import React, { Suspense, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCartShopping,
+  faArrowLeft,
+  faClose,
+} from "@fortawesome/free-solid-svg-icons";
 import { useStateContext } from "../Context/ContextProvider";
 import axios from "axios";
 
@@ -13,12 +17,12 @@ function fetchArtistData() {
   if (!cache.artistDataPromise) {
     cache.artistDataPromise = axios
       .get(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`)
-      .then(response => {
+      .then((response) => {
         if (response.status === 200) {
           cache.artistData = response.data;
           return response.data;
         } else {
-          throw new Error('Error fetching data');
+          throw new Error("Error fetching data");
         }
       });
   }
@@ -34,13 +38,14 @@ const useArtistData = () => {
 
 const ArtistProfilePage = () => {
   const { id } = useParams();
-  const { isGuest, user} = useStateContext();
+  const { isGuest, user } = useStateContext();
   const artistData = useArtistData();
   const artist = artistData.filter((artist) => artist._id === id);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [images, setImages] = useState([]);
-
+  const [isBigImage, setIsBigImage] = useState(false);
+  const [bigImage, setBigImage] = useState(null);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -58,18 +63,32 @@ const ArtistProfilePage = () => {
     fetchImages();
   }, [id]);
 
+  const handleBigImage = (image) => {
+    setIsBigImage(true);
+    setBigImage(image);
+  };
+
+  const closeBigImage = () => {
+    setIsBigImage(false);
+    setBigImage(null);
+  };
+
   return (
-    <div className="px-[12%] pt-8">
-      <Link to={user ? "/artist" :"/guest/artist" }>
-        <FontAwesomeIcon icon={faArrowLeft} size="2x" />
-      </Link>
+    <div className=" pt-8">
+      <div className="px-[12%]">
+        <Link to={user ? "/artist" : "/guest/artist"}>
+          <FontAwesomeIcon
+            className="cursor-pointer"
+            icon={faArrowLeft}
+            size="2x"
+          />
+        </Link>
+      </div>
 
       <div className="flex flex-col justify-center items-center">
         <br />
         <br />
-        <h1 className="text-center text-4xl josefin">
-          {artist[0].stageName}
-        </h1>
+        <h1 className="text-center text-4xl josefin">{artist[0].stageName}</h1>
         <br />
         <div>Profile Music Photo Video</div>
         <br />
@@ -103,25 +122,44 @@ const ArtistProfilePage = () => {
 
         <h1 className="josefin text-white text-2xl">GALLERY</h1>
 
-        <hr className="w-full"/>
+        <hr className="w-full" />
 
         <div className="mt-4 flex justify-center flex-wrap gap-8 my-8">
-        {images.length > 0 ? (
-          images.map((image, index) => (
-            <div className="w-[250px] h-[250px]">
-              <img
-                key={index}
-                src={image.imageUrl}
-                alt={`Gallery image ${index}`}
-                className="w-full h-full object-cover m-2"
-              />
-            </div>
-          ))
-        ) : (
-          <p className="text-white text-2xl josefin">No images uploaded by <span>{artist[0].stageName}</span></p>
-        )}
+          {images.length > 0 ? (
+            images.map((image, index) => (
+              <div
+                onClick={() => {
+                  handleBigImage(image.imageUrl);
+                }}
+                className="cursor-pointer w-[250px] h-[250px] rounded-md overflow-hidden"
+              >
+                <img
+                  key={index}
+                  src={image.imageUrl}
+                  alt={`Gallery image ${index}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))
+          ) : (
+            <p className="text-white text-2xl josefin">
+              No images uploaded by <span>{artist[0].stageName}</span>
+            </p>
+          )}
+        </div>
       </div>
-      </div>
+      {isBigImage ? (
+        <div className="fixed top-0 left-0 p-[12%] flex flex-col justify-center items-center inset-0 w-full h-screen bg-black bg-opacity-80 ">
+          <div className="w-full flex justify-end pt-[200px]">
+            <FontAwesomeIcon onClick={closeBigImage} icon={faClose} size="2x" />
+          </div>
+          <div className="max-w-[720px]">
+            <img className="w-full h-full object-cover" src={bigImage} alt="" />
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
