@@ -47,31 +47,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// // Get a single cart by ID
-// router.get('/:id', async (req, res) => {
-//   try {
-//     const cart = await CartModel.findById(req.params.id);
-//     if (!cart) {
-//       return res.status(404).json({ message: 'Cart not found' });
-//     }
-//     res.status(200).json(cart);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error fetching cart', error });
-//   }
-// });
-
-// router.get('/:id', async (req, res) => {
-//   try {
-//     const carts = await CartModel.find({ userId: req.params.userId });
-//     if (!carts.length) {
-//       return res.status(404).json({ message: 'No carts found for this user' });
-//     }
-//     res.status(200).json(carts);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error fetching carts', error });
-//   }
-// });
-
 // Get all carts by UserID
 router.get('/user/:userId', async (req, res) => {
   try {
