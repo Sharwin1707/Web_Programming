@@ -14,6 +14,9 @@ import { router as createEventRoute } from "./routes/createEventRoute.js";
 import { router as PostForum } from "./routes/PostForumRoute.js";
 import { router as emailRoute } from "./routes/emailRoute.js";
 import { router as ArtistGalleryRoute } from "./routes/GalleryRoute.js"
+import { router as paymentRoute } from "./routes/PaymentRoute.js"
+import { router as purchaseHistoryRoute } from "./routes/PurchaseHistoryRoute.js"
+import { router as voucherRoute } from "./routes/VoucherRoute.js"
 import { router as CommentRoute} from "./routes/CommentRoute.js"
 
 import multer from "multer";
@@ -52,6 +55,15 @@ app.use("/customerorder", CustomerOrderRoute);
 
 //cart routes
 app.use("/cart", CartRoute);
+
+//payment routes
+app.use("/payment", paymentRoute);
+
+//purcHistory routes
+app.use("/purchasehistory", purchaseHistoryRoute);
+
+//voucher routes
+app.use("/voucher", voucherRoute);
 
 //createEvent routes
 app.use("/createEvent", createEventRoute);
