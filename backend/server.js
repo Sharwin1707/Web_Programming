@@ -17,6 +17,7 @@ import { router as ArtistGalleryRoute } from "./routes/GalleryRoute.js"
 import { router as paymentRoute } from "./routes/PaymentRoute.js"
 import { router as purchaseHistoryRoute } from "./routes/PurchaseHistoryRoute.js"
 import { router as voucherRoute } from "./routes/VoucherRoute.js"
+import { router as CommentRoute} from "./routes/CommentRoute.js"
 
 import multer from "multer";
 
@@ -75,6 +76,9 @@ app.use("/email", emailRoute);
 
 //artist gallery
 app.use("/gallery", ArtistGalleryRoute );
+
+//Forum Comment
+app.use("/Comment", CommentRoute );
 
 app.listen(PORT, () => {
   console.log(`Listening to port ${PORT}`);

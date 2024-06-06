@@ -9,7 +9,9 @@ import {
   faReply,
 } from "@fortawesome/free-solid-svg-icons";
 
-const FroumChatContainer = ({ reply }) => {
+
+const FroumChatContainer = ({ reply, username }) => {
+
   const [isLiked, setLike] = useState(false);
 
   const likeClicked = () => {
@@ -21,7 +23,7 @@ const FroumChatContainer = ({ reply }) => {
       <div className="my-10 py-4 bg-blue-gray-300 p-3 rounded-md">
         <div className="flex gap-3">
           <FontAwesomeIcon icon={faUserCircle} size="2x" />
-          <h1>Abu</h1>
+          <h1>{username}</h1>
         </div>
         <p className="py-4 ">{reply}</p>
         <div className="flex gap-4 items-center">
