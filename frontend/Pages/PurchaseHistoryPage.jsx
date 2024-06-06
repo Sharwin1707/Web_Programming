@@ -37,7 +37,7 @@ const PurchaseHistoryPage = () => {
           <div key={index} className="bg-white rounded-lg shadow-md mb-8">
             <div className="px-4 py-5 sm:px-6">
               <h5 className="text-gray-700 text-lg">
-                Order {index + 1} - Receipt Voucher: {order.receiptVoucher}
+                Order {index + 1} - Receipt ID: {order.receiptVoucher}
               </h5>
               <p className="text-sm text-gray-500">Discount: RM{order.discount}</p>
             </div>

@@ -17,6 +17,14 @@ const PaymentPage = () => {
   const location = useLocation();
   const { delivery, discount, voucherCode } = location.state || { delivery: 0, discount: 0 };
 
+
+  // Function to get or set voucher code
+  const getReceiptVoucher = (voucherCode) => {
+    return voucherCode ? voucherCode : "NULL";
+  };
+
+  const receiptVoucher = getReceiptVoucher(voucherCode);
+
   const [billingDetails, setBillingDetails] = useState({
     firstName: '',
     lastName: '',
@@ -61,7 +69,7 @@ const PaymentPage = () => {
       const quantity = quantities[item.merchandiseId] || 0;
       total += item.merchPrice * quantity;
     });
-    setTotalPrice(total - discount + delivery);
+    setTotalPrice((total - discount + delivery).toFixed(2));
   }, [quantities, cartData]);
 
   const handleInputChange = (e) => {
@@ -109,7 +117,7 @@ const PaymentPage = () => {
        // Prepare purchase history data
     const purchaseHistoryData = {
       userId: user._id,
-      receiptVoucher: voucherCode, // You can create a function to generate this
+      receiptVoucher: generateReceiptVoucher(), // You can create a function to generate this
       discount: discount, // You can create a function to calculate this
       merchandise: cartData.map(item => ({
         merchandiseId: item.merchandiseId,
@@ -140,6 +148,16 @@ const PaymentPage = () => {
     }
   };
 
+
+  const generateReceiptVoucher = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let voucher = '';
+    for (let i = 0; i < 10; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      voucher += characters[randomIndex];
+    }
+    return voucher;
+  };
 
 
   
