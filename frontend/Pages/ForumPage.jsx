@@ -243,7 +243,7 @@ const ForumPage = () => {
                   key={topic._id}
                   className="border bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
                 >
-                  <Link to={`/forum/${topic._id}`} className="no-underline">
+                  <Link to={user ? `/forum/${topic._id}` : `/guest/forum/${topic._id}`} className="no-underline">
                     <h1 className="text-2xl font-bold josefin text-blue-600 underline mb-2">
                       {topic.title}
                     </h1>

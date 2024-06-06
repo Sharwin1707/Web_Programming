@@ -11,6 +11,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import FroumChatContainer from "../Components/FroumChatContainer";
 import axios from "axios";
+import { useStateContext } from "../Context/ContextProvider";
 
 const ForumDiscussionPage = () => {
   const { id } = useParams();
@@ -19,6 +20,7 @@ const ForumDiscussionPage = () => {
   const [forumDiscussion, setDiscussion] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const {token} = useStateContext()
 
   const [isLiked, setLike] = useState(false);
 
@@ -62,7 +64,7 @@ const ForumDiscussionPage = () => {
     <div className="px-[12%] py-10">
       <div className="flex justify-between">
         <div className="flex items-center gap-8">
-          <Link to={"/forum"}>
+          <Link to={token ? "/forum" : "/guest/forum" }>
             <FontAwesomeIcon icon={faArrowLeft} size="2x" />
           </Link>
           <div className="w-[400px] p-2  bg-white rounded-full">
