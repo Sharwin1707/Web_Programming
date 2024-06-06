@@ -11,6 +11,7 @@ const EventPage = () => {
   const [userType, setUserType] = useState("User");
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedMonth, setSelectedMonth] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -33,15 +34,30 @@ const EventPage = () => {
     fetchEvents();
   }, [user]);
 
+  const handleMonthChange = (e) => {
+    setSelectedMonth(e.target.value);
+  };
+
+  const filteredEvents = selectedMonth
+    ? events.filter((event) => {
+        const eventMonth = new Date(event.date).toISOString().substring(0, 7);
+        return eventMonth === selectedMonth;
+      })
+    : events;
+
   return (
     <div className="relative min-h-[100vh] mx-[12%] flex flex-col items-center">
       <h1 className="text-center text-4xl my-8">Event Schedule</h1>
 
       <div className="w-full px-[5%] flex justify-between">
-        <input
-          className="w-80 p-1 rounded-md items-center"
-          type="month"
-        ></input>
+      <div className="w-full flex justify-center mb-4">
+          <input
+            className="w-80 p-1 rounded-md"
+            type="month"
+            value={selectedMonth}
+            onChange={handleMonthChange}
+          />
+        </div>
 
         {userType === "Organization" && (
           <Link to={`/event/create`}>
@@ -63,29 +79,33 @@ const EventPage = () => {
               <hr />
               <h1 className="text-3xl my-4"></h1>
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 josefin">
-                {events.map((event, i) => (
-                  <EventCard
-                    userType={"Organization"}
-                    key={i}
-                    id={event._id} // pass the event ID
-                    image={event.image}
-                    name={event.ArtistName}
-                    month={event.date}
-                    // month={new Date(event.date).toLocaleString('default', { month: 'short' })}
-                    eventName={event.concertName}
-                    location={event.venue}
-                    // time={event.time}
-                    time={`${event.start} - ${event.end}`}
-                  />
-                ))}
+                {filteredEvents.length > 0 ? (
+                  filteredEvents.map((event, i) => (
+                    <EventCard
+                      userType={"Organization"}
+                      key={i}
+                      id={event._id} // pass the event ID
+                      image={event.image}
+                      name={event.ArtistName}
+                      month={event.date}
+                      // month={new Date(event.date).toLocaleString('default', { month: 'short' })}
+                      eventName={event.concertName}
+                      location={event.venue}
+                      // time={event.time}
+                      time={`${event.start} - ${event.end}`}
+                    />
+                  ))
+                ) : (
+                  <p>No events available for the selected month</p>
+                )}
               </div>
               <hr />
             </div>
           ) : (
             <div className="w-full flex justify-center my-12 josefin">
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {Array.isArray(events) && events.length > 0 ? (
-                  events.map((event) => (
+                {Array.isArray(filteredEvents) && filteredEvents.length > 0 ? (
+                  filteredEvents.map((event) => (
                     <EventCard
                       key={event._id} // Assuming "_id" is the unique identifier for each event
                       id={event._id} // pass the event ID
@@ -100,7 +120,7 @@ const EventPage = () => {
                     />
                   ))
                 ) : (
-                  <p>No events available</p>
+                  <p>No events available for the selected month</p>
                 )}
               </div>
             </div>
@@ -112,4 +132,3 @@ const EventPage = () => {
 };
 
 export default EventPage;
-
