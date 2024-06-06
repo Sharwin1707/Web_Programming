@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useStateContext } from "../Context/ContextProvider";
 
-const ShopItem = ({ image, name, price, ratingStar, type }) => {
+const ShopItem = ({ id, image, name, price, ratingStar, type }) => {
   // Create an array of star elements based on the ratingStar prop
   const stars = [];
   for (let i = 0; i < ratingStar; i++) {
@@ -13,25 +13,25 @@ const ShopItem = ({ image, name, price, ratingStar, type }) => {
     );
   }
 
-  const {token} = useStateContext()
+  const { token } = useStateContext();
 
   return (
-    <Link to={token ? `/shop/${name}` : `/guest/shop/${name}`}>
-      <div className={`filter-item w-56 m-4 ${type}`}>
-        <div className="w-full h-60  overflow-hidden">
+    <Link to={token ? `/shop/${id}` : `/guest/shop/${id}`}>
+      <div className={`filter-item bg-[#222222] text-white p-4 rounded-md shadow-md w-56 m-4 ${type}`}>
+        <div className="w-full h-60 overflow-hidden rounded-md">
           <img
             className="w-full h-full object-cover"
             src={image}
-            alt="Shop Item"
+            alt={name}
           />
         </div>
-        <div className="text-center my-1">{name}</div>
+        <div className="text-center my-1 font-semibold text-lg">{name}</div>
         <div className="flex justify-center gap-1 my-2">
           {stars.map((star, index) => (
             <div key={index}>{star}</div>
           ))}
         </div>
-        <h1 className="text-center">RM {price}</h1>
+        <h1 className="text-center font-bold">RM {price}</h1>
       </div>
     </Link>
   );
