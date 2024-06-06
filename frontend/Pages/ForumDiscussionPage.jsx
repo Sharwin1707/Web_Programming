@@ -11,6 +11,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import FroumChatContainer from "../Components/FroumChatContainer";
 import axios from "axios";
+import { useStateContext } from "../Context/ContextProvider";
 
 const ForumDiscussionPage = () => {
   const { id } = useParams();
@@ -19,8 +20,8 @@ const ForumDiscussionPage = () => {
   const [forumDiscussion, setDiscussion] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
   const [isLiked, setLike] = useState(false);
+  const {user} = useStateContext()
 
   useEffect(() => {
     const fetchTopic = async () => {
@@ -32,8 +33,17 @@ const ForumDiscussionPage = () => {
       })
     }
 
+    const fetchComments = async () => {
+      await axios.get(`http://localhost:3000/comment/${id}`).then((response) => {
+        if(response.status === 200){
+          setDiscussion(response.data)
+        }
+      });
+    };
+    
     fetchTopic();
-  },[])
+    fetchComments();
+  },[id]);
 
   const likeClicked = () => {
     setLike(!isLiked);
@@ -43,20 +53,20 @@ const ForumDiscussionPage = () => {
     setOpenModal(!openModal);
   };
 
-  const addPost = () => {
-    setDiscussion((prevTopic) => [
-      ...prevTopic,
-      { topic: title, content: content },
-    ]);
-    setTitle("");
-    setContent("");
-    setOpenModal(false); // Close the modal after adding the post
+  const addPost = async () => {
+    try {
+      const newComment = { topicId: id, username: user.username, reply: content }; // Adjust the username as needed
+      await axios.post("http://localhost:3000/comment", newComment);
+      setDiscussion((prevDiscussion) => [
+        ...prevDiscussion,
+        newComment,
+      ]);
+      setContent("");
+      setOpenModal(false); // Close the modal after adding the post
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
   };
-
-  useEffect(() => {
-    const reverse = forumDiscussion.reverse();
-    setDiscussion(reverse);
-  }, [forumDiscussion]);
 
   return (
     <div className="px-[12%] py-10">
@@ -115,24 +125,20 @@ const ForumDiscussionPage = () => {
         {/*---------------------- Reply------------------------------------ */}
 
         <div className="ml-8">
-          {forumDiscussion.reverse().map((discussions) => (
-            <FroumChatContainer reply={discussions.content} />
+          {forumDiscussion.map((discussion) => (
+            <FroumChatContainer 
+            key={discussion._id}
+            reply={discussion.reply}
+            username={discussion.username}
+            date={discussion.Date} 
+            />
           ))}
-
-          <FroumChatContainer
-            reply={
-              "Lorem ipsum, dolor sit amet consectetur adipisicing elit. In maxime non, illum dolorum sint quaerat esse sequi? Possimus minus sint eaque debitis quidem, reprehenderit dolorum eos. Distinctio, ab. Similique, odio."
-            }
-          />
-          <FroumChatContainer
-            reply={
-              "Lorem ipsum, dolor sit amet consectetur adipisicing elit. In maxime non, illum dolorum sint quaerat esse sequi? Possimus minus sint eaque debitis quidem, reprehenderit dolorum eos. Distinctio, ab. Similique, odio."
-            }
-          />
         </div>
       </div>
 
-      {openModal ? (
+
+      {/*---------------------- new Reply------------------------------------ */}
+      {openModal && (
         <div className="absolute w-screen h-screen top-0 left-0 backdrop-blur-sm flex justify-center items-center">
           <div className=" w-[800px] h-[600px] bg-white rounded-md text-black">
             <div className="flex flex-col px-6 py-3">
@@ -144,6 +150,7 @@ const ForumDiscussionPage = () => {
                 id=""
                 cols="30"
                 rows="15"
+                value={content}
               ></textarea>
             </div>
 
@@ -163,8 +170,6 @@ const ForumDiscussionPage = () => {
             </div>
           </div>
         </div>
-      ) : (
-        ""
       )}
     </div>
   );
