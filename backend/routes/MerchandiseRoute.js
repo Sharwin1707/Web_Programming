@@ -1,6 +1,6 @@
 import express from "express";
 import { MerchandiseModel } from "../models/Merchandise.js";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 import mongoose from "mongoose";
 dotenv.config();
 
@@ -20,16 +20,62 @@ router.get("/", async (req, res) => {
   }
 });
 
+//retrieve merchandise based on merchant
+router.get("/:merchantId", async (req, res) => {
+  try {
+    const { merchantId } = req.params;
+    const result = await MerchandiseModel.find({merchantId})
+
+    if(result){
+      return res.status(200).send(result);
+    }
+
+    return res.status(404).send("Not Found");
+  } catch (err) {}
+});
+
 // Create new merchandise
 router.post("/", async (req, res) => {
   try {
-    const { _id, price, rating, description, quantity, type, tag, image, name } = req.body;
-    if (!_id || !price || !rating || !description || !quantity || !type || !tag || !image || !name) {
+    const {
+      merchantId,
+      price,
+      rating,
+      description,
+      quantity,
+      type,
+      tag,
+      image,
+      name,
+    } = req.body;
+    if (
+      !merchantId ||
+      !price ||
+      !rating ||
+      !description ||
+      !quantity ||
+      !type ||
+      !tag ||
+      !image ||
+      !name
+    ) {
       return res.status(400).send("Please enter the required fields");
     }
-    const newMerchandise = new MerchandiseModel({ _id, price, rating, description, quantity, type, tag, image, name});
+    const newMerchandise = new MerchandiseModel({
+      merchantId,
+      price,
+      rating,
+      description,
+      quantity,
+      type,
+      tag,
+      image,
+      name,
+    });
     await newMerchandise.save();
-    return res.status(200).send("Merchandise created successfully: " + newMerchandise);
+    return res
+      .status(200)
+      .send("Merchandise created successfully: " + newMerchandise);
   } catch (err) {
     console.log(err);
     res.status(500).send("Internal Server Error");
@@ -83,7 +129,9 @@ router.delete("/:id", async (req, res) => {
       return res.status(404).send("Merchandise not found");
     }
 
-    return res.status(200).send("Merchandise deleted successfully: " + deletedData);
+    return res
+      .status(200)
+      .send("Merchandise deleted successfully: " + deletedData);
   } catch (err) {
     console.log(err);
     res.status(500).send("Internal Server Error");

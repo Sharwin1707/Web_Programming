@@ -1,226 +1,265 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// src/App.js
+import React, { useEffect, useState } from "react";
+import { useStateContext } from "../Context/ContextProvider";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-const AdminAddProducts = () => {
-  const [product, setProduct] = useState({
-    productName: "",
-    category: "",
+function AdminAddProduct() {
+  const { user } = useStateContext();
+  const [imageFile, setImageFile] = useState(null);
+  const navigate = useNavigate();
+  const [merchandise, setMerchandise] = useState([]);
+  const [formData, setFormData] = useState({
+    merchantId: user._id,
+    name: "",
+    price: 0,
+    rating: 5,
     description: "",
-    image: null,
+    quantity: 0,
+    type: "",
+    tag: "best", // Default value for the dropdown
+    image: "",
   });
 
-  const [productImages, setProductImages] = useState([]);
+  useEffect(() => {
+    const fetchMerchandise = async (req, res) => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/${user._id}`
+        );
+        console.log(response);
+        if (response.status == 200) {
+          setMerchandise(response.data);
+        }
+      } catch (err) {}
+    };
+
+    fetchMerchandise();
+    console.log(merchandise);
+  }, [user._id]);
+
+  const [imagePreview, setImagePreview] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProduct((prevState) => ({
-      ...prevState,
+    setFormData({
+      ...formData,
       [name]: value,
-    }));
+    });
   };
 
   const handleImageChange = (e) => {
-    const selectedImages = Array.from(e.target.files);
-    setProductImages(selectedImages);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your submission logic here
-    console.log("Product Submitted:", product);
-    // Clear the form after submission
-    setProduct({
-      productName: "",
-      category: "",
-      description: "",
-      image: null,
-    });
-  };
-
-  const handleCancel = () => {
-    // Clear the form
-    setProduct({
-      productName: "",
-      category: "",
-      description: "",
-      image: null,
-    });
-  };
-
-  const [formHeight, setFormHeight] = useState("auto"); // Initialize form height state
-
-  // Function to adjust form height dynamically based on content
-  const adjustFormHeight = () => {
-    const formContainer = document.getElementById("formContainer");
-    if (formContainer) {
-      const newHeight = formContainer.scrollHeight + "px";
-      setFormHeight(newHeight);
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+      setImageFile(file);
     }
   };
 
-  // Call adjustFormHeight function when component mounts and whenever form content changes
-  useEffect(() => {
-    adjustFormHeight();
-  }, []); // Run only once when component mount
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const imageData = new FormData();
+      imageData.append("file", imageFile);
+
+      const uploadResponse = await axios.post(
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/images/upload`,
+        imageData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const imageUrl = uploadResponse.data.url;
+      console.log(imageUrl);
+
+      const finalFormData = { ...formData, image: imageUrl };
+
+      await axios.post(
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/`,
+        finalFormData
+      );
+      navigate("/shop");
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
-    <div
-      id="formContainer"
-      className="container mt-5 josefin center container-add-product"
-      style={{ minHeight: formHeight }}
-    >
-      <div
-        style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}
-      >
-        <Link to={"/shop"}>
+    <div className="min-h-screen flex flex-col items-center justify-center my-12">
+      <div className="w-full max-w-[1080px] mb-4">
+        <a href="/shop">
           <FontAwesomeIcon icon={faArrowLeft} size="2x" />
-        </Link>
-        <h2
-          className="mb-4 text-white head-cont"
-          style={{ marginLeft: "10px" }}
-        >
-          Add New Product
-        </h2>
+        </a>
       </div>
+
       <form
+        className="bg-white p-8 rounded-lg shadow-md w-full max-w-[1080px]"
         onSubmit={handleSubmit}
-        style={{
-          backgroundColor: "#fff",
-          borderRadius: "5px",
-          padding: "20px",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-          color: "#000",
-        }}
       >
-        <div
-          className="mb-3"
-          style={{ display: "flex", flexDirection: "column" }}
-        >
-          <label htmlFor="productName" className="form-label">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">
+          Submit Product Info
+        </h2>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2" htmlFor="name">
             Product Name
           </label>
           <input
             type="text"
-            className="form-control border-black pd"
-            id="productName"
-            name="productName"
-            value={product.productName}
+            id="name"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             required
-            style={{ width: "100%", height: "30px", borderRadius: "5px" }}
           />
         </div>
-        <div
-          className="mb-3"
-          style={{ display: "flex", flexDirection: "column" }}
-        >
-          <label htmlFor="category" className="form-label">
-            Category
+
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2" htmlFor="price">
+            Price
           </label>
-          <select
-            className="form-select border-black pd"
-            style={{ height: "30px", borderRadius: "5px" }}
-            id="category"
-            name="category"
-            value={product.category}
+          <input
+            type="number"
+            id="price"
+            name="price"
+            value={formData.price}
             onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             required
-          >
-            <option value="">Select Category</option>
-            <option value="Shirt">Shirt</option>
-            <option value="Trouser">Trouser</option>
-            <option value="Tote Bag">Tote Bag</option>
-          </select>
+          />
         </div>
-        <div
-          className="mb-3"
-          style={{ display: "flex", flexDirection: "column" }}
-        >
-          <label htmlFor="description" className="form-label">
-            Product Description
+
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2" htmlFor="description">
+            Description
           </label>
           <textarea
-            className="form-control border-black pd"
             id="description"
             name="description"
-            value={product.description}
+            value={formData.description}
             onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             required
-            style={{ height: "60px", borderRadius: "5px" }}
           ></textarea>
         </div>
-        <div
-          className="mb-3"
-          style={{ display: "flex", flexDirection: "column" }}
-        >
-          <label htmlFor="image" className="form-label">
-            Product Images
+
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2" htmlFor="quantity">
+            Quantity
+          </label>
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            value={formData.quantity}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2" htmlFor="type">
+            Type
+          </label>
+          <input
+            type="text"
+            id="type"
+            name="type"
+            value={formData.type}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2" htmlFor="tag">
+            Tag
+          </label>
+          <select
+            id="tag"
+            name="tag"
+            value={formData.tag}
+            onChange={handleChange}
+            className="w-full text-black px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            required
+          >
+            <option value="best">Best</option>
+            <option value="featured">Featured</option>
+            <option value="new">New</option>
+          </select>
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2" htmlFor="image">
+            Image Upload
           </label>
           <input
             type="file"
-            className="form-control border-black"
             id="image"
             name="image"
             accept="image/*"
             onChange={handleImageChange}
-            multiple
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             required
-            style={{ height: "30px", borderRadius: "5px" }}
           />
-          {/* Display the uploaded images */}
+        </div>
 
-          {/* Boxes for selected images */}
-          <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
-            {[...Array(4)].map((_, index) => (
-              <div
-                key={index}
-                style={{
-                  marginRight: "10px",
-                  marginBottom: "10px",
-                  border: "1px solid #ccc",
-                  width: "200px",
-                  height: "200px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                {/* Render selected image if exists */}
-                {index < productImages.length && (
-                  <img
-                    src={URL.createObjectURL(productImages[index])}
-                    alt={`Product Image ${index + 1}`}
-                    style={{ maxWidth: "100%", maxHeight: "100%" }}
-                  />
-                )}
-                {/* Add text inside the box */}
-                {index < productImages.length ? null : (
-                  <div style={{ textAlign: "center" }}>Image {index + 1}</div>
-                )}
-              </div>
-            ))}
+        {imagePreview && (
+          <div className="mt-6">
+            <h3 className="text-gray-700">Image Preview:</h3>
+            <img
+              src={imagePreview}
+              alt="Selected"
+              className="mt-2 rounded-lg max-h-64"
+            />
           </div>
-        </div>
-        <div className="mb-3 mt-10">
-          <button
-            type="submit"
-            className="btn btn-primary text-white green px-6 py-2 rounded hover:bg-green-600 mr-2"
-          >
-            Submit
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary text-white red px-6 py-2 rounded hover:bg-red-600"
-            onClick={handleCancel}
-          >
-            Cancel
-          </button>
-        </div>
+        )}
+
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+        >
+          Submit
+        </button>
       </form>
+
+
+        {/* view you merchandise */}
+      <div className="w-full max-w-[1080px]">
+        <h1 className="my-8 text-3xl text-center">Your Merchandises</h1>
+        <hr className="w-full max-w-[] mb-8" />
+
+        <div className="flex flex-col gap-8">
+          {merchandise.length > 0 ? (
+            merchandise.map((merch) => (
+              <div className="flex gap-8">
+                <div className="w-40 h-40 overflow-hidden">
+                  <img className="w-full h-full object-cover" src={merch.image} alt="" />
+                </div>
+                <div>
+                  <h1 className="text-2xl josefin">{merch.name}</h1>
+                  <p>{merch.description}</p>
+                  <p>Quantity : {merch.quantity}</p>
+                </div>
+              </div>
+            ))
+          ) : (<h1 className="text-center">You don't have any merchandise</h1>)}
+        </div>
+      </div>
     </div>
   );
-};
+}
 
-export default AdminAddProducts;
+export default AdminAddProduct;

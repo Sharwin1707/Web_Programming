@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const merchandiseSchema = new mongoose.Schema({
-    _id: String,
+    merchantId : String,
     price: Number,
     rating: Number,
     description: String,

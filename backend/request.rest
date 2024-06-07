@@ -1,8 +1,16 @@
 
-GET http://localhost:3000/users/find
+POST  http://localhost:3000/merchandise/
 Content-Type: application/json
 
 {
-    "username" : "Ali",
-    "password" : "12345678"
+  "merchantId" : "66559d3e0f444a181f97e1dc",
+  "price": 15.99,
+  "rating": 4,
+  "description": "A comfortable and durable pair of socks. Great for sports and casual wear.",
+  "quantity": 200,
+  "type": "accessory",
+  "tag": "best",
+  "image": "https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2017%2F08%2Fjustin-bieber-merch-9.jpg?cbr=1&q=90",
+  "name": "Comfortable Socks",
+  "__v": 0
 }
