@@ -21,7 +21,7 @@ const RegisterPage = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      alert("Passwords do not match");
       return;
     }
 
@@ -36,53 +36,80 @@ const RegisterPage = () => {
       setToken(user._id);
       setIsGuest(false);
       console.log(userType);
-      
-      if (userType === 'Artist') {
+
+      if (userType === "Artist") {
         await createArtistProfile(user);
-        showToastMessage('Please complete your profile');
-        navigate('/profile'); // Adjust the path to your profile management page
-      } else if (userType === 'User') {
+        showToastMessage("Please complete your profile");
+        navigate("/profile"); // Adjust the path to your profile management page
+      } else if (userType === "User") {
         await createUserProfile(user);
-        showToastMessage('Please complete your profile');
-        navigate('/');
+        showToastMessage("Please complete your profile");
+        navigate("/");
+      } else if (userType === "Organization") {
+        await createOrganizationProfile(user);
+        showToastMessage("Please complete your profile");
+        navigate("/");
       } else {
-        navigate('/');
+        navigate("/");
       }
     } catch (error) {
       console.error(error);
-      showToastMessage('Registration failed. Please try again.');
+      showToastMessage("Registration failed. Please try again.");
     }
   };
 
   const createArtistProfile = async (user) => {
     const artistProfile = {
       _id: user._id,
-      image: ' ',
-      firstName: ' ',
-      lastName: ' ',
-      stageName: ' ',
-      career: ' ',
-      genre: ' ',
-      birthday: ' ',
-      music: ' ',
+      image: " ",
+      firstName: " ",
+      lastName: " ",
+      stageName: " ",
+      career: " ",
+      genre: " ",
+      birthday: " ",
+      music: " ",
       email: user.email,
-      about: ' ',
+      about: " ",
     };
-    await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`, artistProfile);
+    await axios.post(
+      `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/artist`,
+      artistProfile
+    );
   };
 
   const createUserProfile = async (user) => {
     const userProfile = {
       _id: user._id,
-      image: ' ',
-      username : username,
-      firstName: ' ',
-      lastName: ' ',
+      image: " ",
+      username: username,
+      firstName: " ",
+      lastName: " ",
       email: user.email,
     };
-    await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/user`, userProfile).then((response) => {console.log(response)});
+    await axios
+      .post(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/user`, userProfile)
+      .then((response) => {
+        console.log(response);
+      });
   };
 
+  const createOrganizationProfile = async (user) => {
+    const orgProfile = {
+      _id: user._id,
+      image: " ",
+      username: username,
+      organizationName: " ",
+      address: " ",
+      contactNo: " ",
+      email: user.email,
+    };
+    await axios
+      .post(`${import.meta.env.VITE_SERVER_ENDPOINT}/profile/org`, orgProfile)
+      .then((response) => {
+        console.log(response);
+      });
+  };
 
   return (
     <section>

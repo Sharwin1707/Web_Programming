@@ -1,7 +1,124 @@
 import express from "express";
-import { ArtistProfileModel, UserProfileModel } from "../models/Profile.js";
+import { ArtistProfileModel, UserProfileModel, OrganizationProfileModel } from "../models/Profile.js";
 
 const router = express.Router();
+
+//organization profile
+router.post("/org", async (req, res) => {
+  try {
+    const { _id, image, username, organizationName, address, contactNo, email } = req.body;
+
+    if (!_id || !image || !username || !organizationName || !address || !contactNo || !email) {
+      return res.status(400).json({ message: "Please complete the required fields" });
+    }
+
+    const profile = new OrganizationProfileModel({
+      _id,
+      image,
+      username,
+      organizationName,
+      address,
+      contactNo,
+      email
+    });
+    await profile.save();
+
+    return res.status(201).json({ message: "Profile saved successfully" });
+  } catch (e) {
+    console.error(e.message);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+router.get("/org/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const profile = await OrganizationProfileModel.findById(id);
+
+    if (!profile) {
+      return res.status(404).json({ message: "User profile not found" });
+    }
+
+    return res.status(200).json(profile);
+  } catch (e) {
+    console.error(e.message);
+    return res
+      .status(500)
+      .json({ message: "An error occurred", error: e.message });
+  }
+});
+
+router.put("/org/image", async (req, res) => {
+  try {
+    const { _id, image } = req.body;
+
+    // Validate that both _id and image are provided
+    if (!_id || !image) {
+      return res
+        .status(400)
+        .json({ message: "Both _id and image are required" });
+    }
+
+    // Find the artist profile by ID and update the image
+    const profile = await OrganizationProfileModel.findByIdAndUpdate(
+      _id,
+      { image },
+      { new: true }
+    );
+
+    // Check if the profile was found and updated
+    if (!profile) {
+      return res.status(404).json({ message: "User profile not found" });
+    }
+
+    // Respond with the updated profile
+    return res
+      .status(200)
+      .json({ message: "Image updated successfully", profile });
+  } catch (e) {
+    console.error(e.message);
+    return res
+      .status(500)
+      .json({ message: "An error occurred", error: e.message });
+  }
+});
+
+
+router.put("/org", async (req, res) => {
+  try {
+    const {
+      _id,
+      image,
+      username,
+      organizationName,
+      address,
+      contactNo,
+      email
+    } = req.body;
+
+    const profile = await OrganizationProfileModel.findByIdAndUpdate(_id, {
+      image,
+      username,
+      organizationName,
+      address,
+      contactNo,
+      email
+    });
+
+    if (!profile) {
+      return res.status(404).json({ message: "Organization profile not found" });
+    }
+
+    return res.status(200).json({ message: "Save successfully", profile });
+  } catch (e) {
+    console.error(e.message);
+    return res
+      .status(500)
+      .json({ message: "An error occurred", error: e.message });
+  }
+});
 
 //user profile
 
@@ -70,7 +187,7 @@ router.put("/user/image", async (req, res) => {
 
     // Check if the profile was found and updated
     if (!profile) {
-      return res.status(404).json({ message: "Artist profile not found" });
+      return res.status(404).json({ message: "User profile not found" });
     }
 
     // Respond with the updated profile
@@ -104,7 +221,7 @@ router.put("/user", async (req, res) => {
     });
 
     if (!profile) {
-      return res.status(404).json({ message: "Artist profile not found" });
+      return res.status(404).json({ message: "User profile not found" });
     }
 
     return res.status(200).json({ message: "Save successfully", profile });
