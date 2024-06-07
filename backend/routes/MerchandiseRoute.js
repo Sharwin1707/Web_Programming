@@ -83,7 +83,7 @@ router.post("/", async (req, res) => {
 });
 
 // Find merchandise by ID
-router.get("/:id", async (req, res) => {
+router.get("/details/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const findMerchandiseData = await MerchandiseModel.findById(id);

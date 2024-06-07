@@ -20,7 +20,7 @@ const ProductDetailPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/details/${id}`);
         setProduct(response.data);
         setImgMain(response.data.image);
       } catch (err) {
