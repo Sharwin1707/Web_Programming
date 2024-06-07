@@ -20,6 +20,9 @@ const UserProfilePage = () => {
     phoneNumber: "",
     currentPassword: "",
     newPassword: "",
+    organizationName : "",
+    address: "",
+    contactNo : "",
   });
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -51,7 +54,22 @@ const UserProfilePage = () => {
           if (response.data) {
             console.log(response.data);
             setProfile(response.data);
-          } else {
+          } 
+          
+          else {
+            console.warn("Profile not found");
+          }
+        }
+        else if (user && user._id && user.userType === "Organization") {
+          const response = await axios.get(
+            `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/org/${user._id}`
+          );
+          if (response.data) {
+            console.log(response.data);
+            setProfile(response.data);
+          } 
+          
+          else {
             console.warn("Profile not found");
           }
         }
@@ -99,6 +117,20 @@ const UserProfilePage = () => {
       console.error("Error updating profile:", error);
     }
   };
+
+  const saveOrganizationProfile = async () => {
+    try {
+      console.log("Updated Profile:", profile);
+      const response = await axios.put(
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/org`,
+        profile
+      );
+      console.log("Response:", response);
+      setIsEditMode(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  }
 
   return (
     <div className="text-black poppins px-[12%] py-10">
@@ -281,7 +313,79 @@ const UserProfilePage = () => {
                 />
               </div>
               {isEditMode ? (
-                <button id="saveProfileBtn" onClick={saveProfile}>
+                <button id="saveProfileBtn" onClick={saveUserProfile}>
+                  Save Profile
+                </button>
+              ) : (
+                <button id="editProfileBtn" onClick={toggleEditMode}>
+                  Edit Profile
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {userType === "Organization" && (
+        <div className="container container-below-header">
+          <div className="profile-section">
+            <h2>Organization Profile</h2>
+            <div className="profile-info">
+              <div className="profile-container">
+                <div className="profile-pic flex flex-col items-center justify-center">
+                  <div className="">
+                    <ImageUpload id={user._id} currentImg={profile.image} />
+                  </div>
+                </div>
+
+                <div className="profile-name">{user.username}</div>
+              </div>
+              <div className="info-row">
+                <label htmlFor="firstName">Organization Name</label>
+                <input
+                  type="text"
+                  id="organizationName"
+                  name="organizationName"
+                  value={profile.organizationName}
+                  readOnly={!isEditMode}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="info-row">
+                <label htmlFor="lastName">Address</label>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  value={profile.address}
+                  readOnly={!isEditMode}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="info-row">
+                <label htmlFor="">Contact Number</label>
+                <input
+                  type="text"
+                  id="contactNo"
+                  name="contactNo"
+                  value={profile.contactNo}
+                  readOnly={!isEditMode}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="info-row">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={profile.email}
+                  readOnly={!isEditMode}
+                  onChange={handleInputChange}
+                />
+              </div>
+              {isEditMode ? (
+                <button id="saveProfileBtn" onClick={saveOrganizationProfile}>
                   Save Profile
                 </button>
               ) : (

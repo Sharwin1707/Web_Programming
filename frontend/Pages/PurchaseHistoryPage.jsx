@@ -24,7 +24,7 @@ const PurchaseHistoryPage = () => {
 
 
   return (
-    <div className="px-0 md:px-[20%] poppins my-12">
+    <div className="px-0 md:px-[20%] poppins my-12 min-h-[100vh]">
       <Link to={"/shop"}>
         <FontAwesomeIcon icon={faArrowLeft} size="2x" />
       </Link>

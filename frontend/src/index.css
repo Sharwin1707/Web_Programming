@@ -398,6 +398,7 @@ input[type="submit"]:active
 
 .profile-section input[type="text"],
 .profile-section input[type="email"],
+.profile-section input[type="number"],
 .profile-section textarea {
   width: 100%;
   padding: 10px;

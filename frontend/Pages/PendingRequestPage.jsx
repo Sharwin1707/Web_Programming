@@ -131,7 +131,7 @@ const PendingRequestPage = () => {
             {bookingData.length === 0 && (
               <tr>
                 <td colSpan="8" className="px-6 py-4 text-center text-black">
-                  No booking history found.
+                  No booking found.
                 </td>
               </tr>
             )}

@@ -56,6 +56,11 @@ const ImageUpload = ({ id, currentImg , userType }) => {
           `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/user/image`,
           saveToDb)
       }
+      else if(user.userType === "Organization"){
+        await axios.put(
+          `${import.meta.env.VITE_SERVER_ENDPOINT}/profile/org/image`,
+          saveToDb)
+      }
 
       // Update imageUrl state only after successful upload and database update
       setImageUrl(uploadResponse.data.url);
