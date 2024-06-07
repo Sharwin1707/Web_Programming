@@ -74,80 +74,85 @@ const ArtistProfilePage = () => {
   };
 
   return (
-    <div className=" pt-8">
-      <div className="px-[12%]">
-        <Link to={user ? "/artist" : "/guest/artist"}>
-          <FontAwesomeIcon
-            className="cursor-pointer"
-            icon={faArrowLeft}
-            size="2x"
-          />
-        </Link>
-      </div>
-
-      <div className="flex flex-col justify-center items-center">
-        <br />
-        <br />
-        <h1 className="text-center text-4xl josefin">{artist[0].stageName}</h1>
-        <br />
-        <div>Profile Music Photo Video</div>
-        <br />
-        <div className="w-[600px] h-[600px] overflow-hidden rounded-md">
-          <img
-            className="w-full h-full object-cover rounded-md"
-            src={artist[0].image}
-            alt=""
-          />
+    <div className="w-full  flex flex-col items-center pt-8">
+      <div className="w-full max-w-[1280px]">
+        <div className="">
+          <Link to={user ? "/artist" : "/guest/artist"}>
+            <FontAwesomeIcon
+              className="cursor-pointer"
+              icon={faArrowLeft}
+              size="2x"
+            />
+          </Link>
         </div>
 
-        <p className="text-center my-4 josefin">
-          <strong>About</strong>
+        <div className="flex flex-col justify-center items-center">
           <br />
-          {artist[0].about}
-        </p>
-
-        <p className="text-center josefin">
-          Career: {artist[0].career}
           <br />
-          Genre: Pop and R&B
+          <h1 className="text-center text-4xl josefin">
+            {artist[0].stageName}
+          </h1>
           <br />
-          Birthday: {artist[0].birthday}
+          <div>Profile Music Photo Video</div>
           <br />
-          Music: {artist[0].music}
-        </p>
+          <div className="max-w-[600px] max-h-[600px] overflow-hidden rounded-md">
+            <img
+              className="w-full h-full object-cover rounded-md"
+              src={artist[0].image}
+              alt=""
+            />
+          </div>
 
-        <br />
-        <br />
-        <br />
+          <p className="text-center my-4 josefin">
+            <strong>About</strong>
+            <br />
+            {artist[0].about}
+          </p>
 
-        <h1 className="josefin text-white text-2xl">GALLERY</h1>
+          <p className="text-center josefin">
+            Career: {artist[0].career}
+            <br />
+            Genre: Pop and R&B
+            <br />
+            Birthday: {artist[0].birthday}
+            <br />
+            Music: {artist[0].music}
+          </p>
 
-        <hr className="w-full" />
+          <br />
+          <br />
+          <br />
 
-        <div className="mt-4 flex justify-center flex-wrap gap-8 my-8">
-          {images.length > 0 ? (
-            images.map((image, index) => (
-              <div
-                onClick={() => {
-                  handleBigImage(image.imageUrl);
-                }}
-                className="cursor-pointer w-[250px] h-[250px] rounded-md overflow-hidden"
-              >
-                <img
-                  key={index}
-                  src={image.imageUrl}
-                  alt={`Gallery image ${index}`}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))
-          ) : (
-            <p className="text-white text-2xl josefin">
-              No images uploaded by <span>{artist[0].stageName}</span>
-            </p>
-          )}
+          <h1 className="josefin text-white text-2xl">GALLERY</h1>
+
+          <hr className="w-full" />
+
+          <div className="mt-4 w-full max-w-[1280px] flex justify-center flex-wrap gap-8 my-8">
+            {images.length > 0 ? (
+              images.map((image, index) => (
+                <div
+                  onClick={() => {
+                    handleBigImage(image.imageUrl);
+                  }}
+                  className="cursor-pointer w-[250px] h-[250px] rounded-md overflow-hidden"
+                >
+                  <img
+                    key={index}
+                    src={image.imageUrl}
+                    alt={`Gallery image ${index}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))
+            ) : (
+              <p className="text-white text-2xl josefin">
+                No images uploaded by <span>{artist[0].stageName}</span>
+              </p>
+            )}
+          </div>
         </div>
       </div>
+
       {isBigImage ? (
         <div className="fixed top-0 left-0 p-[12%] flex flex-col justify-center items-center inset-0 w-full h-screen bg-black bg-opacity-80 ">
           <div className="w-full flex justify-end pt-[200px]">
