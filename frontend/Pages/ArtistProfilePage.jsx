@@ -112,7 +112,7 @@ const ArtistProfilePage = () => {
           <p className="text-center josefin">
             Career: {artist[0].career}
             <br />
-            Genre: Pop and R&B
+            Genre: {artist[0].genre}
             <br />
             Birthday: {artist[0].birthday}
             <br />
