@@ -17,7 +17,7 @@ const ShopItem = ({ id, image, name, price, ratingStar, type }) => {
 
   return (
     <Link to={token ? `/shop/${id}` : `/guest/shop/${id}`}>
-      <div className={`filter-item bg-[#222222] text-white p-4 rounded-md shadow-md w-56 m-4 ${type}`}>
+      <div className={`filter-item bg-[#222222] text-white p-4 rounded-md shadow-md w-56 m-4 ${type} p-2 transform transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg`}>
         <div className="w-full h-60 overflow-hidden rounded-md">
           <img
             className="w-full h-full object-cover"

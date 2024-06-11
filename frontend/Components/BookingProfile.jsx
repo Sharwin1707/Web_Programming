@@ -6,7 +6,7 @@ const BookingProfile = ({ id, image, name }) => {
   const { token } = useStateContext();
 
   return (
-    <div className="bg-[#222222] w-[300px] h-[400px] p-2">
+    <div className="bg-[#222222] w-[300px] h-[400px] p-2 transform transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg">
       <h1 className="text-center">{name}</h1>
       <Link to={`/book/${id}`}>
         <div className="h-[300px] overflow-hidden rounded-md">
