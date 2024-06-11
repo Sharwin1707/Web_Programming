@@ -400,7 +400,7 @@ function AdminAddProduct() {
                   <p>Quantity: {merch.quantity}</p>
                   <div className="flex gap-4 mt-2">
                     <button
-                      className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600"
+                      className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
                       onClick={() => handleEdit(merch)}
                     >
                       <FontAwesomeIcon icon={faEdit} /> Edit
