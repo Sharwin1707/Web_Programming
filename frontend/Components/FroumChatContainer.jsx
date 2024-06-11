@@ -20,7 +20,7 @@ const FroumChatContainer = ({ reply, username }) => {
 
   return (
     <div>
-      <div className="my-10 py-4 bg-blue-gray-300 p-3 rounded-md">
+      <div className="my-10 py-4 bg-gray-800 p-3 rounded-md">
         <div className="flex gap-3">
           <FontAwesomeIcon icon={faUserCircle} size="2x" />
           <h1>{username}</h1>

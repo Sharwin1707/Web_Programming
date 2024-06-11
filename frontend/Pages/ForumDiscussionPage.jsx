@@ -75,9 +75,9 @@ const ForumDiscussionPage = () => {
       <div className="flex justify-between">
         <div className="flex items-center gap-8">
           <Link to={token ? "/forum" : "/guest/forum" }>
-            <FontAwesomeIcon icon={faArrowLeft} size="2x" />
+            <FontAwesomeIcon icon={faArrowLeft} size="2x" color="white" />
           </Link>
-          <div className="w-[400px] p-2  bg-white rounded-full">
+          {/* <div className="w-[400px] p-2  bg-white rounded-full">
             <FontAwesomeIcon
               className="px-2"
               icon={faMagnifyingGlass}
@@ -88,27 +88,32 @@ const ForumDiscussionPage = () => {
               type="text"
               placeholder="Search.."
             />
-          </div>
+          </div> */}
         </div>
       </div>
 
-      <div className="py-10">
-        <h1 className="text-2xl">{mainTopic.title}</h1>
+      <div className="py-10 bg-white p-5"> 
+      <h1 className="text-2xl bg-red-400 h-20 text-white  p-2 rounded-lg flex items-center justify-center font-bold josefin"> 
+  {mainTopic.title}
+</h1>
 
         {/*-------------------Discussion topic -------------*/}
-        <div className="my-10 py-4 border-y ">
-          <div className="flex gap-3">
+        <div className="py-4 my-10 p-2 rounded-lg relative">
+  <div className="absolute top-0 left-0 right-0 border-t border-gray-800"></div>
+  <div className="absolute bottom-0 left-0 right-0 border-t border-gray-800"></div>
+  <div className="py-4 my-10  bg-white p-2 rounded-lg">
+          <div className="flex gap-3 text-gray-800">
             <FontAwesomeIcon icon={faUserCircle} size="2x" />
             <div>
               <h1>{mainTopic.username}</h1>
-              <p className="text-gray-500"><small>post on {new Date(mainTopic.postAt).toLocaleDateString()}</small> </p>
+              <p className="text-gray-800 font-semibold josefin"><small>post on {new Date(mainTopic.postAt).toLocaleDateString()}</small> </p>
             </div>
             
           </div>
-          <p className="py-4 ">
+          <p className="py-4 font-semibold josefin text-gray-800 ">
             {mainTopic.content}
           </p>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center text-gray-800">
             <FontAwesomeIcon
               className="w-6 h-6"
               icon={faHeart}
@@ -123,10 +128,12 @@ const ForumDiscussionPage = () => {
             <FontAwesomeIcon className="w-6 h-6" icon={faReply} />
           </div>
         </div>
+</div>
+
 
         {/*---------------------- Reply------------------------------------ */}
 
-        <div className="ml-8">
+        <div className="ml-8 font-semibold josefin text-white"> 
           {forumDiscussion.map((discussion) => (
             <FroumChatContainer 
             key={discussion._id}
@@ -141,7 +148,7 @@ const ForumDiscussionPage = () => {
 
       {/*---------------------- new Reply------------------------------------ */}
       {openModal && (
-        <div className="absolute w-screen h-screen top-0 left-0 backdrop-blur-sm flex justify-center items-center">
+        <div className="absolute w-screen h-screen top-0 left-0 backdrop-blur-sm flex justify-center items-center font-semibold josefin">
           <div className=" w-[800px] h-[600px] bg-white rounded-md text-black">
             <div className="flex flex-col px-6 py-3">
               <label htmlFor="">Reply:</label>
