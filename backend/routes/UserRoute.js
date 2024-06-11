@@ -1,11 +1,11 @@
 import express from "express";
 import { UserModel } from "../models/User.js";
-import dotenv from 'dotenv';
-import mongoose from "mongoose";
-dotenv.config()
+import dotenv from "dotenv";
+import bcrypt from "bcrypt";
+dotenv.config();
 
 const router = express.Router();
-
+const saltRounds = 10;
 
 // retrieve all users
 router.get("/", async (req, res) => {
@@ -87,47 +87,43 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  try{
-    const {username,password,userType} = req.body;
-    const user = await UserModel.findOne({username : username})
-    if(user){
-      if(user.password === password){    
-        if(user.userType === userType) {
-          return res.status(200).send({user : user});
+  try {
+    const { username, password, userType } = req.body;
+    const user = await UserModel.findOne({ username: username });
+    if (user) {
+      if (bcrypt.compare(password, user.password)) {
+        if (user.userType === userType) {
+          return res.status(200).send({ user: user });
         }
-        return res.status(403).send('User type is not authorized')
+        return res.status(403).send("User type is not authorized");
+      } else {
+        return res.status(403).send("Password incorrect");
       }
-      else{
-        return res.status(403).send('Password incorrect')
-      }
+    } else {
+      return res.status(402).send("User does not exist");
     }
-    else{
-      return res.status(402).send("User does not exist")
-    }
+  } catch (e) {}
+});
 
-  }catch(e){
 
-  }
-})
-
-// Registration route
-router.post('/register', async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     const { email, username, password, userType } = req.body;
 
     // Check if the user already exists
     const existingUser = await UserModel.findOne({ email: email });
     if (existingUser) {
-      return res.status(400).send('User already exists');
+      return res.status(400).send("User already exists");
     }
 
-    
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Create a new user
     const newUser = new UserModel({
       email,
       username,
-      password,
+      password: hashedPassword,
       userType,
     });
 
@@ -137,8 +133,7 @@ router.post('/register', async (req, res) => {
     return res.status(201).send({ user: newUser });
   } catch (e) {
     console.error(e);
-    return res.status(500).send('Internal server error');
+    return res.status(500).send("Internal server error");
   }
 });
-
 export { router };
