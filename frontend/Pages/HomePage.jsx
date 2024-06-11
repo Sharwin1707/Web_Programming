@@ -56,6 +56,7 @@ const HomePage = () => {
         {shopData.slice(0, 5).map((shop, index) => (
           <ShopItem
             key={index}
+            id={shop._id}
             name={shop.name}
             image={shop.image}
             price={shop.price}
