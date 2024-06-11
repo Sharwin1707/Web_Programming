@@ -9,47 +9,38 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("User");
+  const [error, setError] = useState(null);
 
-  const { setUser, setToken,isGuest, setIsGuest } = useStateContext();
+  const { setUser, setToken, isGuest, setIsGuest } = useStateContext();
 
   const { showToastMessage } = useToast();
 
   // Function to handle form submission (login)
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     const credential = {
       username: username,
       password: password,
-      userType: userType
+      userType: userType,
     };
 
-    axios
-      .post(`${import.meta.env.VITE_SERVER_ENDPOINT}/users/login`, credential)
-      .then((res) => {
-        console.log(res);
-        if (res.status === 200) { 
-          setUser(res.data.user)
-          setToken(res.data.user._id)   
-          setIsGuest(false)   
-          showToastMessage(`Login successful. Welcome ${username}`); 
-          navigate("/");
-        }
-      });
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/users/login`,
+        credential
+      );
 
-    // Simulated authentication logic (replace with actual authentication)
-    // const isAuthenticated = username === "demo" && password === "";
-
-    // if (isAuthenticated) {
-    //   // Redirect to homepage and pass user type as route state
-    //   navigate("/", {
-    //     state: { username: username, userType: userType, userId: "123455" },
-    //   });
-    //   showToastMessage("Welcome," + username);
-    // } else {
-    //   // Handle login error (e.g., display an error message)
-    //   console.log("Invalid credentials. Please try again.");
-    // }
+      if (res.status === 200) {
+        setUser(res.data.user);
+        setToken(res.data.user._id);
+        setIsGuest(false);
+        showToastMessage(`Login successful. Welcome ${username}`);
+        navigate("/");
+      }
+    } catch (error) {
+      setError(error.response.data);
+    }
   };
 
   return (
@@ -111,6 +102,14 @@ const LoginPage = () => {
           <h2>Sign In</h2>
 
           <div className="form">
+            {error ? (
+              <div className="text-red-500 border border-red-500 p-2 rounded-md">
+                {error}
+              </div>
+            ) : (
+              ""
+            )}
+
             <div className="inputBox">
               <input
                 type="text"

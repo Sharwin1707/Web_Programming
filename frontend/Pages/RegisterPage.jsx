@@ -12,6 +12,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userType, setUserType] = useState("");
+  const [error, setError] = useState(null);
 
   const { showToastMessage } = useToast();
 
@@ -53,8 +54,7 @@ const RegisterPage = () => {
         navigate("/");
       }
     } catch (error) {
-      console.error(error);
-      showToastMessage("Registration failed. Please try again.");
+      setError(error.response.data);
     }
   };
 
@@ -169,6 +169,14 @@ const RegisterPage = () => {
         <div className="content">
           <h2>Sign Up</h2>
           <form className="form" onSubmit={handleSubmit}>
+            {error ? (
+              <div className="text-red-500 border border-red-500 p-2 rounded-md">
+                {error}
+              </div>
+            ) : (
+              ""
+            )}
+
             <div className="inputBox">
               <input
                 type="text"

@@ -86,23 +86,31 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+
 router.post("/login", async (req, res) => {
   try {
     const { username, password, userType } = req.body;
     const user = await UserModel.findOne({ username: username });
-    if (user) {
-      if (bcrypt.compare(password, user.password)) {
-        if (user.userType === userType) {
-          return res.status(200).send({ user: user });
-        }
-        return res.status(403).send("User type is not authorized");
-      } else {
-        return res.status(403).send("Password incorrect");
-      }
-    } else {
-      return res.status(402).send("User does not exist");
+    
+    if (!user) {
+      return res.status(404).send("User does not exist");
     }
-  } catch (e) {}
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res.status(403).send("Password incorrect");
+    }
+
+    if (user.userType !== userType) {
+      return res.status(403).send("User type is not authorized");
+    }
+
+    return res.status(200).send({ user: user });
+    
+  } catch (e) {
+    console.error("Login error:", e);
+    return res.status(500).send("Internal server error");
+  }
 });
 
 
@@ -113,7 +121,7 @@ router.post("/register", async (req, res) => {
     // Check if the user already exists
     const existingUser = await UserModel.findOne({ email: email });
     if (existingUser) {
-      return res.status(400).send("User already exists");
+      return res.status(400).send("Email already exists");
     }
 
     // Hash the password
