@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 
 const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
 
 const ViewBookingDetails = ({ details, bookingId, closeDetail }) => {
   const [booking, setBooking] = useState(null);
@@ -79,7 +79,7 @@ const ViewBookingDetails = ({ details, bookingId, closeDetail }) => {
             value={booking.requestDetail}
             readOnly
           ></textarea>
-          {booking.attachment && (
+          {booking.attachment != "no attachment" && (
             <div className="mb-2">
               <strong>Attachment:</strong>{" "}
               <a href={booking.attachment} className="text-blue-400">

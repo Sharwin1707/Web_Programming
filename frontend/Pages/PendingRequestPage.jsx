@@ -17,6 +17,8 @@ const PendingRequestPage = () => {
   const [bookingData, setBookingData] = useState([]);
   const [pastBookingData, setPastBookingData] = useState([]);
   const { token, user } = useStateContext();
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [deleteBookingId, setDeleteBookingId] = useState(null);
 
   useEffect(() => {
     fetchBookingData();
@@ -26,7 +28,7 @@ const PendingRequestPage = () => {
     const fetchPastBookings = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_SERVER_ENDPOINT}/bookhistory/${user._id}`
+          `${import.meta.env.VITE_SERVER_ENDPOINT}/bookhistory/user/${user._id}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch bookings");
@@ -35,7 +37,7 @@ const PendingRequestPage = () => {
         setPastBookingData(data);
         console.log(data);
       } catch (error) {
-        setError(error.message);
+        console.error(error);
       } finally {
         // setLoading(false);
       }
@@ -58,18 +60,18 @@ const PendingRequestPage = () => {
   };
 
   const handleCancelBooking = (id) => {
-    if (window.confirm("Are you sure you want to cancel this booking?")) {
-      axios
-        .delete(`http://localhost:3000/bookings/${id}`)
-        .then((res) => {
-          console.log("Booking deleted");
-          // After deleting the booking, fetch updated booking data
-          fetchBookingData();
-        })
-        .catch((error) => {
-          console.error("Error deleting booking:", error);
-        });
-    }
+    axios
+      .delete(`http://localhost:3000/bookings/${id}`)
+      .then((res) => {
+        console.log("Booking deleted");
+        // After deleting the booking, fetch updated booking data
+        fetchBookingData();
+      })
+      .catch((error) => {
+        console.error("Error deleting booking:", error);
+      });
+
+      setDeleteConfirmation(false)
   };
 
   return (
@@ -121,7 +123,10 @@ const PendingRequestPage = () => {
                   <a
                     href="#"
                     className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                    onClick={() => handleCancelBooking(data._id)}
+                    onClick={() => {
+                      setDeleteConfirmation(true);
+                      setDeleteBookingId(data._id);
+                    }}
                   >
                     Cancel
                   </a>
@@ -137,6 +142,36 @@ const PendingRequestPage = () => {
             )}
           </tbody>
         </table>
+
+        {/* delete confirmation */}
+        {deleteConfirmation ? (
+          <div className="fixed top-0 left-0 h-full w-full flex justify-center items-center">
+            <div className="bg-white p-4 rounded-md shadow-xl">
+              <p className="text-black">
+                Are you sure you want to cancel this booking?
+              </p>
+              <div className="flex justify-end gap-6 mt-6">
+                <button
+                  className="bg-gray-500 px-2 py-1"
+                  onClick={() => {
+                    setDeleteConfirmation(false);
+                    setDeleteBookingId(null);
+                  }}
+                >
+                  Cancle
+                </button>
+                <button
+                  className="bg-red-500 px-2 py-1"
+                  onClick={() => handleCancelBooking(deleteBookingId)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
 
         <h1 className="text-3xl poppins my-12 ">Past Booking</h1>
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
