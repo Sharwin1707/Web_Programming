@@ -39,23 +39,6 @@ function AdminAddProduct() {
   const [imageEditPreview, setImageEditPreview] = useState(null);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (storedUser) {
-      setUser(storedUser);
-    }
-  }, [setUser]);
-
-  useEffect(() => {
-    if (user && user._id) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        merchantId: user._id,
-      }));
-      localStorage.setItem('user', JSON.stringify(user));
-    }
-  }, [user]);
-
-  useEffect(() => {
     const fetchMerchandise = async () => {
       setLoading(true);
       try {
