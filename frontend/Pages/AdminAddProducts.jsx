@@ -21,7 +21,7 @@ function AdminAddProduct() {
   //user._id gone after refresh
 
   const [formData, setFormData] = useState({
-    merchantId: "",
+    merchantId: user._id,
     name: "",
     price: 0,
     rating: 5,
@@ -54,7 +54,7 @@ function AdminAddProduct() {
     };
 
     fetchMerchandise();
-  }, [user]);
+  }, [user, merchandise]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -80,6 +80,10 @@ const ProductDetailPage = () => {
   };
 
   const handleBuyNow = async () => {
+    if(!token){
+      navigate("/guest/login");
+    }
+
     try {
       await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/cart/add`, {
         productId: id,

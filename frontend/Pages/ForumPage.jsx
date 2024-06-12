@@ -9,6 +9,7 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useStateContext } from "../Context/ContextProvider";
+import { useNavigate } from "react-router-dom";
 
 const ForumPage = () => {
   const [searchBar, setSearchBar] = useState("");
@@ -17,7 +18,8 @@ const ForumPage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const { user } = useStateContext();
+  const navigate = useNavigate();
+  const { user, token } = useStateContext();
 
   // Filter topic data based on search input
   const searchTopic = () => {
@@ -31,6 +33,9 @@ const ForumPage = () => {
   };
 
   const createPostModal = () => {
+    if(!token){
+      navigate("/guest/login");
+    }
     setOpenModal(!openModal);
   };
 
