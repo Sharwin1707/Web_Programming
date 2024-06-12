@@ -18,6 +18,20 @@ const PaymentPage = () => {
   const { delivery, discount, voucherCode } = location.state || { delivery: 0, discount: 0 };
   // const { delivery } = location.state || { delivery };
 
+  const [merchandiseData, setMerchandiseData] = useState([]);
+
+useEffect(() => {
+    const fetchMerchandise = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/`);
+        setMerchandiseData(response.data);
+      } catch (err) {
+        console.error("Error fetching merchandise data:", err);
+      }
+    };
+
+    fetchMerchandise();
+  }, []);
 
   // Function to get or set voucher code
   const getReceiptVoucher = (voucherCode) => {
@@ -138,6 +152,16 @@ const PaymentPage = () => {
 
     // Save the purchase history data
     await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/purchasehistory`, purchaseHistoryData);
+
+    // Update the merchandise quantities
+    const updateMerchandisePromises = cartData.map(item => {
+      const merchandise = merchandiseData.find(m => m._id === item.merchandiseId);
+      const newQuantity = merchandise.quantity - (quantities[item.merchandiseId] || 0);
+      return axios.put(`${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/${item.merchandiseId}`, {
+        quantity: newQuantity
+      });
+    });
+    await Promise.all(updateMerchandisePromises);
 
 
       // Delete the cart after successful payment

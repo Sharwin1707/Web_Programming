@@ -22,6 +22,14 @@ const ProductDetailPage = () => {
   const [voucherCode, setVoucherCode] = useState('');
   const [discount, setDiscount] = useState(0);
 
+  const handleQuantityChange = (e) => {
+    const newQuantity = parseInt(e.target.value, 10);
+    if (newQuantity > product.quantity) {
+      showToastMessage(`Only ${product.quantity} items in stock`, "error");
+      return;
+    }
+    setQuantity(newQuantity);
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -133,13 +141,24 @@ const ProductDetailPage = () => {
           <hr className="border-gray-500 mb-4" />
           <p className="text-2xl font-bold mb-4"><strong>Price: </strong> RM {product.price}</p>
 
-          <div className="flex flex-col mb-4">
+          {/* <div className="flex flex-col mb-4">
             <label className="mb-2">Quantity:</label>
             <input
               className="py-1 px-2 rounded-md border border-gray-300"
               type="number"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
+              min="1"
+            />
+          </div> */}
+
+          <div className="flex flex-col mb-4">
+            <label className="mb-2">Quantity:</label>
+            <input
+              className="py-1 px-2 rounded-md border border-gray-300"
+              type="number"
+              value={quantity}
+              onChange={handleQuantityChange}
               min="1"
             />
           </div>
