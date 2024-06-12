@@ -11,7 +11,7 @@ function AdminAddProduct() {
   const { user,  setUser } = useStateContext();
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { setToastMessage } = useToast();
+  const { showToastMessage } = useToast();
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
@@ -115,7 +115,7 @@ function AdminAddProduct() {
         finalFormData
       );
 
-      setToastMessage("Product added successfully");
+      showToastMessage("Product added successfully");
       setFormData({
         merchantId: user._id,
         name: "",
@@ -177,7 +177,7 @@ function AdminAddProduct() {
         )
       );
 
-      setToastMessage("Product updated successfully");
+      showToastMessage("Product updated successfully");
       setEditMerchandise(null);
       setImageFile(null);
       setImageEditPreview(null);
@@ -205,7 +205,7 @@ function AdminAddProduct() {
       await axios.delete(
         `${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/${deleteMerchandise._id}`
       );
-      setToastMessage("Product deleted successfully");
+      showToastMessage("Product deleted successfully");
       setDeleteMerchandise(null);
       setMerchandise(merchandise.filter((m) => m._id !== deleteMerchandise._id));
     } catch (e) {
