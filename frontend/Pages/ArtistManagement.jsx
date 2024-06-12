@@ -16,10 +16,21 @@ const formatDate = (dateString) => {
 };
 
 const BookingHistory = () => {
-  const { user } = useStateContext();
+  const { user, setUser, token } = useStateContext();
   const [bookingData, setBookingData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if(!user){
+      axios
+      .get(`${import.meta.env.VITE_SERVER_ENDPOINT}/users/${token}`)
+      .then((response) => {
+        setUser(response.data);
+      });
+    }
+    
+  }, [user]);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -40,7 +51,7 @@ const BookingHistory = () => {
     };
 
     fetchBookings();
-  }, [user._id, bookingData]);
+  }, [user, bookingData]);
 
   return (
     <div>
@@ -144,11 +155,22 @@ const BookingHistory = () => {
 
 //-------------------------------------------------------------------------
 const BookDetails = () => {
-  const { user } = useStateContext();
+  const { user, setUser, token } = useStateContext();
   const [bookingData, setBookingData] = useState([]);
   const [bookId, setBookingId] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if(!user){
+      axios
+      .get(`${import.meta.env.VITE_SERVER_ENDPOINT}/users/${token}`)
+      .then((response) => {
+        setUser(response.data);
+      });
+    }
+    
+  }, [user]);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -171,7 +193,7 @@ const BookDetails = () => {
     };
 
     fetchBookings();
-  }, [user._id]);
+  }, [user]);
 
   const handleResponse = async (id, response) => {
     try {

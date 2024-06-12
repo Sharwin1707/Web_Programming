@@ -4,11 +4,15 @@ import { useToast } from "../Components/Toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faEdit,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../Components/Spinner";
 
 function AdminAddProduct() {
-  const { user,  setUser } = useStateContext();
+  const { user, setUser, token } = useStateContext();
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const { showToastMessage } = useToast();
@@ -16,12 +20,8 @@ function AdminAddProduct() {
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
   const [merchandise, setMerchandise] = useState([]);
-
-
-  //user._id gone after refresh
-
   const [formData, setFormData] = useState({
-    merchantId: user._id,
+    merchantId: "",
     name: "",
     price: 0,
     rating: 5,
@@ -29,9 +29,34 @@ function AdminAddProduct() {
     quantity: 0,
     type: "",
     tag: "best",
-    image: "",
+    image: ""
   });
 
+  // Handle missing user id when refresh
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!user && token) {
+        try {
+          const response = await axios.get(`${import.meta.env.VITE_SERVER_ENDPOINT}/users/${token}`);
+          setUser(response.data);
+        } catch (error) {
+          console.error("Failed to fetch user data", error);
+        }
+      }
+    };
+
+    fetchUser();
+  }, [user, token, setUser]);
+
+  // Update form data with merchantId once user is set
+  useEffect(() => {
+    if (user && user._id) {
+      setFormData((prevData) => ({
+        ...prevData,
+        merchantId: user._id
+      }));
+    }
+  }, [user]);
 
   const [editMerchandise, setEditMerchandise] = useState(null);
   const [deleteMerchandise, setDeleteMerchandise] = useState(null);
@@ -54,7 +79,7 @@ function AdminAddProduct() {
     };
 
     fetchMerchandise();
-  }, [user, merchandise]);
+  }, [merchandise]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -166,7 +191,9 @@ function AdminAddProduct() {
       }
 
       await axios.put(
-        `${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/${editMerchandise._id}`,
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/${
+          editMerchandise._id
+        }`,
         editMerchandise
       );
 
@@ -203,11 +230,15 @@ function AdminAddProduct() {
     setSuccessMessage("");
     try {
       await axios.delete(
-        `${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/${deleteMerchandise._id}`
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/${
+          deleteMerchandise._id
+        }`
       );
       showToastMessage("Product deleted successfully");
       setDeleteMerchandise(null);
-      setMerchandise(merchandise.filter((m) => m._id !== deleteMerchandise._id));
+      setMerchandise(
+        merchandise.filter((m) => m._id !== deleteMerchandise._id)
+      );
     } catch (e) {
       setError("Failed to delete product");
     } finally {
@@ -225,8 +256,8 @@ function AdminAddProduct() {
       </div>
 
       <h2 className="text-2xl font-bold mb-6 text-white-800">
-          Add Your Product
-        </h2>
+        Add Your Product
+      </h2>
       <form
         className="bg-white p-8 rounded-lg shadow-md w-full max-w-[1080px]"
         onSubmit={handleSubmit}
@@ -407,183 +438,188 @@ function AdminAddProduct() {
         </div>
       </div>
 
-{/* Edit Merchandise Modal */}
-{editMerchandise && (
-  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
-    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-[1000px]">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
-        Edit Merchandise
-      </h2>
-      <form onSubmit={handleEditSubmit} className="grid grid-cols-3 gap-4">
-        <div className="col-span-1">
-          <label className="block text-gray-700 mb-2" htmlFor="name">
-            Product Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={editMerchandise.name}
-            onChange={(e) =>
-              setEditMerchandise({
-                ...editMerchandise,
-                name: e.target.value,
-              })
-            }
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            required
-          />
-        </div>
+      {/* Edit Merchandise Modal */}
+      {editMerchandise && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-[1000px]">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">
+              Edit Merchandise
+            </h2>
+            <form
+              onSubmit={handleEditSubmit}
+              className="grid grid-cols-3 gap-4"
+            >
+              <div className="col-span-1">
+                <label className="block text-gray-700 mb-2" htmlFor="name">
+                  Product Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={editMerchandise.name}
+                  onChange={(e) =>
+                    setEditMerchandise({
+                      ...editMerchandise,
+                      name: e.target.value,
+                    })
+                  }
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
 
-        <div>
-          <label className="block text-gray-700 mb-2" htmlFor="price">
-            Price
-          </label>
-          <input
-            type="number"
-            id="price"
-            name="price"
-            value={editMerchandise.price}
-            onChange={(e) =>
-              setEditMerchandise({
-                ...editMerchandise,
-                price: e.target.value,
-              })
-            }
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            required
-          />
-        </div>
+              <div>
+                <label className="block text-gray-700 mb-2" htmlFor="price">
+                  Price
+                </label>
+                <input
+                  type="number"
+                  id="price"
+                  name="price"
+                  value={editMerchandise.price}
+                  onChange={(e) =>
+                    setEditMerchandise({
+                      ...editMerchandise,
+                      price: e.target.value,
+                    })
+                  }
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
 
-        <div>
-          <label className="block text-gray-700 mb-2" htmlFor="quantity">
-            Quantity
-          </label>
-          <input
-            type="number"
-            id="quantity"
-            name="quantity"
-            value={editMerchandise.quantity}
-            onChange={(e) =>
-              setEditMerchandise({
-                ...editMerchandise,
-                quantity: e.target.value,
-              })
-            }
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            required
-          />
-        </div>
+              <div>
+                <label className="block text-gray-700 mb-2" htmlFor="quantity">
+                  Quantity
+                </label>
+                <input
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  value={editMerchandise.quantity}
+                  onChange={(e) =>
+                    setEditMerchandise({
+                      ...editMerchandise,
+                      quantity: e.target.value,
+                    })
+                  }
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
 
-        <div className="col-span-1">
-          <label className="block text-gray-700 mb-2 " htmlFor="description">
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            value={editMerchandise.description}
-            onChange={(e) =>
-              setEditMerchandise({
-                ...editMerchandise,
-                description: e.target.value,
-              })
-            }
-            className="w-full h-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            required
-          ></textarea>
-        </div>
+              <div className="col-span-1">
+                <label
+                  className="block text-gray-700 mb-2 "
+                  htmlFor="description"
+                >
+                  Description
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={editMerchandise.description}
+                  onChange={(e) =>
+                    setEditMerchandise({
+                      ...editMerchandise,
+                      description: e.target.value,
+                    })
+                  }
+                  className="w-full h-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                ></textarea>
+              </div>
 
-        
+              <div>
+                <label className="block text-gray-700 mb-2" htmlFor="tag">
+                  Tag
+                </label>
+                <select
+                  id="tag"
+                  name="tag"
+                  value={editMerchandise.tag}
+                  onChange={(e) =>
+                    setEditMerchandise({
+                      ...editMerchandise,
+                      tag: e.target.value,
+                    })
+                  }
+                  className="w-full text-black px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                >
+                  <option value="best">Best</option>
+                  <option value="featured">Featured</option>
+                  <option value="new">New</option>
+                </select>
+              </div>
 
-        <div>
-          <label className="block text-gray-700 mb-2" htmlFor="tag">
-            Tag
-          </label>
-          <select
-            id="tag"
-            name="tag"
-            value={editMerchandise.tag}
-            onChange={(e) =>
-              setEditMerchandise({
-                ...editMerchandise,
-                tag: e.target.value,
-              })
-            }
-            className="w-full text-black px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            required
-          >
-            <option value="best">Best</option>
-            <option value="featured">Featured</option>
-            <option value="new">New</option>
-          </select>
-        </div>
+              <div>
+                <label className="block text-gray-700 mb-2" htmlFor="type">
+                  Type
+                </label>
+                <input
+                  type="text"
+                  id="type"
+                  name="type"
+                  value={editMerchandise.type}
+                  onChange={(e) =>
+                    setEditMerchandise({
+                      ...editMerchandise,
+                      type: e.target.value,
+                    })
+                  }
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
 
-        <div>
-          <label className="block text-gray-700 mb-2" htmlFor="type">
-            Type
-          </label>
-          <input
-            type="text"
-            id="type"
-            name="type"
-            value={editMerchandise.type}
-            onChange={(e) =>
-              setEditMerchandise({
-                ...editMerchandise,
-                type: e.target.value,
-              })
-            }
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            required
-          />
-        </div>
+              <div className="col-span-1">
+                <label
+                  className="block text-gray-700 mb-2 mt-8"
+                  htmlFor="image"
+                >
+                  Image Upload
+                </label>
+                <input
+                  type="file"
+                  id="image"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleEditImageChange}
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                />
+              </div>
 
-        <div className="col-span-1">
-          <label className="block text-gray-700 mb-2 mt-8" htmlFor="image">
-            Image Upload
-          </label>
-          <input
-            type="file"
-            id="image"
-            name="image"
-            accept="image/*"
-            onChange={handleEditImageChange}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-          />
-        </div>
+              {imageEditPreview && (
+                <div className="col-span-1 mt-8">
+                  <img
+                    src={imageEditPreview}
+                    alt="Selected"
+                    className="mt-2 rounded-lg max-h-24"
+                  />
+                </div>
+              )}
 
-        {imageEditPreview && (
-          <div className="col-span-1 mt-8">
-        
-            <img
-              src={imageEditPreview}
-              alt="Selected"
-              className="mt-2 rounded-lg max-h-24"
-            />
+              <div className="col-span-3 flex justify-end gap-4 mt-4">
+                <button
+                  type="button"
+                  className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                  onClick={() => setEditMerchandise(null)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
           </div>
-        )}
-
-        <div className="col-span-3 flex justify-end gap-4 mt-4">
-          <button
-            type="button"
-            className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
-            onClick={() => setEditMerchandise(null)}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-          >
-            Save Changes
-          </button>
         </div>
-      </form>
-    </div>
-  </div>
-)}
-
+      )}
 
       {/* Delete Confirmation Modal */}
       {deleteMerchandise && (
