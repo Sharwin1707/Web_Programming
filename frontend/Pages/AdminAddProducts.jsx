@@ -241,6 +241,9 @@ function AdminAddProduct() {
         </a>
       </div>
 
+      <h2 className="text-2xl font-bold mb-6 text-white-800">
+          Add Your Product
+        </h2>
       <form
         className="bg-white p-8 rounded-lg shadow-md w-full max-w-[1080px]"
         onSubmit={handleSubmit}
