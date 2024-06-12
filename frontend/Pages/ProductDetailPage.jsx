@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import ShopItem from "../Components/ShopItem";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useToast } from "../Components/Toast";
 import { useStateContext } from "../Context/ContextProvider";
 import axios from "axios";
@@ -16,6 +16,12 @@ const ProductDetailPage = () => {
   const [imgMain, setImgMain] = useState("");
   const [quantity, setQuantity] = useState(1); // State for quantity
   const { user } = useStateContext();
+  const { shipping } = useState(5.00);
+  const navigate = useNavigate();
+  const [delivery, setDelivery] = useState(5.00);
+  const [voucherCode, setVoucherCode] = useState('');
+  const [discount, setDiscount] = useState(0);
+
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -60,6 +66,29 @@ const ProductDetailPage = () => {
         username: user._id,
       });
       showToastMessage("Added to Cart");
+    } catch (err) {
+      console.error("Error adding item to cart:", err);
+    }
+  };
+
+  const handleBuyNow = async () => {
+    try {
+      await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/cart/add`, {
+        productId: id,
+        quantity,
+        name: product.name,
+        type: product.type,
+        price: product.price,
+        image: product.image,
+        username: user._id,
+      });
+      navigate(token ? "/payment" : "/guest/login", {
+        state: {
+          delivery: parseFloat(delivery),
+          discount: parseFloat(discount),
+          voucherCode: voucherCode
+        }
+      });
     } catch (err) {
       console.error("Error adding item to cart:", err);
     }
@@ -123,11 +152,11 @@ const ProductDetailPage = () => {
               <FontAwesomeIcon icon={faCartShopping} />
               Add to Cart
             </button>
-            <Link to={token ? `/payment` : `/guest/login`}>
-              <button className="px-4 py-2 bg-green-600 text-white rounded-md shadow-md">
+            
+              <button onClick={handleBuyNow} className="px-4 py-2 bg-green-600 text-white rounded-md shadow-md">
                 Buy Now
               </button>
-            </Link>
+            
           </div>
         </div>
       </div>

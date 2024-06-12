@@ -16,6 +16,7 @@ const PaymentPage = () => {
 
   const location = useLocation();
   const { delivery, discount, voucherCode } = location.state || { delivery: 0, discount: 0 };
+  // const { delivery } = location.state || { delivery };
 
 
   // Function to get or set voucher code
