@@ -147,6 +147,8 @@ function AdminAddProduct() {
         image: "",
       });
       setImagePreview(null);
+      setImageFile(null);
+      document.getElementById('image').value = '';
 
       // Refresh merchandise list after adding new product
       const response = await axios.get(
