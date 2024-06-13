@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate  } from "react-router-dom";
 import axios from "axios";
-
+import { useToast } from "../Components/Toast";
 const CreateEventPage = () => {
 
   //error state
@@ -17,7 +17,7 @@ const CreateEventPage = () => {
   const[end, setEnd] = useState('');
   const [image, setImage] = useState(null);
   const navigate = useNavigate(); // useNavigate instead of useHistory
-  
+  const { showToastMessage } = useToast();
  //handle submit
  const handleCreate = async (e) =>{
   e.preventDefault()
@@ -45,7 +45,7 @@ const CreateEventPage = () => {
         },
       }
     );
-
+    showToastMessage('Event Created');
     console.log(response.data); // Log the response data
     // Redirect or perform other actions upon successful submission
     navigate("/event");
