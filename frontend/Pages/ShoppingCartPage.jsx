@@ -21,6 +21,21 @@ const ShoppingCartPage = () => {
   const [discount, setDiscount] = useState(0);
   const [message, setMessage] = useState('');
 
+  const [merchandiseData, setMerchandiseData] = useState([]);
+
+  useEffect(() => {
+    const fetchMerchandise = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/`);
+        setMerchandiseData(response.data);
+      } catch (err) {
+        console.error("Error fetching merchandise data:", err);
+      }
+    };
+
+    fetchMerchandise();
+  }, []);
+
   const handleRedeem = async () => {
     try {
       const response = await axios.post('http://localhost:3000/voucher/redeem-voucher', { voucherCode });
@@ -62,14 +77,21 @@ const ShoppingCartPage = () => {
     setTotalPrice(parseFloat(total - discount + delivery).toFixed(2));
   }, [quantities, cartData, discount, delivery]);
 
-  const incrementQuantity = async (merchandiseId) => {
-    const newQuantity = (quantities[merchandiseId] || 0) + 1;
-    setQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [merchandiseId]: newQuantity,
-    }));
+  
+const incrementQuantity = async (merchandiseId) => {
+    const currentQuantity = quantities[merchandiseId] || 0;
+    const item = merchandiseData.find(item => item._id === merchandiseId);
+    if (currentQuantity < item.quantity) {
+      const newQuantity = currentQuantity + 1;
+      setQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        [merchandiseId]: newQuantity,
+      }));
 
-    await updateCartQuantity(merchandiseId, newQuantity);
+      await updateCartQuantity(merchandiseId, newQuantity);
+    } else {
+      showToastMessage(`Only ${item.quantity} items in stock`, "error");
+    }
   };
 
   const decrementQuantity = async (merchandiseId) => {

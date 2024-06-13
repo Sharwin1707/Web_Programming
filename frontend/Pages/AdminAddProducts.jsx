@@ -11,14 +11,15 @@ function AdminAddProduct() {
   const { user,  setUser } = useStateContext();
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { setToastMessage } = useToast();
+  const { showToast } = useToast();
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
   const [merchandise, setMerchandise] = useState([]);
 
 
-  //user._id gone after refresh
+  //error on toastMessage, toastMessage not defined as function
+  //please check for the error
 
   const [formData, setFormData] = useState({
     merchantId: "",
@@ -37,6 +38,23 @@ function AdminAddProduct() {
   const [deleteMerchandise, setDeleteMerchandise] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [imageEditPreview, setImageEditPreview] = useState(null);
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser) {
+      setUser(storedUser);
+    }
+  }, [setUser]);
+
+  useEffect(() => {
+    if (user && user._id) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        merchantId: user._id,
+      }));
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  }, [user]);
 
   useEffect(() => {
     const fetchMerchandise = async () => {
@@ -115,7 +133,8 @@ function AdminAddProduct() {
         finalFormData
       );
 
-      setToastMessage("Product added successfully");
+      //setToastMessage("Product added successfully");
+      setSuccessMessage("Product added successfully");
       setFormData({
         merchantId: user._id,
         name: "",
@@ -128,6 +147,8 @@ function AdminAddProduct() {
         image: "",
       });
       setImagePreview(null);
+      setImageFile(null);
+      document.getElementById('image').value = '';
 
       // Refresh merchandise list after adding new product
       const response = await axios.get(
@@ -141,16 +162,19 @@ function AdminAddProduct() {
     }
   };
 
+
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
     setSuccessMessage("");
+    
     try {
       const imageData = new FormData();
+      
       if (imageFile) {
         imageData.append("file", imageFile);
-
+  
         const uploadResponse = await axios.post(
           `${import.meta.env.VITE_SERVER_ENDPOINT}/images/upload`,
           imageData,
@@ -160,33 +184,37 @@ function AdminAddProduct() {
             },
           }
         );
-
+  
         const imageUrl = uploadResponse.data.url;
         editMerchandise.image = imageUrl;
       }
-
+  
       await axios.put(
         `${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/${editMerchandise._id}`,
         editMerchandise
       );
-
+  
       // Update local state
       setMerchandise((prevMerchandise) =>
         prevMerchandise.map((item) =>
           item._id === editMerchandise._id ? editMerchandise : item
         )
       );
-
-      setToastMessage("Product updated successfully");
+  
+      
       setEditMerchandise(null);
       setImageFile(null);
       setImageEditPreview(null);
-    } catch (e) {
+      // showToast("Product updated successfully", "success");
+      setSuccessMessage("Product updated successfully");
+    } catch (error) {
+      console.error("Failed to update product:", error);
       setError("Failed to update product");
     } finally {
       setLoading(false);
     }
   };
+  
 
   const handleEdit = (merch) => {
     setEditMerchandise(merch);
@@ -205,7 +233,8 @@ function AdminAddProduct() {
       await axios.delete(
         `${import.meta.env.VITE_SERVER_ENDPOINT}/merchandise/${deleteMerchandise._id}`
       );
-      setToastMessage("Product deleted successfully");
+      //setToastMessage("Product deleted successfully");
+      setSuccessMessage("Product deleted successfully");
       setDeleteMerchandise(null);
       setMerchandise(merchandise.filter((m) => m._id !== deleteMerchandise._id));
     } catch (e) {
@@ -224,9 +253,6 @@ function AdminAddProduct() {
         </a>
       </div>
 
-      <h2 className="text-2xl font-bold mb-6 text-white-800">
-          Add Your Product
-        </h2>
       <form
         className="bg-white p-8 rounded-lg shadow-md w-full max-w-[1080px]"
         onSubmit={handleSubmit}
